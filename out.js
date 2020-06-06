@@ -693,7 +693,7 @@
         getReceiver = H.BoundClosure_receiverOf;
       switch (isSuperCall ? -1 : arity) {
         case 0:
-          throw H.wrapException(new H.RuntimeError("Intercepted function with no arguments."));
+          throw H.wrapException(H.RuntimeError$("Intercepted function with no arguments."));
         case 1:
           return function(n, s, r) {
             return function() {
@@ -806,6 +806,9 @@
     },
     throwCyclicInit: function(staticName) {
       throw H.wrapException(new P.CyclicInitializationError(staticName));
+    },
+    RuntimeError$: function(message) {
+      return new H.RuntimeError(message);
     },
     getIsolateAffinityTag: function($name) {
       return init.getIsolateTag($name);
@@ -3300,9 +3303,6 @@
     ConcurrentModificationError$: function(modifiedObject) {
       return new P.ConcurrentModificationError(modifiedObject);
     },
-    print: function(object) {
-      H.printString(H.S(object));
-    },
     bool: function bool() {
     },
     double: function double() {
@@ -3701,9 +3701,12 @@
       this._box_0 = t0;
     },
     main: function() {
-      var t1 = J.get$onClick$x(document.getElementById("interpretButton")),
-        t2 = t1.$ti,
-        t3 = t2._eval$1("~(1)")._as(new N.main_closure());
+      var t2, t3,
+        t1 = document;
+      type$.TextAreaElement._as(t1.getElementById("source")).value = 'class A {\n  method() {\n    print "a method";\n  }\n}\n\nclass B < A {\n  method() {\n    print "B method";\n  }\n\n  test() {\n    super.method();\n  }\n}\n\nclass C < B {\n  C(callback) {\n    this.callback = callback;\n  }\n\n  callCallback() {\n    this.callback();\n  }\n}\n\nfunction printStuff() {\n  print "stu" + "ff";\n}\n\nvar thing = C(printStuff);\n\nthing.test();\nthing.method();\nthing.callCallback();';
+      t1 = J.get$onClick$x(t1.getElementById("interpretButton"));
+      t2 = t1.$ti;
+      t3 = t2._eval$1("~(1)")._as(new N.main_closure());
       type$.void_Function._as(null);
       W._EventStreamSubscription$(t1._target, t1._eventType, t3, false, t2._precomputed1);
       return 0;
@@ -3727,9 +3730,9 @@
     },
     BSInterpreter__checkNumberOperands: function(token, left, right) {
       if (!(left instanceof Z.bscFunction) || !(right instanceof Z.bscFunction))
-        throw H.wrapException(Y.RuntimeError$(token, "Operands for " + token.lexeme + " must be numbers"));
+        throw H.wrapException(Y.RuntimeError$0(token, "Operands for " + token.lexeme + " must be numbers"));
     },
-    RuntimeError$: function(token, message) {
+    RuntimeError$0: function(token, message) {
       return new Y.RuntimeError0(token, message);
     },
     BSInterpreter: function BSInterpreter(t0, t1) {
@@ -3868,7 +3871,6 @@
   Z = {
     BetaScript_runForWeb: function(source) {
       var t1 = {};
-      P.print(source);
       t1.output = "";
       $.BetaScript_printCallback = new Z.BetaScript_runForWeb_closure(t1);
       Z.BetaScript__run(source);
@@ -4923,7 +4925,7 @@
   };
   H.RuntimeError.prototype = {
     toString$0: function(_) {
-      return "RuntimeError: " + this.message;
+      return "RuntimeError: " + H.S(this.message);
     }
   };
   H._AssertionError.prototype = {
@@ -5991,7 +5993,7 @@
       t1 = this.enclosing;
       if (t1 != null)
         return t1.$get$1($name);
-      throw H.wrapException(Y.RuntimeError$($name, "Undefined variable '" + t2 + "'."));
+      throw H.wrapException(Y.RuntimeError$0($name, "Undefined variable '" + t2 + "'."));
     },
     assign$2: function($name, value) {
       var t1 = this.values,
@@ -6003,7 +6005,7 @@
         if (t1 != null)
           t1.assign$2($name, value);
         else
-          throw H.wrapException(Y.RuntimeError$($name, "Undefined variable '" + t2 + "'."));
+          throw H.wrapException(Y.RuntimeError$0($name, "Undefined variable '" + t2 + "'."));
       }
     },
     _ancestor$1: function(distance) {
@@ -6030,7 +6032,7 @@
       method = this._class.findMethod$1(t2);
       if (method != null)
         return method.bind$1(this);
-      throw H.wrapException(Y.RuntimeError$($name, "Undefined property '" + t2 + "."));
+      throw H.wrapException(Y.RuntimeError$0($name, "Undefined property '" + t2 + "."));
     }
   };
   Y.BSInterpreter.prototype = {
@@ -6108,7 +6110,7 @@
       switch (t1.type) {
         case C.TokenType_8:
           if (!(operand instanceof Z.bscFunction))
-            H.throwExpression(Y.RuntimeError$(type$.Token._as(operand), "Operand for " + t1.lexeme + " must be a number"));
+            H.throwExpression(Y.RuntimeError$0(type$.Token._as(operand), "Operand for " + t1.lexeme + " must be a number"));
           return J.$negate$in(operand);
         case C.TokenType_31:
           if (H._isBool(operand))
@@ -6128,7 +6130,7 @@
       } catch (exception) {
         if (H.unwrapException(exception) instanceof Y.RuntimeError0) {
           if (typeof left != "string" || typeof right != "string")
-            throw H.wrapException(Y.RuntimeError$(token, "Operands for " + token.lexeme + " must be numbers or strings"));
+            throw H.wrapException(Y.RuntimeError$0(token, "Operands for " + token.lexeme + " must be numbers or strings"));
         } else
           throw exception;
       }
@@ -6237,9 +6239,9 @@
       for (t1 = e.$arguments, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, H.throwConcurrentModificationError)(t1), ++_i)
         $arguments.push(t1[_i].accept$1(0, this));
       if (!type$.BSCallable._is(callee))
-        throw H.wrapException(Y.RuntimeError$(e.paren, "Can only call functions and classes"));
+        throw H.wrapException(Y.RuntimeError$0(e.paren, "Can only call functions and classes"));
       if ($arguments.length !== callee.get$arity())
-        throw H.wrapException(Y.RuntimeError$(e.paren, "Expected " + C.JSInt_methods.toString$0(callee.get$arity()) + " paramenters, but got " + C.JSInt_methods.toString$0($arguments.length) + "."));
+        throw H.wrapException(Y.RuntimeError$0(e.paren, "Expected " + C.JSInt_methods.toString$0(callee.get$arity()) + " paramenters, but got " + C.JSInt_methods.toString$0($arguments.length) + "."));
       return callee.call$2(this, $arguments);
     },
     visitFunctionStmt$1: function(s) {
@@ -6264,7 +6266,7 @@
       if (t2) {
         superclass = t1.accept$1(0, _this);
         if (!(superclass instanceof U.BSClass))
-          throw H.wrapException(Y.RuntimeError$(t1.name, "Superclass must be a class"));
+          throw H.wrapException(Y.RuntimeError$0(t1.name, "Superclass must be a class"));
       } else
         superclass = null;
       t1 = _this._environment;
@@ -6291,13 +6293,13 @@
       var object = e.object.accept$1(0, this);
       if (object instanceof N.BSInstance)
         return object.$get$1(e.name);
-      throw H.wrapException(Y.RuntimeError$(e.name, "Only instances have properties"));
+      throw H.wrapException(Y.RuntimeError$0(e.name, "Only instances have properties"));
     },
     visitSetExpr$1: function(e) {
       var value,
         object = e.object.accept$1(0, this);
       if (!(object instanceof N.BSInstance))
-        throw H.wrapException(Y.RuntimeError$(e.name, "Only instances have field"));
+        throw H.wrapException(Y.RuntimeError$0(e.name, "Only instances have field"));
       value = e.value.accept$1(0, this);
       object._fields.$indexSet(0, e.name.lexeme, value);
       return value;
@@ -6317,7 +6319,7 @@
       t2 = t1.lexeme;
       method = superclass.findMethod$1(t2);
       if (method == null)
-        throw H.wrapException(Y.RuntimeError$(t1, "Undefined property '" + t2 + "'."));
+        throw H.wrapException(Y.RuntimeError$0(t1, "Undefined property '" + t2 + "'."));
       return method.bind$1(object);
     },
     set$_environment: function(_environment) {
@@ -7035,7 +7037,7 @@
     call$1: function(object) {
       var t2,
         t1 = J.getInterceptor$(object);
-      P.print(t1.toString$0(object));
+      H.printString(t1.toString$0(object));
       t2 = this._box_0;
       t2.output = t2.output + (t1.toString$0(object) + "\n");
     },
