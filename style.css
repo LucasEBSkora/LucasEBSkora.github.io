@@ -1,0 +1,10 @@
+
+.source {
+  font-family: monospace;
+  size: 100%;
+}
+
+textarea {
+  resize: none;
+  width: 45%;
+}

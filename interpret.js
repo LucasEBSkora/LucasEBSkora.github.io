@@ -1,0 +1,1 @@
+document.getElementById("interpretButton").onclick = () => console.log("i remember something")
