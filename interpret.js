@@ -1,4 +1,5 @@
 document.getElementById("interpretButton").onclick = () => {
-  console.log(document.getElementById("source").innerHTML)
-  console.log("my dude")
+  
+  document.getElementById("output").value = document.getElementById("source").value + "aaaa"
+
 }
