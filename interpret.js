@@ -1,1 +1,3 @@
-document.getElementById("interpretButton").onclick = () => console.log("i remember something")
+document.getElementById("interpretButton").onclick = () => {
+  console.log(document.getElementById("source").innerText)
+}
