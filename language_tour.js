@@ -6,9 +6,13 @@ let entries = ["what_is_betascript.html", "data_types_and_variable_declaration.h
 
 let section = document.getElementById('contents')
 
-for (let entry in entries) {
+
+async function initialize(entries, section) {
   
-  let doc = fetch("language_tour/" + entries[entry]).then((value) => value.text()).then((text) => {
+  for (let i = 0; i < entries.length; i++) {
+    
+    let doc = await fetch("language_tour/" + entries[i])
+    let text = await doc.text()
 
     let element = document.createElement("div")
     element.class = "documentation_part"
@@ -24,6 +28,11 @@ for (let entry in entries) {
 
       element.firstChild.before(warning)
     }
+
     section.appendChild(element)
-  })
+
+  }
+
 }
+
+initialize(entries, section)
