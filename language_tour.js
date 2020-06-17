@@ -2,13 +2,13 @@ let currentVersion = "0.0"
 
 document.getElementById("pageTitle").innerHTML += currentVersion
 
-let entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "control_flow.html", "comments.html"]
+let entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
 
 let section = document.getElementById('contents')
 
 for (let entry in entries) {
   
-  let doc = fetch("docs/" + entries[entry]).then((value) => value.text()).then((text) => {
+  let doc = fetch("language_tour/" + entries[entry]).then((value) => value.text()).then((text) => {
 
     let element = document.createElement("div")
     element.class = "documentation_part"

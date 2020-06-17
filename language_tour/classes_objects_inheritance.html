@@ -1,0 +1,59 @@
+<meta class="version" name="version" content="0.0"/>
+<h1>Classes, objects and inheritance</h1>
+<p>
+  Betascript allows the creation of classes with methods, initializers, and single inheritance. 
+  Classes are created using the 'class' keyword followed by the class name, and then a block. This block may contain
+  method declarations, which are like routine declarations but don't require the keyword (the 'self' paramenter is implicit).
+  In methods, it is possible to access the object's fields using 'self'. initializers are declared as methods with the same name as the class,
+  and calling the class name will call the initializer, which returns a new instance of the class.
+</p>
+
+<p>
+  Betascript only supports single inheritance, and it is done by declaring the class with the following sintax:
+</p>
+<p style="font-family: monospace;">
+  class (class name) < (superclass name) {(class declaration)}
+</p>
+<p>
+  superclass methods can be called using the "super" keyword. A class can only have one initializer, and they are not inherited.
+</p>
+<p>
+  The following code sample exemplifies pretty much everything explained here:
+</p>
+<p style="font-family: monospace;">
+  class A {<br>
+    &emsp;  method() {<br>
+      &emsp; &emsp;   print "a method";<br>
+      &emsp; }<br>
+  }<br>
+  <br>
+  class B < A {<br>
+    &emsp; method() {<br>
+      &emsp; &emsp;   print "B method";<br>
+      &emsp;  }<br>
+  <br>
+  &emsp;  test() {<br>
+    &emsp; &emsp;  super.method();<br>
+    &emsp;  }<br>
+  }<br>
+  <br>
+  class C < B {<br>
+    &emsp;  C(callback) {<br>
+      &emsp; &emsp;   this.callback = callback;<br>
+      &emsp;   }<br>
+  <br>
+  &emsp;  callCallback() {<br>
+    &emsp; &emsp; this.callback();<br>
+    &emsp;  }<br>
+  }<br>
+  <br>
+  function printStuff() {<br>
+    &emsp;   print "stu" + "ff";<br>
+  }<br>
+  <br>
+  var thing = C(printStuff);<br>
+  <br>
+  thing.test();<br>
+  thing.method();<br>
+  thing.callCallback();<br>
+</p>

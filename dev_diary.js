@@ -1,4 +1,4 @@
-let entries = ["11_06_2020.html"]
+let entries = ["11_06_2020.html", "17_06_2020.html"]
 
 let section = document.getElementById('contents')
 
