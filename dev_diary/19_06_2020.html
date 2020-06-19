@@ -1,0 +1,30 @@
+<h1>Calling functions - 19/06/2020</h1>
+<p>In the first entry, i mentioned it would be necessary to change how we evaluate functions in order to continue developing the language.</p>
+<p>
+  For this, a few changes are still necessary. Currently, i am changing the way functions are evaluated. Before, evaluating a function would be done
+  by passing a Map &lt; String, double &gt;, but since betascript doesn't even have the type double, that doesn't make any sense. therefore,
+  we now evaluate them by passing a Map &lt; String, BSFunction &gt;, which has a second benefit: we know can do function composition properly!
+  Before, things like
+</p>
+<p style="font-family: monospace;">
+  f = sin(x); <br>
+  g = f(x^2) <br>
+</p>
+<p>
+  wouldn't work. now, that's perfectly valid! Besides, calling a function like that will not perform simplifications. if we had, for example
+</p>
+<p style="font-family: monospace;">
+  f = sin(x); <br>
+  g = f(2) <br>
+</p>
+<p>
+  g would evaluate to sin(2), not to 0.909... <br>
+  if we wanted it to evaluate to its approximation, we can use the approx getter, which, in the language, will translate to the '~' operator.
+  In betascript, one would write:
+</p>
+<p style="font-family: monospace;">
+  g = ~sin(2)
+</p>
+<p>
+  to get 0.909...
+</p>

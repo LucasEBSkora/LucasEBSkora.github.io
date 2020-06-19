@@ -1,27 +1,27 @@
-let currentVersion = "0.0"
+const currentVersion = "0.0"
 
 document.getElementById("pageTitle").innerHTML += currentVersion
 
-let entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
+const entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
 
-let section = document.getElementById('contents')
+const section = document.getElementById('contents')
 
 
 async function initialize(entries, section) {
   
-  for (let i = 0; i < entries.length; i++) {
+  for (const i = 0; i < entries.length; i++) {
     
-    let doc = await fetch("language_tour/" + entries[i])
-    let text = await doc.text()
+    const doc = await fetch("language_tour/" + entries[i])
+    const text = await doc.text()
 
-    let element = document.createElement("div")
+    const element = document.createElement("div")
     element.class = "documentation_part"
     element.innerHTML = text
 
-    let version = element.firstChild.content
+    const version = element.firstChild.content
     element.removeChild(element.firstChild)
     if (version != currentVersion) {
-      let warning = document.createElement("p")
+      const warning = document.createElement("p")
       warning.innerHTML = "Warning! the next section of documentation wasn't updated to version " + currentVersion + 
       "!. Last update was to version " + version + ". This might mean this section is wrong, or just that the developer forgot to" +
       " change the version in the html file."
