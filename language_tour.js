@@ -9,7 +9,7 @@ const section = document.getElementById('contents')
 
 async function initialize(entries, section) {
   
-  for (const i = 0; i < entries.length; i++) {
+  for (let i = 0; i < entries.length; i++) {
     
     const doc = await fetch("language_tour/" + entries[i])
     const text = await doc.text()
