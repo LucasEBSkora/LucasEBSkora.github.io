@@ -1,0 +1,43 @@
+<h1>Calling functions pt.2 - 20/06/2020</h1>
+<p>
+  While implementing what i described in the previous entry, i noticed an easy way to solve a few problems i was thinking about. Since now function composition is
+  now properly possible, we can create new functions differently. Before, we created them by calling factory functions external to the class, which means, there is 
+  a 'Sin' class with only a private constructor, and a public function "sin" which returns BSFunction objects. This works fine for the Dart classes, but is a little
+  annoying for the language because there wouldn't be "default" objects for each function. If, say, we wanted to determine the domain of the sine function, we would
+  have to do something like:
+</p>
+<p style="font-family: monospace;">
+f(x) = sin(x); <br>
+print domain(f); <br>
+</p>
+<p>
+  But if we had default functions, simply calling "print domain(sin)" would work! By the way, i'm sorry if all of this sounds like a poorly explained ramble about
+  implementation details, but that is exactly what these dev diaries are going to be.
+</p>
+<h1>Why is multiplying by -1 so hard? - 20/06/2020</h1>
+<p>
+  Since the first iteration of this project, one of the hardest problems i had to solve was how to handle stuff being multiplied by -1. There were basically three
+  different solutions i thought about for this problem, all of them good in some ways, and really annoying in others;
+  <ul>
+    <li>
+      <b>Use normal multiplications:</b> basically, use the multiplication class to handle it, and have some special clause in the multiplication printing where if 
+      the first element in the array of operands is a -1, print only a '-' instead of a '-1*'. This way is good because it is closer to how it normally works in maths,
+      but would make an already large and complicated class (Multiplication) even worse, and identifying when things in a sum can be simplified would be even worse.
+    </li>
+    <li>
+      <b>Use a 'negative' field</b>: the currently used solution. Basically, every BSFunction has a boolean 'negative' field, and when printing, if this field is positive, 
+      it puts a '-' before of the rest. However, this approach creates a lot of hassle when creating new functions from other ones, and led to the creation of like,
+      6 different getters which really have no use out of it. In the way it's done, it's also problematic because if i forget to specify the sign of something, it
+      is positive, leading to evaluations and functions normally having bugs related to sign and also a lot of code repetition.
+    </li>
+    <li>
+      <b>Use a Negative class</b>: In a way, midway between the two previous solutions: wrap functions multiplied by -1 in a Negative object. It has many of the benefits of
+      the first solution, but without polluting other classes, and also doesn't have the problems related to having to always deal with sign by hand. It does, sadly,
+      still have the problem of making it a little harder to check for simplifications
+    </li>
+  </ul>
+  All of them have some benefits and some problems. I can't really think of another way of doing this that wouldn't have some of these. Anyway, i'm consering changing over
+  to the third solution, because the second one does make the program harder to read and mantain. It might come back to haunt me in the long run, but it will clean
+  up the code in many of the files. I'm afraid it might be bad for performance, since extra objects for each '-' is a lot worse than having to deal with a field.
+  Maybe i should try to figure out a more organic way to deal with the negatives instead of rebuilding the system from the ground up.
+</p>
