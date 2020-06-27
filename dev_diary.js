@@ -1,4 +1,4 @@
-const entries = ["11_06_2020.html", "17_06_2020.html","19_06_2020.html","20_06_2020.html"]
+const entries = ["11_06_2020.html", "17_06_2020.html","19_06_2020.html","20_06_2020.html","27_06_2020.html"]
 
 const section = document.getElementById('contents')
 
