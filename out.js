@@ -3906,6 +3906,8 @@
     BetaScript_runForWeb: function(source) {
       var t1 = {};
       t1.output = "";
+      $.BetaScript_hadError = false;
+      $.BetaScript__interpreter = Y.BSInterpreter$();
       $.BetaScript_printCallback = new Z.BetaScript_runForWeb_closure(t1);
       Z.BetaScript__run(source);
       return t1.output;
@@ -3929,7 +3931,7 @@
       new F.Resolver(t1, C.RoutineType_0, C.ClassType_0, t2, map).resolveAll$1(statements);
       if ($.BetaScript_hadError)
         return;
-      t1.interpret$1(statements);
+      $.$get$BetaScript__interpreter().interpret$1(statements);
     },
     BetaScript_error: function(value, message) {
       var t1, t2, t3;
