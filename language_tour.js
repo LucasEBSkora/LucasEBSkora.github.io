@@ -1,8 +1,8 @@
-const currentVersion = "0.0"
+const currentVersion = "0.1"
 
 document.getElementById("pageTitle").innerHTML += currentVersion
 
-const entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
+const entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "functions.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
 
 const section = document.getElementById('contents')
 
@@ -17,14 +17,14 @@ async function initialize(entries, section) {
     const element = document.createElement("div")
     element.class = "documentation_part"
     element.innerHTML = text
-
+    console.log(element)
     const version = element.firstChild.content
     element.removeChild(element.firstChild)
     if (version != currentVersion) {
       const warning = document.createElement("p")
-      warning.innerHTML = "Warning! the next section of documentation wasn't updated to version " + currentVersion + 
+      warning.innerHTML = "<b>Warning! the next section of documentation wasn't updated to version " + currentVersion + 
       "!. Last update was to version " + version + ". This might mean this section is wrong, or just that the developer forgot to" +
-      " change the version in the html file."
+      " change the version in the html file.</b>"
 
       element.firstChild.before(warning)
     }

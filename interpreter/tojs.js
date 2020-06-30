@@ -3408,6 +3408,13 @@
         return object.toString$0(0);
       return "Instance of '" + H.S(H.Primitives_objectTypeName(object)) + "'";
     },
+    List_List$from: function(elements, growable, $E) {
+      var t1,
+        list = H.setRuntimeTypeInfo([], $E._eval$1("JSArray<0>"));
+      for (t1 = J.get$iterator$a(elements); t1.moveNext$0();)
+        C.JSArray_methods.add$1(list, $E._as(t1.get$current()));
+      return list;
+    },
     StringBuffer__writeAll: function(string, objects, separator) {
       var iterator = J.get$iterator$a(objects);
       if (!iterator.moveNext$0())
@@ -3944,7 +3951,7 @@
       } else if (value instanceof V.Token) {
         t1 = $.BetaScript_printCallback;
         t2 = value.line;
-        if (value.type === C.TokenType_42) {
+        if (value.type === C.TokenType_43) {
           t1.call$1("[Line " + t2 + "] Error  at end: " + message);
           $.BetaScript_hadError = true;
         } else {
@@ -4189,6 +4196,10 @@
     },
     Expr: function Expr() {
     },
+    AssignExpr: function AssignExpr(t0, t1) {
+      this.name = t0;
+      this.value = t1;
+    },
     BinaryExpr: function BinaryExpr(t0, t1, t2) {
       this.left = t0;
       this.op = t1;
@@ -4216,10 +4227,6 @@
     VariableExpr: function VariableExpr(t0) {
       this.name = t0;
     },
-    AssignExpr: function AssignExpr(t0, t1) {
-      this.name = t0;
-      this.value = t1;
-    },
     logicBinaryExpr: function logicBinaryExpr(t0, t1, t2) {
       this.left = t0;
       this.op = t1;
@@ -4236,6 +4243,11 @@
     SuperExpr: function SuperExpr(t0, t1) {
       this.keyword = t0;
       this.method = t1;
+    },
+    DerivativeExpr: function DerivativeExpr(t0, t1, t2) {
+      this.keyword = t0;
+      this.derivand = t1;
+      this.variables = t2;
     },
     sec: function(operand) {
       if (operand instanceof D.ArcSec)
@@ -4323,7 +4335,9 @@
       C.JSArray_methods.insertAll$2(operands, 0, numbers);
     },
     _createMultiplications: function(operands) {
-      var t1, t2, t3, i, f, _mul, t4, t5, h, factor, _f, j, j0, g, t6, _g;
+      var t1, t2, t3, i, f, _mul, t4, t5, h, factor, originalFactor, _f, j, j0, g, t6, _g;
+      if (operands.length < 2)
+        return;
       for (t1 = type$.BSFunction, t2 = type$.Multiplication, t3 = type$.JSArray_BSFunction, i = 0; i < operands.length; i = j) {
         f = operands[i];
         _mul = X.BSFunction_extractFromNegative(f, t2);
@@ -4343,13 +4357,16 @@
           if (1 >= t4.length)
             return H.ioore(t4, 1);
           h = t4[1];
-          t4 = R.n(_mul.third ? -1 : 1);
-          h.toString;
-          factor = S.multiply(H.setRuntimeTypeInfo([h, t4], t3));
+          t4 = t4[0];
+          t5 = R.n(_mul.third ? -1 : 1);
+          t4.toString;
+          factor = S.multiply(H.setRuntimeTypeInfo([t4, t5], t3));
+          originalFactor = null;
         } else {
           _f = X.BSFunction_extractFromNegative(f, t1);
           h = _f.first;
-          factor = R.n(_f.third ? -1 : 1);
+          originalFactor = R.n(_f.third ? -1 : 1);
+          factor = originalFactor;
         }
         for (j = i + 1, t4 = J.getInterceptor$(h), j0 = j; j0 < operands.length; ++j0) {
           g = operands[j0];
@@ -4390,7 +4407,7 @@
             }
           }
         }
-        if (!J.$eq$(factor, R.n(1))) {
+        if (!J.$eq$(factor, originalFactor)) {
           C.JSArray_methods.removeAt$1(operands, i);
           factor.toString;
           C.JSArray_methods.insert$2(operands, i, S.multiply(H.setRuntimeTypeInfo([factor, h], t3)));
@@ -4400,6 +4417,9 @@
     Sum: function Sum(t0, t1) {
       this.operands = t0;
       this._parameters = t1;
+    },
+    Sum_derivativeInternal_closure: function Sum_derivativeInternal_closure(t0) {
+      this.v = t0;
     },
     Sum_evaluate_closure: function Sum_evaluate_closure(t0) {
       this.p = t0;
@@ -4413,7 +4433,7 @@
     main: function() {
       var t2, t3,
         t1 = document;
-      type$.TextAreaElement._as(t1.getElementById("source")).value = "let f(x) = sin(x);\n\nlet g = f(cos(x));\n\nprint g;\n\nprint f + g;\n\nprint e^x;\n\nlet h(x, y, z) = 0;\n\nprint h(1, 2, arcosh(z));\n\nlet i(y,x) = pi + 2 - log(y, 33)*sec(y/x);\nprint i(11, 2);";
+      type$.TextAreaElement._as(t1.getElementById("source")).value = "let f(x) = sin(x);\n\nlet g = f(cos(x));\n\nprint g;\n\nprint f + g;\n\nprint e^x;\n\nlet h(x, y, z) = 0;\n\nprint h(1, 2, arcosh(z));\n\nlet i(y,x) = pi + 2 - log(y, 33)*sec(y/x);\nprint i(11, 2);\nprint ~i(11, 2);\n\nlet j(x, y, z) = x^2*y^3;\n\nprint del(j)/del(x, y, x);";
       t1 = J.get$onClick$x(t1.getElementById("interpretButton"));
       t2 = t1.$ti;
       t3 = t2._eval$1("~(1)")._as(new N.main_closure());
@@ -5613,7 +5633,7 @@
           error.$thrownJsError = this.ex;
       return error;
     },
-    $signature: 5
+    $signature: 6
   };
   H._StackTrace.prototype = {
     toString$0: function(_) {
@@ -5894,7 +5914,7 @@
     call$1: function(o) {
       return this.getTag(o);
     },
-    $signature: 5
+    $signature: 6
   };
   H.initHooks_closure0.prototype = {
     call$2: function(o, tag) {
@@ -6755,7 +6775,7 @@
     call$1: function(v) {
       return this.E._is(v);
     },
-    $signature: 6
+    $signature: 7
   };
   P._SplayTreeSet__SplayTree_IterableMixin.prototype = {};
   P._SplayTreeSet__SplayTree_IterableMixin_SetMixin.prototype = {};
@@ -7100,6 +7120,13 @@
     evaluate$1: function(p) {
       return S.abs(this.operand.evaluate$1(type$.Map_String_BSFunction._as(p)));
     },
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = T.sgn(t1);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     toString$0: function(_) {
       return "|" + H.S(this.operand) + "|";
     },
@@ -7127,6 +7154,19 @@
       } else
         return Z.arcosh(op);
     },
+    derivativeInternal$1: function(v) {
+      var t3, t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v);
+      t1 = D.exp(R.n(2), t1);
+      t3 = R.n(1);
+      t1.toString;
+      t3.toString;
+      t4 = type$.JSArray_BSFunction;
+      t3 = R.root(N.add(H.setRuntimeTypeInfo([t1, G.negative(t3)], t4)));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t3], t4));
+    },
     copy$1: function(params) {
       return new Z.ArCosH(this.operand, type$.Set_Variable._as(params));
     }
@@ -7144,6 +7184,21 @@
         return R.n(Math.log(Math.sqrt(1 + Math.pow(t1, 2)) / t1));
       } else
         return R.arcsch(op);
+    },
+    derivativeInternal$1: function(v) {
+      var t3, t4, t5,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = S.abs(t1);
+      t1 = D.exp(R.n(2), t1);
+      t4 = R.n(1);
+      t1.toString;
+      t5 = type$.JSArray_BSFunction;
+      t4 = S.multiply(H.setRuntimeTypeInfo([t3, R.root(N.add(H.setRuntimeTypeInfo([t1, t4], t5)))], t5));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t5), H.setRuntimeTypeInfo([t4], t5));
     },
     copy$1: function(params) {
       return new R.ArCscH(this.operand, type$.Set_Variable._as(params));
@@ -7163,6 +7218,20 @@
       } else
         return Z.arctgh(op);
     },
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = R.n(1);
+      t3.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = N.add(H.setRuntimeTypeInfo([t3, G.negative(t1)], t4));
+      t3 = R.n(2);
+      t1.toString;
+      t1 = D.exp(t3, t1);
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
+    },
     copy$1: function(params) {
       return new Z.ArCtgH(this.operand, type$.Set_Variable._as(params));
     }
@@ -7180,6 +7249,21 @@
         return R.n(Math.log((1 + Math.sqrt(1 - Math.pow(t1, 2))) / t1));
       } else
         return T.arsech(op);
+    },
+    derivativeInternal$1: function(v) {
+      var t3, t4, t5,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = R.n(1);
+      t4 = D.exp(R.n(2), t1);
+      t3.toString;
+      t4.toString;
+      t5 = type$.JSArray_BSFunction;
+      t4 = S.multiply(H.setRuntimeTypeInfo([t1, R.root(N.add(H.setRuntimeTypeInfo([t3, G.negative(t4)], t5)))], t5));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t5), H.setRuntimeTypeInfo([t4], t5));
     },
     copy$1: function(params) {
       return new T.ArSecH(this.operand, type$.Set_Variable._as(params));
@@ -7199,6 +7283,18 @@
       } else
         return E.arsinh(op);
     },
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = R.n(1);
+      t1 = D.exp(R.n(2), t1);
+      t3.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = R.root(N.add(H.setRuntimeTypeInfo([t3, t1], t4)));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
+    },
     copy$1: function(params) {
       return new E.ArSinH(this.operand, type$.Set_Variable._as(params));
     }
@@ -7217,6 +7313,19 @@
       } else
         return Y.artanh(op);
     },
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = R.n(1);
+      t1 = D.exp(R.n(2), t1);
+      t3.toString;
+      t1.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = N.add(H.setRuntimeTypeInfo([t3, G.negative(t1)], t4));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
+    },
     copy$1: function(params) {
       return new Y.ArTanH(this.operand, type$.Set_Variable._as(params));
     }
@@ -7232,6 +7341,21 @@
         return R.n(Math.acos(op.absvalue));
       else
         return O.arccos(op);
+    },
+    derivativeInternal$1: function(v) {
+      var t3, t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = R.n(1);
+      t1 = D.exp(R.n(2), t1);
+      t3.toString;
+      t1.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = R.root(N.add(H.setRuntimeTypeInfo([t3, G.negative(t1)], t4)));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
     },
     copy$1: function(params) {
       return new O.ArcCos(this.operand, type$.Set_Variable._as(params));
@@ -7249,6 +7373,20 @@
       else
         return Z.arccsc(op);
     },
+    derivativeInternal$1: function(v) {
+      var t4, t5,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = S.abs(t1);
+      t1 = D.exp(R.n(2), t1);
+      t4 = R.n(1);
+      t1.toString;
+      t4.toString;
+      t5 = type$.JSArray_BSFunction;
+      t4 = S.multiply(H.setRuntimeTypeInfo([t3, R.root(N.add(H.setRuntimeTypeInfo([t1, G.negative(t4)], t5)))], t5));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t5), H.setRuntimeTypeInfo([t4], t5));
+    },
     copy$1: function(params) {
       return new Z.ArcCsc(this.operand, type$.Set_Variable._as(params));
     }
@@ -7264,6 +7402,20 @@
         return R.n(Math.atan(1 / op.absvalue));
       else
         return N.arcctg(op);
+    },
+    derivativeInternal$1: function(v) {
+      var t3, t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = R.n(1);
+      t1 = D.exp(R.n(2), t1);
+      t3.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = N.add(H.setRuntimeTypeInfo([t3, t1], t4));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
     },
     copy$1: function(params) {
       return new N.ArcCtg(this.operand, type$.Set_Variable._as(params));
@@ -7281,6 +7433,20 @@
       else
         return D.arcsec(op);
     },
+    derivativeInternal$1: function(v) {
+      var t4, t5,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = S.abs(t1);
+      t1 = D.exp(R.n(2), t1);
+      t4 = R.n(1);
+      t1.toString;
+      t4.toString;
+      t5 = type$.JSArray_BSFunction;
+      t4 = S.multiply(H.setRuntimeTypeInfo([t3, R.root(N.add(H.setRuntimeTypeInfo([t1, G.negative(t4)], t5)))], t5));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t5), H.setRuntimeTypeInfo([t4], t5));
+    },
     copy$1: function(params) {
       return new D.ArcSec(this.operand, type$.Set_Variable._as(params));
     }
@@ -7297,6 +7463,19 @@
       else
         return R.arcsin(op);
     },
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = R.n(1);
+      t1 = D.exp(R.n(2), t1);
+      t3.toString;
+      t1.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = R.root(N.add(H.setRuntimeTypeInfo([t3, G.negative(t1)], t4)));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
+    },
     copy$1: function(params) {
       return new R.ArcSin(this.operand, type$.Set_Variable._as(params));
     }
@@ -7312,6 +7491,18 @@
         return R.n(Math.atan(op.absvalue));
       else
         return E.arctan(op);
+    },
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = this.operand,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = R.n(1);
+      t1 = D.exp(R.n(2), t1);
+      t3.toString;
+      t4 = type$.JSArray_BSFunction;
+      t1 = N.add(H.setRuntimeTypeInfo([t3, t1], t4));
+      t2.toString;
+      return K.divide(H.setRuntimeTypeInfo([t2], t4), H.setRuntimeTypeInfo([t1], t4));
     },
     copy$1: function(params) {
       return new E.ArcTan(this.operand, type$.Set_Variable._as(params));
@@ -7573,7 +7764,7 @@
           if (!(operand instanceof X.BSFunction))
             H.throwExpression(Y.RuntimeError$0(type$.Token._as(operand), "Operand for " + t1.lexeme + " must be function"));
           return J.$negate$in(operand);
-        case C.TokenType_33:
+        case C.TokenType_34:
           if (H._isBool(operand))
             t1 = operand;
           else {
@@ -7699,7 +7890,7 @@
     visitlogicBinaryExpr$1: function(e) {
       var t1,
         left = e.left.accept$1(0, this);
-      if (e.op.type === C.TokenType_34) {
+      if (e.op.type === C.TokenType_35) {
         if (H._isBool(left))
           t1 = left;
         else {
@@ -7829,6 +8020,26 @@
         throw H.wrapException(Y.RuntimeError$0(t1, "Undefined property '" + t2 + "'."));
       return method.bind$1(object);
     },
+    visitDerivativeExpr$1: function(e) {
+      var _variables, t1, t2, _i, v, _value, t3,
+        f = e.derivand.accept$1(0, this);
+      if (!(f instanceof X.BSFunction))
+        throw H.wrapException(Y.RuntimeError$0(e.keyword, "target of derivative must be function"));
+      _variables = H.setRuntimeTypeInfo([], type$.JSArray_Variable);
+      for (t1 = e.variables, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, H.throwConcurrentModificationError)(t1), ++_i) {
+        v = t1[_i].accept$1(0, this);
+        if (v instanceof X.Variable)
+          C.JSArray_methods.add$1(_variables, v);
+        else
+          throw H.wrapException(Y.RuntimeError$0(e.keyword, "Functions may only be derivated in variables"));
+      }
+      for (t1 = _variables.length, _value = f, _i = 0; _i < _variables.length; _variables.length === t1 || (0, H.throwConcurrentModificationError)(_variables), ++_i) {
+        t2 = _value.derivativeInternal$1(_variables[_i]);
+        t3 = _value._parameters;
+        _value = t2.copy$1(t3 == null ? _value.get$defaultParameters() : t3);
+      }
+      return _value;
+    },
     set$_environment: function(_environment) {
       this._environment = type$.Environment._as(_environment);
     },
@@ -7855,7 +8066,7 @@
         t2 = this._BSParser$_current;
         if (t2 >= t1.length)
           return H.ioore(t1, t2);
-        if (!(t1[t2].type !== C.TokenType_42))
+        if (!(t1[t2].type !== C.TokenType_43))
           break;
         C.JSArray_methods.add$1(statements, this._declaration$0());
       }
@@ -7868,11 +8079,11 @@
           t1 = _this._classDeclaration$0();
           return t1;
         }
-        if (_this._match$1(C.TokenType_29)) {
+        if (_this._match$1(C.TokenType_38)) {
           t1 = _this._routine$1("routine");
           return t1;
         }
-        if (_this._match$1(C.TokenType_40)) {
+        if (_this._match$1(C.TokenType_32)) {
           t1 = _this._varDeclaration$0();
           return t1;
         }
@@ -7906,7 +8117,7 @@
           t2 = _this._BSParser$_current;
           if (t2 >= t1.length)
             return H.ioore(t1, t2);
-          t2 = t1[t2].type !== C.TokenType_42;
+          t2 = t1[t2].type !== C.TokenType_43;
         } else
           t2 = false;
         if (!t2)
@@ -7955,7 +8166,7 @@
         if (_this._match$1(C.TokenType_10))
           initializer = _null;
         else
-          initializer = _this._match$1(C.TokenType_40) ? _this._varDeclaration$0() : _this._expressionStatement$0();
+          initializer = _this._match$1(C.TokenType_32) ? _this._varDeclaration$0() : _this._expressionStatement$0();
         condition = _this._check$1(C.TokenType_10) ? _null : _this._assigment$0();
         _this._consume$2(C.TokenType_10, "Expect ';' after loop condition.");
         increment = _this._check$1(C.TokenType_1) ? _null : _this._assigment$0();
@@ -7971,14 +8182,14 @@
         condition = _this._assigment$0();
         _this._consume$2(C.TokenType_1, _s30_);
         thenBranch = _this._statement$0();
-        return new L.IfStmt(condition, thenBranch, _this._match$1(C.TokenType_27) ? _this._statement$0() : _null);
+        return new L.IfStmt(condition, thenBranch, _this._match$1(C.TokenType_28) ? _this._statement$0() : _null);
       }
-      if (_this._match$1(C.TokenType_35)) {
+      if (_this._match$1(C.TokenType_36)) {
         value = _this._assigment$0();
         _this._consume$2(C.TokenType_10, "Expect ';' after value.");
         return new L.PrintStmt(value);
       }
-      if (_this._match$1(C.TokenType_36)) {
+      if (_this._match$1(C.TokenType_37)) {
         t1 = _this._tokens;
         t2 = _this._BSParser$_current - 1;
         if (t2 < 0 || t2 >= t1.length)
@@ -7988,7 +8199,7 @@
         _this._consume$2(C.TokenType_10, "Expect ';' after return value.");
         return new L.ReturnStmt(keyword, value);
       }
-      if (_this._match$1(C.TokenType_41)) {
+      if (_this._match$1(C.TokenType_42)) {
         _this._consume$2(C.TokenType_0, _s22_);
         condition = _this._assigment$0();
         _this._consume$2(C.TokenType_1, _s30_);
@@ -8012,7 +8223,7 @@
           t2 = _this._BSParser$_current;
           if (t2 >= t1.length)
             return H.ioore(t1, t2);
-          t2 = t1[t2].type !== C.TokenType_42;
+          t2 = t1[t2].type !== C.TokenType_43;
         } else
           t2 = false;
         if (!t2)
@@ -8043,7 +8254,7 @@
     _or$0: function() {
       var t1, t2, _this = this,
         expr = _this._and$0();
-      for (t1 = _this._tokens; _this._match$1(C.TokenType_34);) {
+      for (t1 = _this._tokens; _this._match$1(C.TokenType_35);) {
         t2 = _this._BSParser$_current - 1;
         if (t2 < 0 || t2 >= t1.length)
           return H.ioore(t1, t2);
@@ -8119,13 +8330,15 @@
     },
     _unary$0: function() {
       var t1, t2, _this = this;
-      if (_this._matchAny$1(H.setRuntimeTypeInfo([C.TokenType_8, C.TokenType_13, C.TokenType_33, C.TokenType_14], type$.JSArray_TokenType))) {
+      if (_this._matchAny$1(H.setRuntimeTypeInfo([C.TokenType_8, C.TokenType_13, C.TokenType_34, C.TokenType_14], type$.JSArray_TokenType))) {
         t1 = _this._tokens;
         t2 = _this._BSParser$_current - 1;
         if (t2 < 0 || t2 >= t1.length)
           return H.ioore(t1, t2);
         return new N.UnaryExpr(t1[t2], _this._unary$0());
       }
+      if (_this._match$1(C.TokenType_27))
+        return _this._derivative$0();
       return _this._call$0();
     },
     _call$0: function() {
@@ -8149,6 +8362,28 @@
         while (_this._match$1(C.TokenType_6));
       return new N.CallExpr(callee, _this._consume$2(C.TokenType_1, "Expect ')' after arguments."), $arguments);
     },
+    _derivative$0: function() {
+      var variables, t1, t2, _this = this,
+        keyword = _this._consume$2(C.TokenType_0, "Expect '(' after del keyword"),
+        derivand = _this._assigment$0();
+      _this._consume$2(C.TokenType_1, "Expect ')' after derivand");
+      _this._consume$2(C.TokenType_11, "expect '/' after derivand");
+      _this._consume$2(C.TokenType_27, "expect second 'del' after derivand");
+      _this._consume$2(C.TokenType_0, "expect '(' after second del keyword");
+      variables = H.setRuntimeTypeInfo([], type$.JSArray_Expr);
+      if (_this._check$1(C.TokenType_1)) {
+        t1 = _this._tokens;
+        t2 = _this._BSParser$_current - 1;
+        if (t2 < 0 || t2 >= t1.length)
+          return H.ioore(t1, t2);
+        Z.BetaScript_error(t1[t2], "at least one variable is necessary in derivative expression");
+      }
+      do
+        C.JSArray_methods.add$1(variables, _this._assigment$0());
+      while (_this._match$1(C.TokenType_6));
+      _this._consume$2(C.TokenType_1, "expect ')' after derivative variables");
+      return new N.DerivativeExpr(keyword, derivand, variables);
+    },
     _BSParser$_primary$0: function() {
       var t1, t2, expr, keyword, _this = this;
       if (_this._matchAny$1(H.setRuntimeTypeInfo([C.TokenType_24, C.TokenType_23], type$.JSArray_TokenType))) {
@@ -8158,11 +8393,11 @@
           return H.ioore(t1, t2);
         return new N.LiteralExpr(t1[t2].literal);
       }
-      if (_this._match$1(C.TokenType_28))
+      if (_this._match$1(C.TokenType_29))
         return new N.LiteralExpr(false);
-      if (_this._match$1(C.TokenType_39))
+      if (_this._match$1(C.TokenType_41))
         return new N.LiteralExpr(true);
-      if (_this._match$1(C.TokenType_32))
+      if (_this._match$1(C.TokenType_33))
         return new N.LiteralExpr(null);
       if (_this._match$1(C.TokenType_0)) {
         expr = _this._assigment$0();
@@ -8176,14 +8411,14 @@
           return H.ioore(t1, t2);
         return new N.VariableExpr(t1[t2]);
       }
-      if (_this._match$1(C.TokenType_38)) {
+      if (_this._match$1(C.TokenType_40)) {
         t1 = _this._tokens;
         t2 = _this._BSParser$_current - 1;
         if (t2 < 0 || t2 >= t1.length)
           return H.ioore(t1, t2);
         return new N.ThisExpr(t1[t2]);
       }
-      if (_this._match$1(C.TokenType_37)) {
+      if (_this._match$1(C.TokenType_39)) {
         t1 = _this._tokens;
         t2 = _this._BSParser$_current - 1;
         if (t2 < 0 || t2 >= t1.length)
@@ -8215,7 +8450,7 @@
       if (t2 >= t1.length)
         return H.ioore(t1, t2);
       t2 = t1[t2].type;
-      if (t2 === C.TokenType_42)
+      if (t2 === C.TokenType_43)
         return false;
       return t2 == type;
     },
@@ -8225,7 +8460,7 @@
         t3 = t1.length;
       if (t2 >= t3)
         return H.ioore(t1, t2);
-      t2 = (t1[t2].type !== C.TokenType_42 ? this._BSParser$_current = t2 + 1 : t2) - 1;
+      t2 = (t1[t2].type !== C.TokenType_43 ? this._BSParser$_current = t2 + 1 : t2) - 1;
       if (t2 < 0 || t2 >= t3)
         return H.ioore(t1, t2);
       return t1[t2];
@@ -8262,7 +8497,7 @@
         if (t2 >= t3)
           return H.ioore(t1, t2);
         t4 = t1[t2].type;
-        t5 = t4 !== C.TokenType_42;
+        t5 = t4 !== C.TokenType_43;
         if (!t5)
           break;
         t6 = t2 - 1;
@@ -8272,13 +8507,13 @@
           return;
         switch (t4) {
           case C.TokenType_26:
-          case C.TokenType_29:
-          case C.TokenType_40:
+          case C.TokenType_38:
+          case C.TokenType_32:
           case C.TokenType_30:
           case C.TokenType_31:
-          case C.TokenType_41:
-          case C.TokenType_35:
+          case C.TokenType_42:
           case C.TokenType_36:
+          case C.TokenType_37:
             return;
         }
         t2 = (t5 ? _this._BSParser$_current = t2 + 1 : t2) - 1;
@@ -8310,7 +8545,7 @@
         }
       }
       t1 = _this._BSScanner$_tokens;
-      C.JSArray_methods.add$1(t1, new V.Token(C.TokenType_42, "", null, _this._line));
+      C.JSArray_methods.add$1(t1, new V.Token(C.TokenType_43, "", null, _this._line));
       return t1;
     },
     _initializeMap$0: function() {
@@ -8408,7 +8643,7 @@
         t1[t2];
       }
       text = J.substring$2$s(t1, _this._start, _this._BSScanner$_current);
-      _this._addToken$1(C.Map_woxwA.containsKey$1(text) ? C.Map_woxwA.$index(0, text) : C.TokenType_22);
+      _this._addToken$1(C.Map_6T2No.containsKey$1(text) ? C.Map_6T2No.$index(0, text) : C.TokenType_22);
     },
     set$_charToLexeme: function(_charToLexeme) {
       this._charToLexeme = type$.Map_String_Function._as(_charToLexeme);
@@ -8580,6 +8815,15 @@
     $signature: 3
   };
   O.Cos.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = U.sin(t1);
+      t2.toString;
+      t2 = G.negative(t2);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var v,
         op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -8601,6 +8845,13 @@
     }
   };
   Z.CosH.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = U.sinh(t1);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
       return Z.cosh(op);
@@ -8619,6 +8870,20 @@
     }
   };
   Q.Csc.prototype = {
+    derivativeInternal$1: function(v) {
+      var t3, t4,
+        t1 = this.operand,
+        t2 = Q.csc(t1);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = L.ctg(t1);
+      t2.toString;
+      t4 = type$.JSArray_BSFunction;
+      t3 = S.multiply(H.setRuntimeTypeInfo([t2, t3], t4));
+      t1 = t1.derivativeInternal$1(v);
+      t3.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t3, t1], t4));
+    },
     evaluate$1: function(p) {
       var v,
         op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -8640,6 +8905,20 @@
     }
   };
   X.CscH.prototype = {
+    derivativeInternal$1: function(v) {
+      var t3, t4,
+        t1 = this.operand,
+        t2 = X.csch(t1);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = G.ctgh(t1);
+      t2.toString;
+      t4 = type$.JSArray_BSFunction;
+      t3 = S.multiply(H.setRuntimeTypeInfo([t2, t3], t4));
+      t1 = t1.derivativeInternal$1(v);
+      t3.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t3, t1], t4));
+    },
     evaluate$1: function(p) {
       var op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
       return X.csch(op);
@@ -8658,6 +8937,19 @@
     }
   };
   L.Ctg.prototype = {
+    derivativeInternal$1: function(v) {
+      var t3,
+        t1 = this.operand,
+        t2 = Q.csc(t1);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = R.n(2);
+      t2.toString;
+      t2 = D.exp(t3, t2);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var v,
         op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -8679,6 +8971,19 @@
     }
   };
   G.CtgH.prototype = {
+    derivativeInternal$1: function(v) {
+      var t3,
+        t1 = this.operand,
+        t2 = X.csch(t1);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = R.n(2);
+      t2.toString;
+      t2 = D.exp(t3, t2);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
       return G.ctgh(op);
@@ -8698,6 +9003,24 @@
     }
   };
   K.Division.prototype = {
+    derivativeInternal$1: function(v) {
+      var t4, t5,
+        t1 = this.numerator,
+        t2 = t1.derivativeInternal$1(v),
+        t3 = this.denominator;
+      t2.toString;
+      t4 = type$.JSArray_BSFunction;
+      t2 = S.multiply(H.setRuntimeTypeInfo([t2, t3], t4));
+      t5 = t3.derivativeInternal$1(v);
+      t5.toString;
+      t1 = S.multiply(H.setRuntimeTypeInfo([t5, t1], t4));
+      t2.toString;
+      t1.toString;
+      t1 = N.add(H.setRuntimeTypeInfo([t2, G.negative(t1)], t4));
+      t3 = D.exp(R.n(2), t3);
+      t1.toString;
+      return K.divide(H.setRuntimeTypeInfo([t1], t4), H.setRuntimeTypeInfo([t3], t4));
+    },
     evaluate$1: function(p) {
       var _n, _d, t1, _numNumber, _denNumber, v, t2, _num, _den, t3, t4;
       type$.Map_String_BSFunction._as(p);
@@ -8778,6 +9101,25 @@
     }
   };
   D.Exponentiation.prototype = {
+    derivativeInternal$1: function(v) {
+      var t3, t4, t5,
+        t1 = this.base,
+        t2 = this.exponent;
+      t1.toString;
+      t3 = D.exp(t2, t1);
+      t4 = F.log(t1, C.Number_oNt).derivativeInternal$1(v);
+      t2.toString;
+      t5 = type$.JSArray_BSFunction;
+      t4 = S.multiply(H.setRuntimeTypeInfo([t2, t4], t5));
+      t2 = t2.derivativeInternal$1(v);
+      t1 = F.log(t1, C.Number_oNt);
+      t2.toString;
+      t1 = S.multiply(H.setRuntimeTypeInfo([t2, t1], t5));
+      t4.toString;
+      t1 = N.add(H.setRuntimeTypeInfo([t4, t1], t5));
+      t3.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t3, t1], t5));
+    },
     evaluate$1: function(p) {
       var b, expo, v;
       type$.Map_String_BSFunction._as(p);
@@ -8810,6 +9152,14 @@
     }
   };
   N.Expr.prototype = {};
+  N.AssignExpr.prototype = {
+    accept$1: function(_, v) {
+      return v.visitAssignExpr$1(this);
+    },
+    get$value: function(receiver) {
+      return this.value;
+    }
+  };
   N.BinaryExpr.prototype = {
     accept$1: function(_, v) {
       return v.visitBinaryExpr$1(this);
@@ -8848,14 +9198,6 @@
       return v.visitVariableExpr$1(this);
     }
   };
-  N.AssignExpr.prototype = {
-    accept$1: function(_, v) {
-      return v.visitAssignExpr$1(this);
-    },
-    get$value: function(receiver) {
-      return this.value;
-    }
-  };
   N.logicBinaryExpr.prototype = {
     accept$1: function(_, v) {
       return v.visitlogicBinaryExpr$1(this);
@@ -8879,7 +9221,31 @@
       return v.visitSuperExpr$1(this);
     }
   };
+  N.DerivativeExpr.prototype = {
+    accept$1: function(_, v) {
+      return v.visitDerivativeExpr$1(this);
+    }
+  };
   F.Log.prototype = {
+    derivativeInternal$1: function(v) {
+      var t2, t3, t4,
+        t1 = this.base;
+      if (t1 instanceof R.Number) {
+        t2 = this.operand;
+        t3 = t2.derivativeInternal$1(v);
+        t1 = F.log(t1, C.Number_oNt);
+        t1.toString;
+        t4 = type$.JSArray_BSFunction;
+        t2 = S.multiply(H.setRuntimeTypeInfo([t1, t2], t4));
+        t3.toString;
+        return K.divide(H.setRuntimeTypeInfo([t3], t4), H.setRuntimeTypeInfo([t2], t4));
+      }
+      t2 = F.log(this.operand, C.Number_oNt);
+      t1 = F.log(t1, C.Number_oNt);
+      t2.toString;
+      t3 = type$.JSArray_BSFunction;
+      return K.divide(H.setRuntimeTypeInfo([t2], t3), H.setRuntimeTypeInfo([t1], t3)).derivativeInternal$1(v);
+    },
     evaluate$1: function(p) {
       var b, op, v;
       type$.Map_String_BSFunction._as(p);
@@ -8917,6 +9283,19 @@
     }
   };
   S.Multiplication.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1, t2, i, term, t3, t4, t5,
+        ops = H.setRuntimeTypeInfo([], type$.JSArray_BSFunction);
+      for (t1 = this.operands, t2 = type$.BSFunction, i = 0; i < t1.length; ++i) {
+        term = P.List_List$from(t1, true, t2);
+        t3 = C.JSArray_methods.removeAt$1(term, i);
+        t4 = t3.derivativeInternal$1(v);
+        t5 = t3._parameters;
+        C.JSArray_methods.insert$2(term, i, t4.copy$1(t5 == null ? t3.get$defaultParameters() : t5));
+        C.JSArray_methods.add$1(ops, S.multiply(term));
+      }
+      return N.add(ops);
+    },
     evaluate$1: function(p) {
       var ops;
       type$.Map_String_BSFunction._as(p);
@@ -8975,7 +9354,7 @@
       }
       return _op.first;
     },
-    $signature: 7
+    $signature: 4
   };
   U.NativeCallable.prototype = {
     get$arity: function() {
@@ -8999,6 +9378,10 @@
     get$defaultParameters: function() {
       return type$.SplayTreeSet_Variable._as(this.operand.get$parameters());
     },
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand;
+      return G.negative(t1.derivativeInternal$1(v).copy$1(t1.get$parameters()));
+    },
     toString$0: function(_) {
       return "-" + H.S(this.operand);
     },
@@ -9009,6 +9392,9 @@
   R.Number.prototype = {
     toString$0: function(_) {
       return this.name;
+    },
+    derivativeInternal$1: function(v) {
+      return R.n(0);
     },
     evaluate$1: function(p) {
       type$.Map_String_BSFunction._as(p);
@@ -9294,6 +9680,12 @@
         Z.BetaScript_error(e.keyword, "Cannot use 'super' in a class with no superclass");
       this._resolveLocal$2(e, e.keyword);
     },
+    visitDerivativeExpr$1: function(e) {
+      var t1, t2, _i;
+      e.derivand.accept$1(0, this);
+      for (t1 = e.variables, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, H.throwConcurrentModificationError)(t1), ++_i)
+        t1[_i].accept$1(0, this);
+    },
     $isExprVisitor: 1,
     $isStmtVisitor: 1
   };
@@ -9301,9 +9693,23 @@
     call$1: function(_) {
       return true;
     },
-    $signature: 6
+    $signature: 7
   };
   R.Root.prototype = {
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = R.n(0.5),
+        t2 = this.operand,
+        t3 = R.n(-0.5);
+      t2.toString;
+      t3 = D.exp(t3, t2);
+      t1.toString;
+      t4 = type$.JSArray_BSFunction;
+      t3 = S.multiply(H.setRuntimeTypeInfo([t1, t3], t4));
+      t2 = t2.derivativeInternal$1(v);
+      t3.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t3, t2], t4));
+    },
     evaluate$1: function(p) {
       var v,
         opvalue = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -9332,6 +9738,18 @@
     }
   };
   N.Sec.prototype = {
+    derivativeInternal$1: function(v) {
+      var t4,
+        t1 = this.operand,
+        t2 = N.sec(t1),
+        t3 = M.tan(t1);
+      t2.toString;
+      t4 = type$.JSArray_BSFunction;
+      t3 = S.multiply(H.setRuntimeTypeInfo([t2, t3], t4));
+      t1 = t1.derivativeInternal$1(v);
+      t3.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t3, t1], t4));
+    },
     evaluate$1: function(p) {
       var v,
         op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -9353,6 +9771,20 @@
     }
   };
   Q.SecH.prototype = {
+    derivativeInternal$1: function(v) {
+      var t3, t4,
+        t1 = this.operand,
+        t2 = Q.sech(t1);
+      t2.toString;
+      t2 = G.negative(t2);
+      t3 = X.tanh(t1);
+      t2.toString;
+      t4 = type$.JSArray_BSFunction;
+      t3 = S.multiply(H.setRuntimeTypeInfo([t2, t3], t4));
+      t1 = t1.derivativeInternal$1(v);
+      t3.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t3, t1], t4));
+    },
     evaluate$1: function(p) {
       var op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
       return Q.sech(op);
@@ -9374,6 +9806,9 @@
     evaluate$1: function(p) {
       return T.sgn(this.operand.evaluate$1(type$.Map_String_BSFunction._as(p)));
     },
+    derivativeInternal$1: function(v) {
+      return R.n(0);
+    },
     toString$0: function(_) {
       return "sign(" + H.S(this.operand) + ")";
     },
@@ -9388,6 +9823,13 @@
     }
   };
   U.Sin.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = O.cos(t1);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var v,
         op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -9409,6 +9851,13 @@
     }
   };
   U.SinH.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = Z.cosh(t1);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
       return U.sinh(op);
@@ -9476,6 +9925,11 @@
     }
   };
   N.Sum.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operands,
+        t2 = H._arrayInstanceType(t1);
+      return N.add(new H.MappedListIterable(t1, t2._eval$1("BSFunction(1)")._as(new N.Sum_derivativeInternal_closure(v)), t2._eval$1("MappedListIterable<1,BSFunction>")).toList$0(0));
+    },
     evaluate$1: function(p) {
       var t1 = this.operands,
         t2 = H._arrayInstanceType(t1);
@@ -9517,11 +9971,17 @@
       return N.add(ops);
     }
   };
+  N.Sum_derivativeInternal_closure.prototype = {
+    call$1: function(f) {
+      return type$.BSFunction._as(f).derivativeInternal$1(this.v);
+    },
+    $signature: 4
+  };
   N.Sum_evaluate_closure.prototype = {
     call$1: function(f) {
       return type$.BSFunction._as(f).evaluate$1(this.p);
     },
-    $signature: 7
+    $signature: 4
   };
   N.Sum_approx_closure.prototype = {
     call$1: function(f) {
@@ -9540,6 +10000,16 @@
     $signature: 2
   };
   M.Tan.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = N.sec(t1),
+        t3 = R.n(2);
+      t2.toString;
+      t2 = D.exp(t3, t2);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var v,
         op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
@@ -9561,6 +10031,16 @@
     }
   };
   X.TanH.prototype = {
+    derivativeInternal$1: function(v) {
+      var t1 = this.operand,
+        t2 = Q.sech(t1),
+        t3 = R.n(2);
+      t2.toString;
+      t2 = D.exp(t3, t2);
+      t1 = t1.derivativeInternal$1(v);
+      t2.toString;
+      return S.multiply(H.setRuntimeTypeInfo([t2, t1], type$.JSArray_BSFunction));
+    },
     evaluate$1: function(p) {
       var op = this.operand.evaluate$1(type$.Map_String_BSFunction._as(p));
       return X.tanh(op);
@@ -9654,6 +10134,9 @@
       }
       return p.$index(0, t1);
     },
+    derivativeInternal$1: function(v) {
+      return R.n(v.name === this.name ? 1 : 0);
+    },
     toString$0: function(_) {
       return this.name;
     },
@@ -9712,9 +10195,9 @@
       _static_0 = hunkHelpers._static_0,
       _static_2 = hunkHelpers._static_2,
       _instance_0_u = hunkHelpers._instance_0u;
-    _static_1(P, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 4);
-    _static_1(P, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 4);
-    _static_1(P, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 4);
+    _static_1(P, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 5);
+    _static_1(P, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 5);
+    _static_1(P, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 5);
     _static_0(P, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
     _static_2(P, "collection___dynamicCompare$closure", "_dynamicCompare", 21);
     _static_2(P, "core_Comparable_compare$closure", "Comparable_compare", 22);
@@ -9737,7 +10220,7 @@
     _inherit(H.MappedListIterable, H.ListIterable);
     _inherit(H.ConstantStringMap, H.ConstantMap);
     _inheritMany(P.Error, [H.NullError, H.JsNoSuchMethodError, H.UnknownJsTypeError, H.RuntimeError, P.AssertionError, H._Error, P.NullThrownError, P.ArgumentError, P.UnsupportedError, P.UnimplementedError, P.StateError, P.ConcurrentModificationError, P.CyclicInitializationError]);
-    _inheritMany(H.Closure, [H.unwrapException_saveStackTrace, H.TearOffClosure, H.initHooks_closure, H.initHooks_closure0, H.initHooks_closure1, P._AsyncRun__initializeScheduleImmediate_internalCallback, P._AsyncRun__initializeScheduleImmediate_closure, P._AsyncRun__scheduleImmediateJsOverride_internalCallback, P._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, P._TimerImpl_internalCallback, P._Future__addListener_closure, P._Future__prependListeners_closure, P._Future__chainForeignFuture_closure, P._Future__chainForeignFuture_closure0, P._Future__chainForeignFuture_closure1, P._Future__propagateToListeners_handleWhenCompleteCallback, P._Future__propagateToListeners_handleWhenCompleteCallback_closure, P._Future__propagateToListeners_handleValueCallback, P._Future__propagateToListeners_handleError, P.Stream_length_closure, P.Stream_length_closure0, P._rootHandleUncaughtError_closure, P._RootZone_bindCallback_closure, P._RootZone_bindCallbackGuarded_closure, P._RootZone_bindUnaryCallbackGuarded_closure, P.MapBase_mapToString_closure, P.SplayTreeSet_closure, W._EventStreamSubscription_closure, X.BSFunction_call_closure, X.BSFunction_withParameters_closure, X.BSFunction_callThing_closure, X.BSScanner__initializeMap_closure, X.BSScanner__initializeMap_closure0, X.BSScanner__initializeMap_closure1, X.BSScanner__initializeMap_closure2, X.BSScanner__initializeMap_closure3, X.BSScanner__initializeMap_closure4, X.BSScanner__initializeMap_closure5, X.BSScanner__initializeMap_closure6, X.BSScanner__initializeMap_closure7, X.BSScanner__initializeMap_closure8, X.BSScanner__initializeMap_closure9, X.BSScanner__initializeMap_closure10, X.BSScanner__initializeMap_closure11, X.BSScanner__initializeMap_closure12, X.BSScanner__initializeMap_closure13, X.BSScanner__initializeMap_closure14, X.BSScanner__initializeMap_closure15, X.BSScanner__initializeMap_closure16, X.BSScanner__initializeMap_closure17, X.BSScanner__initializeMap_closure18, X.BSScanner__initializeMap_closure19, X.BSScanner__initializeMap_closure20, X.BSScanner__initializeMap_closure21, Z.BetaScript_runForWeb_closure, S.Multiplication_evaluate_closure, S.Multiplication_approx_closure, S._consolidateNegatives_closure, F.Resolver_closure, N.Sum_evaluate_closure, N.Sum_approx_closure, N._openOtherSums_closure, L.closure, N.main_closure]);
+    _inheritMany(H.Closure, [H.unwrapException_saveStackTrace, H.TearOffClosure, H.initHooks_closure, H.initHooks_closure0, H.initHooks_closure1, P._AsyncRun__initializeScheduleImmediate_internalCallback, P._AsyncRun__initializeScheduleImmediate_closure, P._AsyncRun__scheduleImmediateJsOverride_internalCallback, P._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, P._TimerImpl_internalCallback, P._Future__addListener_closure, P._Future__prependListeners_closure, P._Future__chainForeignFuture_closure, P._Future__chainForeignFuture_closure0, P._Future__chainForeignFuture_closure1, P._Future__propagateToListeners_handleWhenCompleteCallback, P._Future__propagateToListeners_handleWhenCompleteCallback_closure, P._Future__propagateToListeners_handleValueCallback, P._Future__propagateToListeners_handleError, P.Stream_length_closure, P.Stream_length_closure0, P._rootHandleUncaughtError_closure, P._RootZone_bindCallback_closure, P._RootZone_bindCallbackGuarded_closure, P._RootZone_bindUnaryCallbackGuarded_closure, P.MapBase_mapToString_closure, P.SplayTreeSet_closure, W._EventStreamSubscription_closure, X.BSFunction_call_closure, X.BSFunction_withParameters_closure, X.BSFunction_callThing_closure, X.BSScanner__initializeMap_closure, X.BSScanner__initializeMap_closure0, X.BSScanner__initializeMap_closure1, X.BSScanner__initializeMap_closure2, X.BSScanner__initializeMap_closure3, X.BSScanner__initializeMap_closure4, X.BSScanner__initializeMap_closure5, X.BSScanner__initializeMap_closure6, X.BSScanner__initializeMap_closure7, X.BSScanner__initializeMap_closure8, X.BSScanner__initializeMap_closure9, X.BSScanner__initializeMap_closure10, X.BSScanner__initializeMap_closure11, X.BSScanner__initializeMap_closure12, X.BSScanner__initializeMap_closure13, X.BSScanner__initializeMap_closure14, X.BSScanner__initializeMap_closure15, X.BSScanner__initializeMap_closure16, X.BSScanner__initializeMap_closure17, X.BSScanner__initializeMap_closure18, X.BSScanner__initializeMap_closure19, X.BSScanner__initializeMap_closure20, X.BSScanner__initializeMap_closure21, Z.BetaScript_runForWeb_closure, S.Multiplication_evaluate_closure, S.Multiplication_approx_closure, S._consolidateNegatives_closure, F.Resolver_closure, N.Sum_derivativeInternal_closure, N.Sum_evaluate_closure, N.Sum_approx_closure, N._openOtherSums_closure, L.closure, N.main_closure]);
     _inheritMany(H.TearOffClosure, [H.StaticClosure, H.BoundClosure]);
     _inherit(H._AssertionError, P.AssertionError);
     _inherit(P.MapBase, P.MapMixin);
@@ -9762,7 +10245,7 @@
     _inherit(W._EventStreamSubscription, P.StreamSubscription);
     _inheritMany(X.BSFunction, [S.AbsoluteValue, L.singleOperandFunction, K.Division, D.Exponentiation, F.Log, S.Multiplication, G.Negative, R.Number, R.Root, T.Signum, N.Sum, X.Variable]);
     _inheritMany(L.singleOperandFunction, [Z.ArCosH, R.ArCscH, Z.ArCtgH, T.ArSecH, E.ArSinH, Y.ArTanH, O.ArcCos, Z.ArcCsc, N.ArcCtg, D.ArcSec, R.ArcSin, E.ArcTan, O.Cos, Z.CosH, Q.Csc, X.CscH, L.Ctg, G.CtgH, N.Sec, Q.SecH, U.Sin, U.SinH, M.Tan, X.TanH]);
-    _inheritMany(N.Expr, [N.BinaryExpr, N.CallExpr, N.GetExpr, N.GroupingExpr, N.LiteralExpr, N.UnaryExpr, N.VariableExpr, N.AssignExpr, N.logicBinaryExpr, N.SetExpr, N.ThisExpr, N.SuperExpr]);
+    _inheritMany(N.Expr, [N.AssignExpr, N.BinaryExpr, N.CallExpr, N.GetExpr, N.GroupingExpr, N.LiteralExpr, N.UnaryExpr, N.VariableExpr, N.logicBinaryExpr, N.SetExpr, N.ThisExpr, N.SuperExpr, N.DerivativeExpr]);
     _inheritMany(L.Stmt, [L.ExpressionStmt, L.PrintStmt, L.VarStmt, L.BlockStmt, L.IfStmt, L.RoutineStmt, L.WhileStmt, L.ReturnStmt, L.ClassStmt]);
     _mixin(P._SplayTreeSet__SplayTree_IterableMixin, P.IterableMixin);
     _mixin(P._SplayTreeSet__SplayTree_IterableMixin_SetMixin, P.SetMixin);
@@ -9773,12 +10256,12 @@
     mangledNames: {},
     getTypeFromName: getGlobalFromName,
     metadata: [],
-    types: ["~()", "Null()", "Null(BSFunction)", "Null(@)", "~(~())", "@(@)", "bool(@)", "BSFunction(BSFunction)", "@(@,String)", "@(String)", "Null(~())", "Null(@[StackTrace])", "_Future<@>(@)", "Null(@,@)", "@(Event)", "String(Variable)", "Null(Variable)", "BSFunction(Object)", "int()", "int(BSInterpreter,List<Object>)", "Null(MouseEvent)", "int(@,@)", "int(Comparable<@>,Comparable<@>)"],
+    types: ["~()", "Null()", "Null(BSFunction)", "Null(@)", "BSFunction(BSFunction)", "~(~())", "@(@)", "bool(@)", "@(@,String)", "@(String)", "Null(~())", "Null(@[StackTrace])", "_Future<@>(@)", "Null(@,@)", "@(Event)", "String(Variable)", "Null(Variable)", "BSFunction(Object)", "int()", "int(BSInterpreter,List<Object>)", "Null(MouseEvent)", "int(@,@)", "int(Comparable<@>,Comparable<@>)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: typeof Symbol == "function" && typeof Symbol() == "symbol" ? Symbol("$ti") : "$ti"
   };
-  H._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"JavaScriptObject","PlainJavaScriptObject":"JavaScriptObject","UnknownJavaScriptObject":"JavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","AElement":"SvgElement","GraphicsElement":"SvgElement","AudioElement":"HtmlElement","MediaElement":"HtmlElement","PointerEvent":"MouseEvent","CompositionEvent":"UIEvent","HtmlDocument":"Node","Document":"Node","JSBool":{"bool":[]},"JSNull":{"Null":[]},"JavaScriptObject":{"Function":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[],"Comparable":["num"]},"JSInt":{"int":[],"double":[],"num":[],"Comparable":["num"]},"JSDouble":{"double":[],"num":[],"Comparable":["num"]},"JSString":{"String":[],"Comparable":["String"]},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"Iterable":["1"]},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"]},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"Iterable":["2"]},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"Iterable":["2"],"ListIterable.E":"2"},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"_ConstantMapKeyIterable":{"Iterable":["1"]},"NullError":{"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"_AssertionError":{"Error":[]},"JsLinkedHashMap":{"LinkedHashMap":["1","2"],"MapMixin":["1","2"],"Map":["1","2"]},"LinkedHashMapKeyIterable":{"Iterable":["1"]},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"_Error":{"Error":[]},"_TypeError":{"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_Zone":{"Zone":[]},"_RootZone":{"Zone":[]},"_LinkedHashSet":{"_SetBase":["1"],"Set":["1"],"Iterable":["1"]},"_LinkedHashSetIterator":{"Iterator":["1"]},"MapBase":{"MapMixin":["1","2"],"Map":["1","2"]},"MapMixin":{"Map":["1","2"]},"_SetBase":{"Set":["1"],"Iterable":["1"]},"_SplayTreeIterator":{"Iterator":["2"]},"_SplayTreeKeyIterator":{"_SplayTreeIterator":["1","1"],"Iterator":["1"],"_SplayTreeIterator.K":"1"},"SplayTreeSet":{"SetMixin":["1"],"Set":["1"],"IterableMixin":["1"],"_SplayTree":["1","_SplayTreeNode<1>"],"Iterable":["1"],"_SplayTree.K":"1","_SplayTree.1":"_SplayTreeNode<1>"},"double":{"num":[],"Comparable":["num"]},"AssertionError":{"Error":[]},"NullThrownError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"CyclicInitializationError":{"Error":[]},"int":{"num":[],"Comparable":["num"]},"List":{"Iterable":["1"]},"num":{"Comparable":["num"]},"_StringStackTrace":{"StackTrace":[]},"String":{"Comparable":["String"]},"HtmlElement":{"Element":[],"EventTarget":[]},"AnchorElement":{"Element":[],"EventTarget":[]},"AreaElement":{"Element":[],"EventTarget":[]},"ButtonElement":{"Element":[],"EventTarget":[]},"DataElement":{"Element":[],"EventTarget":[]},"Element":{"EventTarget":[]},"FormElement":{"Element":[],"EventTarget":[]},"InputElement":{"Element":[],"EventTarget":[]},"LIElement":{"Element":[],"EventTarget":[]},"MeterElement":{"Element":[],"EventTarget":[]},"MouseEvent":{"Event":[]},"Node":{"EventTarget":[]},"OptionElement":{"Element":[],"EventTarget":[]},"OutputElement":{"Element":[],"EventTarget":[]},"ParamElement":{"Element":[],"EventTarget":[]},"ProgressElement":{"Element":[],"EventTarget":[]},"SelectElement":{"Element":[],"EventTarget":[]},"TextAreaElement":{"Element":[],"EventTarget":[]},"UIEvent":{"Event":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"SvgElement":{"Element":[],"EventTarget":[]},"AbsoluteValue":{"BSFunction":[],"BSCallable":[]},"ArCosH":{"BSFunction":[],"BSCallable":[]},"ArCscH":{"BSFunction":[],"BSCallable":[]},"ArCtgH":{"BSFunction":[],"BSCallable":[]},"ArSecH":{"BSFunction":[],"BSCallable":[]},"ArSinH":{"BSFunction":[],"BSCallable":[]},"ArTanH":{"BSFunction":[],"BSCallable":[]},"ArcCos":{"BSFunction":[],"BSCallable":[]},"ArcCsc":{"BSFunction":[],"BSCallable":[]},"ArcCtg":{"BSFunction":[],"BSCallable":[]},"ArcSec":{"BSFunction":[],"BSCallable":[]},"ArcSin":{"BSFunction":[],"BSCallable":[]},"ArcTan":{"BSFunction":[],"BSCallable":[]},"BSClass":{"BSCallable":[]},"BSFunction":{"BSCallable":[]},"BSInterpreter":{"StmtVisitor":[],"ExprVisitor":[]},"Cos":{"BSFunction":[],"BSCallable":[]},"CosH":{"BSFunction":[],"BSCallable":[]},"Csc":{"BSFunction":[],"BSCallable":[]},"CscH":{"BSFunction":[],"BSCallable":[]},"Ctg":{"BSFunction":[],"BSCallable":[]},"CtgH":{"BSFunction":[],"BSCallable":[]},"Division":{"BSFunction":[],"BSCallable":[]},"Exponentiation":{"BSFunction":[],"BSCallable":[]},"BinaryExpr":{"Expr":[]},"CallExpr":{"Expr":[]},"GetExpr":{"Expr":[]},"GroupingExpr":{"Expr":[]},"LiteralExpr":{"Expr":[]},"UnaryExpr":{"Expr":[]},"VariableExpr":{"Expr":[]},"AssignExpr":{"Expr":[]},"logicBinaryExpr":{"Expr":[]},"SetExpr":{"Expr":[]},"ThisExpr":{"Expr":[]},"SuperExpr":{"Expr":[]},"Log":{"BSFunction":[],"BSCallable":[]},"Multiplication":{"BSFunction":[],"BSCallable":[]},"NativeCallable":{"BSCallable":[]},"Negative":{"BSFunction":[],"BSCallable":[]},"Number":{"BSFunction":[],"BSCallable":[]},"Resolver":{"StmtVisitor":[],"ExprVisitor":[]},"Root":{"BSFunction":[],"BSCallable":[]},"Sec":{"BSFunction":[],"BSCallable":[]},"SecH":{"BSFunction":[],"BSCallable":[]},"Signum":{"BSFunction":[],"BSCallable":[]},"Sin":{"BSFunction":[],"BSCallable":[]},"SinH":{"BSFunction":[],"BSCallable":[]},"ExpressionStmt":{"Stmt":[]},"PrintStmt":{"Stmt":[]},"VarStmt":{"Stmt":[]},"BlockStmt":{"Stmt":[]},"IfStmt":{"Stmt":[]},"RoutineStmt":{"Stmt":[]},"WhileStmt":{"Stmt":[]},"ReturnStmt":{"Stmt":[]},"ClassStmt":{"Stmt":[]},"Sum":{"BSFunction":[],"BSCallable":[]},"Tan":{"BSFunction":[],"BSCallable":[]},"TanH":{"BSFunction":[],"BSCallable":[]},"UserRoutine":{"BSCallable":[]},"Variable":{"BSFunction":[],"Comparable":["@"],"BSCallable":[]},"singleOperandFunction":{"BSFunction":[],"BSCallable":[]}}'));
+  H._Universe_addRules(init.typeUniverse, JSON.parse('{"JavaScriptFunction":"JavaScriptObject","PlainJavaScriptObject":"JavaScriptObject","UnknownJavaScriptObject":"JavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","AElement":"SvgElement","GraphicsElement":"SvgElement","AudioElement":"HtmlElement","MediaElement":"HtmlElement","PointerEvent":"MouseEvent","CompositionEvent":"UIEvent","HtmlDocument":"Node","Document":"Node","JSBool":{"bool":[]},"JSNull":{"Null":[]},"JavaScriptObject":{"Function":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[],"Comparable":["num"]},"JSInt":{"int":[],"double":[],"num":[],"Comparable":["num"]},"JSDouble":{"double":[],"num":[],"Comparable":["num"]},"JSString":{"String":[],"Comparable":["String"]},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"Iterable":["1"]},"ListIterator":{"Iterator":["1"]},"MappedIterable":{"Iterable":["2"]},"EfficientLengthMappedIterable":{"MappedIterable":["1","2"],"Iterable":["2"]},"MappedIterator":{"Iterator":["2"]},"MappedListIterable":{"ListIterable":["2"],"Iterable":["2"],"ListIterable.E":"2"},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"_ConstantMapKeyIterable":{"Iterable":["1"]},"NullError":{"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"_AssertionError":{"Error":[]},"JsLinkedHashMap":{"LinkedHashMap":["1","2"],"MapMixin":["1","2"],"Map":["1","2"]},"LinkedHashMapKeyIterable":{"Iterable":["1"]},"LinkedHashMapKeyIterator":{"Iterator":["1"]},"_Error":{"Error":[]},"_TypeError":{"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_Zone":{"Zone":[]},"_RootZone":{"Zone":[]},"_LinkedHashSet":{"_SetBase":["1"],"Set":["1"],"Iterable":["1"]},"_LinkedHashSetIterator":{"Iterator":["1"]},"MapBase":{"MapMixin":["1","2"],"Map":["1","2"]},"MapMixin":{"Map":["1","2"]},"_SetBase":{"Set":["1"],"Iterable":["1"]},"_SplayTreeIterator":{"Iterator":["2"]},"_SplayTreeKeyIterator":{"_SplayTreeIterator":["1","1"],"Iterator":["1"],"_SplayTreeIterator.K":"1"},"SplayTreeSet":{"SetMixin":["1"],"Set":["1"],"IterableMixin":["1"],"_SplayTree":["1","_SplayTreeNode<1>"],"Iterable":["1"],"_SplayTree.K":"1","_SplayTree.1":"_SplayTreeNode<1>"},"double":{"num":[],"Comparable":["num"]},"AssertionError":{"Error":[]},"NullThrownError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"CyclicInitializationError":{"Error":[]},"int":{"num":[],"Comparable":["num"]},"List":{"Iterable":["1"]},"num":{"Comparable":["num"]},"_StringStackTrace":{"StackTrace":[]},"String":{"Comparable":["String"]},"HtmlElement":{"Element":[],"EventTarget":[]},"AnchorElement":{"Element":[],"EventTarget":[]},"AreaElement":{"Element":[],"EventTarget":[]},"ButtonElement":{"Element":[],"EventTarget":[]},"DataElement":{"Element":[],"EventTarget":[]},"Element":{"EventTarget":[]},"FormElement":{"Element":[],"EventTarget":[]},"InputElement":{"Element":[],"EventTarget":[]},"LIElement":{"Element":[],"EventTarget":[]},"MeterElement":{"Element":[],"EventTarget":[]},"MouseEvent":{"Event":[]},"Node":{"EventTarget":[]},"OptionElement":{"Element":[],"EventTarget":[]},"OutputElement":{"Element":[],"EventTarget":[]},"ParamElement":{"Element":[],"EventTarget":[]},"ProgressElement":{"Element":[],"EventTarget":[]},"SelectElement":{"Element":[],"EventTarget":[]},"TextAreaElement":{"Element":[],"EventTarget":[]},"UIEvent":{"Event":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"SvgElement":{"Element":[],"EventTarget":[]},"AbsoluteValue":{"BSFunction":[],"BSCallable":[]},"ArCosH":{"BSFunction":[],"BSCallable":[]},"ArCscH":{"BSFunction":[],"BSCallable":[]},"ArCtgH":{"BSFunction":[],"BSCallable":[]},"ArSecH":{"BSFunction":[],"BSCallable":[]},"ArSinH":{"BSFunction":[],"BSCallable":[]},"ArTanH":{"BSFunction":[],"BSCallable":[]},"ArcCos":{"BSFunction":[],"BSCallable":[]},"ArcCsc":{"BSFunction":[],"BSCallable":[]},"ArcCtg":{"BSFunction":[],"BSCallable":[]},"ArcSec":{"BSFunction":[],"BSCallable":[]},"ArcSin":{"BSFunction":[],"BSCallable":[]},"ArcTan":{"BSFunction":[],"BSCallable":[]},"BSClass":{"BSCallable":[]},"BSFunction":{"BSCallable":[]},"BSInterpreter":{"StmtVisitor":[],"ExprVisitor":[]},"Cos":{"BSFunction":[],"BSCallable":[]},"CosH":{"BSFunction":[],"BSCallable":[]},"Csc":{"BSFunction":[],"BSCallable":[]},"CscH":{"BSFunction":[],"BSCallable":[]},"Ctg":{"BSFunction":[],"BSCallable":[]},"CtgH":{"BSFunction":[],"BSCallable":[]},"Division":{"BSFunction":[],"BSCallable":[]},"Exponentiation":{"BSFunction":[],"BSCallable":[]},"AssignExpr":{"Expr":[]},"BinaryExpr":{"Expr":[]},"CallExpr":{"Expr":[]},"GetExpr":{"Expr":[]},"GroupingExpr":{"Expr":[]},"LiteralExpr":{"Expr":[]},"UnaryExpr":{"Expr":[]},"VariableExpr":{"Expr":[]},"logicBinaryExpr":{"Expr":[]},"SetExpr":{"Expr":[]},"ThisExpr":{"Expr":[]},"SuperExpr":{"Expr":[]},"DerivativeExpr":{"Expr":[]},"Log":{"BSFunction":[],"BSCallable":[]},"Multiplication":{"BSFunction":[],"BSCallable":[]},"NativeCallable":{"BSCallable":[]},"Negative":{"BSFunction":[],"BSCallable":[]},"Number":{"BSFunction":[],"BSCallable":[]},"Resolver":{"StmtVisitor":[],"ExprVisitor":[]},"Root":{"BSFunction":[],"BSCallable":[]},"Sec":{"BSFunction":[],"BSCallable":[]},"SecH":{"BSFunction":[],"BSCallable":[]},"Signum":{"BSFunction":[],"BSCallable":[]},"Sin":{"BSFunction":[],"BSCallable":[]},"SinH":{"BSFunction":[],"BSCallable":[]},"ExpressionStmt":{"Stmt":[]},"PrintStmt":{"Stmt":[]},"VarStmt":{"Stmt":[]},"BlockStmt":{"Stmt":[]},"IfStmt":{"Stmt":[]},"RoutineStmt":{"Stmt":[]},"WhileStmt":{"Stmt":[]},"ReturnStmt":{"Stmt":[]},"ClassStmt":{"Stmt":[]},"Sum":{"BSFunction":[],"BSCallable":[]},"Tan":{"BSFunction":[],"BSCallable":[]},"TanH":{"BSFunction":[],"BSCallable":[]},"UserRoutine":{"BSCallable":[]},"Variable":{"BSFunction":[],"Comparable":["@"],"BSCallable":[]},"singleOperandFunction":{"BSFunction":[],"BSCallable":[]}}'));
   H._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"StreamSubscription":1,"MapBase":2,"_SplayTreeSet__SplayTree_IterableMixin":1,"_SplayTreeSet__SplayTree_IterableMixin_SetMixin":1,"Comparable":1}'));
   var type$ = (function rtii() {
     var findType = H.findType;
@@ -9994,25 +10477,26 @@
     C.ClassType_0 = new F.ClassType("ClassType.NONE");
     C.ClassType_1 = new F.ClassType("ClassType.CLASS");
     C.ClassType_2 = new F.ClassType("ClassType.SUBCLASS");
-    C.List_woc = H.setRuntimeTypeInfo(makeConstList(["and", "class", "else", "false", "routine", "for", "if", "nil", "not", "or", "print", "return", "super", "this", "true", "let", "while"]), type$.JSArray_String);
+    C.List_6TA = H.setRuntimeTypeInfo(makeConstList(["and", "class", "del", "else", "false", "for", "if", "let", "nil", "not", "or", "print", "return", "routine", "super", "this", "true", "while"]), type$.JSArray_String);
     C.TokenType_25 = new V.TokenType("TokenType.AND");
     C.TokenType_26 = new V.TokenType("TokenType.CLASS");
-    C.TokenType_27 = new V.TokenType("TokenType.ELSE");
-    C.TokenType_28 = new V.TokenType("TokenType.FALSE");
-    C.TokenType_29 = new V.TokenType("TokenType.ROUTINE");
+    C.TokenType_27 = new V.TokenType("TokenType.DEL");
+    C.TokenType_28 = new V.TokenType("TokenType.ELSE");
+    C.TokenType_29 = new V.TokenType("TokenType.FALSE");
     C.TokenType_30 = new V.TokenType("TokenType.FOR");
     C.TokenType_31 = new V.TokenType("TokenType.IF");
-    C.TokenType_32 = new V.TokenType("TokenType.NIL");
-    C.TokenType_33 = new V.TokenType("TokenType.NOT");
-    C.TokenType_34 = new V.TokenType("TokenType.OR");
-    C.TokenType_35 = new V.TokenType("TokenType.PRINT");
-    C.TokenType_36 = new V.TokenType("TokenType.RETURN");
-    C.TokenType_37 = new V.TokenType("TokenType.SUPER");
-    C.TokenType_38 = new V.TokenType("TokenType.THIS");
-    C.TokenType_39 = new V.TokenType("TokenType.TRUE");
-    C.TokenType_40 = new V.TokenType("TokenType.LET");
-    C.TokenType_41 = new V.TokenType("TokenType.WHILE");
-    C.Map_woxwA = new H.ConstantStringMap(17, {and: C.TokenType_25, class: C.TokenType_26, else: C.TokenType_27, false: C.TokenType_28, routine: C.TokenType_29, for: C.TokenType_30, if: C.TokenType_31, nil: C.TokenType_32, not: C.TokenType_33, or: C.TokenType_34, print: C.TokenType_35, return: C.TokenType_36, "super": C.TokenType_37, this: C.TokenType_38, true: C.TokenType_39, let: C.TokenType_40, while: C.TokenType_41}, C.List_woc, H.findType("ConstantStringMap<String,TokenType>"));
+    C.TokenType_32 = new V.TokenType("TokenType.LET");
+    C.TokenType_33 = new V.TokenType("TokenType.NIL");
+    C.TokenType_34 = new V.TokenType("TokenType.NOT");
+    C.TokenType_35 = new V.TokenType("TokenType.OR");
+    C.TokenType_36 = new V.TokenType("TokenType.PRINT");
+    C.TokenType_37 = new V.TokenType("TokenType.RETURN");
+    C.TokenType_38 = new V.TokenType("TokenType.ROUTINE");
+    C.TokenType_39 = new V.TokenType("TokenType.SUPER");
+    C.TokenType_40 = new V.TokenType("TokenType.THIS");
+    C.TokenType_41 = new V.TokenType("TokenType.TRUE");
+    C.TokenType_42 = new V.TokenType("TokenType.WHILE");
+    C.Map_6T2No = new H.ConstantStringMap(18, {and: C.TokenType_25, class: C.TokenType_26, del: C.TokenType_27, else: C.TokenType_28, false: C.TokenType_29, for: C.TokenType_30, if: C.TokenType_31, let: C.TokenType_32, nil: C.TokenType_33, not: C.TokenType_34, or: C.TokenType_35, print: C.TokenType_36, return: C.TokenType_37, routine: C.TokenType_38, "super": C.TokenType_39, this: C.TokenType_40, true: C.TokenType_41, while: C.TokenType_42}, C.List_6TA, H.findType("ConstantStringMap<String,TokenType>"));
     C.Number_oNt = new R.Number(true, 2.718281828459045, "e", null);
     C.Number_oqK = new R.Number(true, 3.141592653589793, "\u03c0", null);
     C.RoutineType_0 = new F.RoutineType("RoutineType.NONE");
@@ -10039,7 +10523,7 @@
     C.TokenType_24 = new V.TokenType("TokenType.NUMBER");
     C.TokenType_3 = new V.TokenType("TokenType.RIGHT_BRACE");
     C.TokenType_4 = new V.TokenType("TokenType.LEFT_SQUARE");
-    C.TokenType_42 = new V.TokenType("TokenType.EOF");
+    C.TokenType_43 = new V.TokenType("TokenType.EOF");
     C.TokenType_5 = new V.TokenType("TokenType.RIGHT_SQUARE");
     C.TokenType_6 = new V.TokenType("TokenType.COMMA");
     C.TokenType_7 = new V.TokenType("TokenType.DOT");
@@ -10216,4 +10700,4 @@
   });
 })();
 
-//# sourceMappingURL=out.js.map
+//# sourceMappingURL=tojs.js.map

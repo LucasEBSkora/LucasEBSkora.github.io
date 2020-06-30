@@ -1,0 +1,165 @@
+<meta class="version" name="version" content="0.1"/>
+<h1>Functions</h1>
+<p>
+  Here is where betascript gets unique: functions defined from a subset of R<sup>n</sup> to a subset of R are a data type. They are declared like normal
+  variables with the "let" keyword, but with a catch: you can define a list of parameters after the variable name:
+</p>
+
+<p style="font-family: monospace;">
+let f(x) = x;
+</p>
+
+<p>
+  That 'x' after the variable name creates a special variable of type "Variable" 
+  (yes, i know it needs to change. For now, "Variable" is this special type which representes a function parameter, and "variable" is any variable).
+  This variable type is important later, when actually calling or derivating functions. It can have any valid variable name,
+  which means it has to start with '_' or a letter and can contain '_', letters and numbers. Other than these parameter names,
+  one may define functions with sums, subtractions, multiplications, divisions and exponentiations, as well as using number literals:
+</p>
+
+<p style="font-family: monospace;">
+  let f(x) = x;<br>
+  let g(x, y) = x + y;<br>
+  let h(x, y, z) = (x*y)^z;<br>
+  let i(z) = 6*x^2;<br>
+</p>
+
+<p>
+  you can also call these functions, of course. In order to do this, write the variable names, followed by the values you want for each parameter in the same 
+  order of the function declaration:
+</p>
+
+<p style="font-family: monospace;">
+  let f(x, y) = x^y;<br>
+  print f(2, 3); 
+</p>
+<p>
+  outputs 8, but:
+</p>
+<p style="font-family: monospace;">
+  let f(y, x) = x^y;<br>
+  print f(2, 3); 
+</p>
+<p>
+  Outputs 9.
+</p>
+<p>of course, a system able to only create those functions would be almost useless. In order to create more complex functions, one uses function composition:</p>
+<p style="font-family: monospace;">
+  let f(x, y) = x^y;<br>
+  let g(x) = f(x, x);<br>
+</p>
+<p>The way to actually create all logarithmic, trigonometric, inverse trigonometric, hyperbolic, and inverse hyperbolic functions is actually by using function
+  composition on native objects which implement these functions:
+</p>.
+<p style="font-family: monospace;">
+  let f(x, y) = sin(x) + ln(y);<br>
+  print sin(1);
+</p>
+<p>
+  The complete list of functions that are already implemented is:
+  <ul>
+    <li>abs(x): absolute value of x</li>
+    </li>sgn(x): sign of x</li>
+    </li>root(x): square root of x</li>
+    </li>log(x, b): logarithm of x in base b</li>
+    </li>ln(x): natural logarithm of x </li>
+
+    </li>sin(x): sine of x</li>
+    </li>cos(x): cosine of x</li>
+    </li>tan(x): tangent of x</li>
+    </li>sec(x): secant of x</li>
+    </li>csc(x): cosecant of x</li>
+    </li>ctg(x): cotagent of x</li>
+
+    </li>arcsin(x): inverse sine of x</li>
+    </li>arccos(x): inverse cosine of x</li>
+    </li>arctan(x): inverse tangent of x</li>
+    </li>arcsec(x): inverse secant of x</li>
+    </li>arccsc(x): inverse cosecant of x</li>
+    </li>arcctg(x): inverse cotagent of x</li>
+
+    </li>sinh(x): hyperbolic sine of x</li>
+    </li>cosh(x): hyperbolic cosine of x</li>
+    </li>tanh(x): hyperbolic tangent of x</li>
+    </li>sech(x): hyperbolic secant of x</li>
+    </li>csch(x): hyperbolic cosecant of x</li>
+    </li>ctgh(x): hyperbolic cotagent of x</li>
+
+    </li>arsinh(x): inverse hyperbolic sine of x</li>
+    </li>arcosh(x): inverse hyperbolic cosine of x</li>
+    </li>artanh(x): inverse hyperbolic tangent of x</li>
+    </li>arsech(x): inverse hyperbolic secant of x</li>
+    </li>arcsch(x): inverse hyperbolic cosecant of x</li>
+    </li>arctgh(x): inverse hyperbolic cotagent of x</li>
+  </ul>
+  We also have the following numeric constants:
+  <ul>
+  </li>"pi": π</li>
+  </li>"e": e</li>
+
+  </ul>
+</p>
+<p>
+  In some cases, the parameter list after a function name is optional. since Variables end up declared in the local scope, the following code 
+  is perfectly valid, even if it is weird:
+</p>
+<p style="font-family: monospace;">
+  let f(x) = x^2;<br>
+  let g(y) = 3*y;<br>
+  let h = x*y;
+</p>
+<p>
+  The main use for this is to allow defining functions with others easier. The following snippet works because of it:
+</p>
+<p style="font-family: monospace;">
+  let f(x) = x^2;<br>
+  let g(y) = 3*y;<br>
+  let h = f*g;
+</p>
+<p>
+  This doesn't work, however, when a new variable needs to be used. If there is a single new variable in a function, one must list all of them, to make
+  sure the variable order is as desired.
+</p>
+<p>
+  let f(x) = x^2;<br>
+  let g(y) = 3*y;<br>
+  let h(x,y,z) = f*g*arsinh(z);
+</p>
+
+<h2>The '~' operator</h2>
+<p>
+  betascript will always try to keep things as exact as possible. This means that sin(1) doesn't evaluate to 0.8414709848078965, but to sin(1). If you
+  want approximate results, you need to use the '~' (or approximation) operator. Since we got into the subject of simplifications, i think it's a good spot
+  to clarify something: there are A LOT of missing simplifications. What exists is there to make sure i could leave derivative rules as 
+  generic as possible without things printing weirdly. If you want to use something which would depend on a simplification, such as sin(pi/4) = 1/sqrt(2),
+  check first. Another thing worth mentioning here is the approach towards evaluating equality between functions: you will never get a false positive,
+  but it is very likely you will get false negatives. in essence, don't really trust the == operator unless you're using it with constant functions (numbers).
+  And for the other operators (&lt; &gt; &le; &ge;) they are ONLY implemented for constant functions, so don't even try.
+</p>
+<p>
+  print sin(1); //sin(1)<br>
+  print ~sin(1); //0.8414709848078965<br>
+
+  let f(x, y) = sin(x)^2 + cos(y)^2;<br>
+  print f == 1;//false
+</p>
+
+<h2>derivatives</h2>
+<p>
+  Betascript is able not only of evaluating functions, but calculating their partial derivatives of any order. For that, we use derivative expressions:
+</p>
+<p>
+  let f(x) = sin(x);<br>
+  print del(f) / del(x); //cos(x)<br>
+  print del(f) / del(x, x); //-sin(x)<br>
+  print del(f) / del(x, x, x); //-cos(x)<br>
+  print del(f) / del(x, x, x, x); //sin(x)<br>
+</p>
+<p>But, as i said, it calculates <i>partial</i> derivatives:</p>
+<p>
+  let f(x, y) = x^2*y^3;<br>
+  print del(f) / del(x, y, x); //(6*((y)^(2)))<br>
+</p>
+<p>>This works for functions with any number of variables, and the result of the derivative expression is another function, which can be evaluated, 
+  derivated and used in composition just like any other!
+</p>
