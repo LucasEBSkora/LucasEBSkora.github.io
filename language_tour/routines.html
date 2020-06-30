@@ -2,11 +2,11 @@
 <h1>Routines</h1>
 <p>
   BScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, 
-  use the keyword "function" followed by its name, parentheses containing a list of parameters, and a block body:
+  use the keyword "routine" followed by its name, parentheses containing a list of parameters, and a block body:
 </p>
 
 <p style="font-family: monospace;">
-  function printStuff() {<br>
+  routine printStuff() {<br>
     &emsp; print "stu" + "ff";<br>
   }<br>
 </p>
@@ -16,10 +16,10 @@
 </p>
 
 <p style="font-family: monospace;">
-  function makeCounter() {<br>
+  routine makeCounter() {<br>
     &emsp; var a = 0;<br><br>
   
-    &emsp; function count () {<br>
+    &emsp; routine count () {<br>
       &emsp; &emsp; a = a + 1;<br>
       &emsp; return a;<br>
       &emsp; }<br>
