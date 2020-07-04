@@ -1,0 +1,82 @@
+<h1>Set operations are also (kinda) hard - 04/07/2020 </h1>
+<p>I started to define set classes to represent subsets of R. This wil have many uses in future updates, so i want to do
+  it well. Since i want to be able to define many types of sets, i decided that there will be a few different subtypes:
+  <ul>
+    <li>Intervals, as in, <a href="https://en.wikipedia.org/wiki/Interval_(mathematics)">intervals</a>.</li>
+    <li>Roster sets, which are created by enumerating their elements, e.g. {1, 10, 52.3, -17}</li>
+    <li>Set builders, which are defined by sets of comparisons, e.g., {x | x < 10 and sin(x) &gt; 10}</li>
+    <li>Disjoined unions of sets, which are used when something has parts which can't be simplified to one of the previous. 
+      e.g., the union of [-1,0] and [1, 2] is still [-1,0] U [1,2]. In other cases, however, simplifications can be made:
+      [-1,0] U {-1, -0.3, 57} = [-1,0] U {57}
+    </li>
+    <li>the empty set, which is considered a different class because operations with empty sets are normally very straightforward.
+    </li>
+  </ul>
+</p>
+<p>
+  Up to this point, everything is fine. The problem is trying to define operations between sets. we need to define how to do unions,
+  intersections and complements between all of the above types. This is not such a big problem for complement: we can just have a complement
+  method which itselfs check what is the type of the other Set in order to properly compute it. A bigger problem comes from unions and
+  intersections: they are comutative! That means that using the tactic above will lead to a lot of hassle. Essentially, for all 3 operations,
+  we need to fill out the following table:
+  <table >
+    <thead>
+      <tr>
+        <th></th>
+        <th>Interval</th>
+        <th>Roster</th>
+        <th>Builder</th>
+        <th>Disjoint Union</th>
+        <th>Empty</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Interval</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Roster</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Builder</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;&nbsp;&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Disjoint Union</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Empty</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+    </table>
+</p>
+
+<p>
+  However, there's a catch. Unions and intersections are commutative, which means the table is simetric. I don't have to fill it all the way,
+  The upper triangular part is enough. With all that taken into account, i need to think of a data structure to represent these 
+  "operation tables" that won't be too hard to extend later...
+</p>
