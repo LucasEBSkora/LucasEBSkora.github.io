@@ -3507,7 +3507,7 @@
       return new P._Exception(message);
     },
     print: function(object) {
-      H.printString(H.S(object));
+      H.printString(object);
     },
     bool: function bool() {
     },
@@ -4314,7 +4314,7 @@
       C.JSArray_methods.insertAll$2(operands, 0, numbers);
     },
     _createMultiplications: function(operands) {
-      var t1, t2, t3, i, f, _mul, t4, t5, h, originalFactor, factor, _f, j, j0, g, t6, _g;
+      var t1, t2, t3, i, f, _mul, t4, otherOps, h, t5, originalFactor, factor, _f, j, j0, g, t6, _g;
       if (operands.length < 2)
         return;
       for (t1 = type$.BSFunction, t2 = type$.Multiplication, t3 = type$.JSArray_BSFunction, i = 0; i < operands.length; i = j) {
@@ -4322,20 +4322,16 @@
         _mul = X.BSFunction_extractFromNegative(f, t2);
         if (_mul.second) {
           t4 = _mul.first.operands;
-          t5 = t4.length;
-          if (t5 === 2) {
-            if (0 >= t5)
-              return H.ioore(t4, 0);
-            t4 = t4[0] instanceof R.Number;
-          } else
-            t4 = false;
+          t4 = t4.length >= 2 && t4[0] instanceof R.Number;
         } else
           t4 = false;
         if (t4) {
           t4 = _mul.first.operands;
-          if (1 >= t4.length)
-            return H.ioore(t4, 1);
-          h = t4[1];
+          otherOps = P.List_List$from(t4, true, t1);
+          C.JSArray_methods.removeAt$1(otherOps, 0);
+          h = new S.Multiplication(otherOps, null);
+          if (0 >= t4.length)
+            return H.ioore(t4, 0);
           t4 = t4[0];
           t5 = R.n(_mul.third ? -1 : 1);
           t4.toString;
@@ -4356,20 +4352,14 @@
           _mul = X.BSFunction_extractFromNegative(g, t2);
           if (_mul.second) {
             t5 = _mul.first.operands;
-            t6 = t5.length;
-            if (t6 === 2) {
-              if (0 >= t6)
-                return H.ioore(t5, 0);
-              t5 = t5[0] instanceof R.Number;
-            } else
-              t5 = false;
+            t5 = t5.length >= 2 && t5[0] instanceof R.Number;
           } else
             t5 = false;
           if (t5) {
             t5 = _mul.first.operands;
-            if (1 >= t5.length)
-              return H.ioore(t5, 1);
-            if (t4.$eq(h, t5[1])) {
+            otherOps = P.List_List$from(t5, true, t1);
+            C.JSArray_methods.removeAt$1(otherOps, 0);
+            if (t4.$eq(h, new S.Multiplication(otherOps, null))) {
               C.JSArray_methods.removeAt$1(operands, j0);
               if (0 >= t5.length)
                 return H.ioore(t5, 0);
@@ -4382,9 +4372,7 @@
             }
           } else {
             _g = X.BSFunction_extractFromNegative(g, t1);
-            t5 = _g.first;
-            H.printString(H.S(t5));
-            if (J.$eq$(t5, h)) {
+            if (J.$eq$(_g.first, h)) {
               C.JSArray_methods.removeAt$1(operands, j0);
               t5 = R.n(_g.third ? -1 : 1);
               factor.toString;
