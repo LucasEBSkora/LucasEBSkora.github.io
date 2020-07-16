@@ -1,0 +1,17 @@
+<h1>Optional semicolons: why would i do this to myself? - 15/07/2020 </h1>
+<p>
+  In Brazil, we have a saying: "Não se mexe em time que está vencendo", which has the same meaning as "If it ain't broke, don't fix it", but brazilian
+  and soccer-y. Anyway, i'm about to start fixing the not-broken thing: I want to make semicolons optional, if not completely unnecessary, for Betascript. 
+  Why? because i want the language to be written as closely as possible to actual maths, and we don't use semicolons for that in math.
+  This will, of course, create a million problems, but that's the whole point of this entire language: making me think about problems which i can actually solve,
+  unlike, you know, the dumpster fire that the world currently is.
+</p>
+<p>
+  Anyway, my approach to this is going to be similar to python's
+  (according to <a href="http://www.craftinginterpreters.com/scanning.html#design-note">Crafting Interpreters</a>, 4
+  by Bob Nystrom, the book the language was based on) approach: A line end is going to be interpreted as meaningful, except when 
+  the previous token always needs something to follow it (unlike python, which uses the explicit \ to do so). 
+  This list of tokens would basically be every operator,  '('', '['', '{', ',' and '.'. This of course means a bunch of things
+  would become invalid, but i think most of them are ugly code, so i don't care. When 0.2 is done, i'll write about 
+  what this new set of rules means in the language tour, mainly because i haven't thought about the consequences yet.
+</p>
