@@ -7,7 +7,8 @@ const entries = [
   "29_06_2020.html",
   "30_06_2020.html",
   "04_07_2020.html",
-  "15_07_2020.html"
+  "15_07_2020.html",
+  "21_08_2020l.html"
 ]
 
 const section = document.getElementById('contents')
