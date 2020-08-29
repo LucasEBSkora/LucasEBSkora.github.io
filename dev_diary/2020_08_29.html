@@ -1,0 +1,11 @@
+<h1> Everything is a tree - 29/08/2020</h1>
+<p>
+  Everything in Betascript is a tree. The interpreter works by traversing trees, functions are trees, logic expressions are trees. Trees within trees within trees.
+  I tried implementing at least sets to not be trees, but even that failed. I thought i would be able to always evaluate a set operation to a exact set 
+  (represent A union B as C instead of A union B). I almost did, but at the very last case i thought of, i noticed it would be impossible. The intersection of an
+  Interval (something in the form a &lt x &lt b) and a builder set (something in the form {x | f(x) = g(x)}) can only be exactly evaluated if we know every solution
+  of f(x) = g(x) in the interval (a, b). Considering f and g are supposed to be literally any differentiable function, that is impossible. Therefore, i'll have 
+  to create another set type to represent intersections of <a href="https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions#Intensional_definition">intensionally-defined</a> sets.
+  The same will apply to relative complements of intensional sets. With that,i'll be forcedto represent sets defined in terms of operations involving intensionally-defined sets, 
+  as trees
+</p>
