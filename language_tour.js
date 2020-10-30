@@ -1,8 +1,8 @@
-const currentVersion = "0.1"
+const currentVersion = "0.2 - Setting Up"
 
 document.getElementById("pageTitle").innerHTML += currentVersion
 
-const entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "functions.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
+const entries = ["what_is_betascript.html", "data_types_and_variable_declaration.html", "functions.html", "sets.html", "control_flow.html", "comments.html", "routines.html", "classes_objects_inheritance.html"]
 
 const section = document.getElementById('contents')
 

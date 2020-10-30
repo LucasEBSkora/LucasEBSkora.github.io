@@ -1,11 +1,46 @@
-<meta class="version" name="version" content="0.1"/>
+<meta class="version" name="version" content="0.2 - Setting Up"/>
 <h1>Comments</h1>
 <p>
-  BScript currently only supports line comments, beginning with "//". This means any text in a line after a "//" will be completely ignored.
+  ΒScript supports four types of comments, two of them classic, and two original creations.
+</p>
+
+<h3>Line comments:</h3>
+
+<p>
+  Begins with "//". comments out all the code after // until the next linebreak.
 </p>
 
 <p style="font-family: monospace;">
   //print "this won't print";<br>
   print "this will"; //print "but this won't";<br>
   print "this will be fine";<br>
+</p>
+
+<h3>Multiline comments:<h3>
+
+<p>begins with a "/*", ends with "*/". Comments everything in between.</p>
+
+<p style="font-family: monospace;">
+  /*
+  this 
+  is 
+  a
+  multiline
+  comment
+  */
+</p>
+]
+<h3>Name comments:</h3>
+
+<p>begins with a "@" sign. Comments everything until the next whitespace, be it space, linebreak or tab.</p>
+
+<p style="font-family: monospace;">
+print @this-is-a-name-comment-so-this-won't-print "but this will, because whitespace terminates them"
+</p>
+
+<h3>Directives:</h3>
+
+<p>uses the "#" sign. In most cases, does exactly the same thing as the name comment, with the difference it can be used to set some interpreter flags,
+  e.g. '#bs_tt_interpret' will make the interpreter go into twitter bot mode, which prohibits loops and routines and class definitions. 
+  Currently, this is the only directive which is defined, and there really isn't any reason to use it outside of twitter.
 </p>

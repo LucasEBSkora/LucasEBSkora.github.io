@@ -1,13 +1,13 @@
-<meta class="version" name="version" content="0.1"/>
+<meta class="version" name="version" content="0.2 - Setting Up"/>
 <h1>Routines</h1>
 <p>
-  BScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, 
+  ΒScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, 
   use the keyword "routine" followed by its name, parentheses containing a list of parameters, and a block body:
 </p>
 
 <p style="font-family: monospace;">
   routine printStuff() {<br>
-    &emsp; print "stu" + "ff";<br>
+    &emsp; print "stu" + "ff"<br>
   }<br>
 </p>
 
@@ -17,22 +17,22 @@
 
 <p style="font-family: monospace;">
   routine makeCounter() {<br>
-    &emsp; var a = 0;<br><br>
+    &emsp; var a = 0<br><br>
   
     &emsp; routine count () {<br>
-      &emsp; &emsp; a = a + 1;<br>
-      &emsp; return a;<br>
+      &emsp; &emsp; a = a + 1<br>
+      &emsp; return a<br>
       &emsp; }<br>
       <br>
-      &emsp; return count;<br>
+      &emsp; return count<br>
   }<br>
   
-    var counter = makeCounter();<br>
-    print counter();<br>
-    print counter();<br>
+    var counter = makeCounter()<br>
+    print counter()<br>
+    print counter()<br>
     <br>
-    var counter2 = makeCounter();<br>
-    print counter2();<br>
+    var counter2 = makeCounter()<br>
+    print counter2()<br>
   
 </p>
 

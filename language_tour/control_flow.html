@@ -1,18 +1,18 @@
-<meta class="version" name="version" content="0.1"/>
+<meta class="version" name="version" content="0.2 - Setting Up"/>
 <h1>Control flow</h1>
 <p>
-  BScript supports the classics: C style if/else, while, and for statements.
+  ΒScript supports the classics: C style if/else, while, and for statements.
 </p>
 <h2>if/else</h2>
 <p>
   If the condition inside the "if" parentheses is "truthy", the block following it is executed.
   If not, and there is an "else" statement following it, the block following it is executed.
-  "Truthy" basically means "anything but null and false". By the way, boolean operations can be done
+  "Truthy" basically means "anything but null, emptySet and false". By the way, boolean operations can be done
   with the "not", "and", and "or" keywords.
 </p>
 <p style="font-family: monospace;">
   if (variable == null) {<br>
-    &emsp; "no value!";<br>
+    &emsp; print "no value!"<br>
   } else if (variable < 0) {<br>
     &emsp; print "variable is negative number!"<br>
   } else if (variable == 2 or variable == 3 or variable == 5 or variable == 7) {<br>
@@ -26,25 +26,25 @@
   The first snippet below prints the integers from 0 to 9. The second one creates an endless loop, and the third one never runs.
 </p>
 <p style="font-family: monospace;">
-  var i = 0;<br>
+  var i = 0<br>
   while (i < 10) {<br>
-    print i;<br>
-    &emsp; i = i + 1; <br>
+    print i<br>
+    &emsp; i = i + 1<br>
   }<br><br>
   while (true) {<br>
-    &emsp; print "help!";<br>
+    &emsp; print "help!"<br>
   }<br><br>
 
-  var v = 0;<br>
+  var v = 0<br>
   while (v == null) {<br>
-    &emsp; print "Undefined!";<br>
+    &emsp; print "Undefined!"<br>
   }<br>
 </p>
 
 <h2>For</h2>
 <p>Syntactic sugar for a very common type of loop. It basically does the same as the first while example, but more compact.</p>
 <p style="font-family: monospace;">
-  for (var i = 0; i < 10; i = i + 1) print i;
+  for (var i = 0; i < 10; i = i + 1) print i
 </p>
 <p>
   The first parenthesized expression is a variable declaration or assigment, and only runs once, before the first loop. 

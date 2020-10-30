@@ -1,0 +1,108 @@
+<meta class="version" name="version" content="0.2 - Setting Up"/>
+
+<h1>Sets</h1>
+
+<p>ΒScript also allows users to define real sets. More specifically, intervals, roster sets, sets defined as solutions to equations, and sets derived from operations between the three former types.
+  It is also able to compare sets for being disjoined with or contained in another, or to check if a particular number belongs to the set. </p>
+
+<h2>Set definitions</h2>
+<p>All set definitions can have the <span style="font-family: monospace;">set</span> keyword before them, but it is completely optional. </p>
+
+<h3>Interval definitions</h3>
+<p>To define an interval, do exactly as you would when writing an interval! <span style="font-family: monospace;">(</span> is a open left edge, and 
+  <span style="font-family: monospace;">)</span> is a open right edge. <span style="font-family: monospace;">[</span> is a
+  closed left edge, and <span style="font-family: monospace;">]</span> is a closed right edge. 
+  Separate the value of left and right edge with a comma. Note that <span style="font-family: monospace;">infinity</span> is a valid edge.
+</p>
+
+<p style="font-family: monospace;">
+  let A = set (10, 20];<br>
+  let f(x) = 256^x;<br>
+  let B = [f(0), f(1));<br>
+
+</p>
+
+<h3>Roster set definitions</h3>
+<p>Roster set is a fancy name for "set defined by listing all its components". In order to define them, put the elements in braces separated by commas.   </p>
+
+<p style="font-family: monospace;">
+  let A = {10, 20, 30, 0, -127, pi, 318};
+</p>
+
+<h3>Builder set definitions</h3>
+
+<p>builder sets are sets defined as solutions to equations or equations systems. When betascript is sure that it can find all solutions to a equation, it will
+  return a roster set or interval instead of a proper BuilderSet object. For now, this only happens for linear equations. In order to declare them, between braces,
+  put a optional list of parameters (which works exactly like the function declaration parameters, it defines the Variables and checks that they actually contain Variables
+  when already defined), a <span style="font-family: monospace;">|</span>, them a equation or inequation (two functions to each side of ==, &lt;, &gt;, &le; or &ge;):
+</p>
+
+<p style="font-family: monospace">
+  print {x| x > 5} //prints (5,∞)<br>
+  print {|x == 2} //prints { 2 }. Notice that we don't need to specify x because it was declared as a parameter in the previous line, but the '|' is always obligatory
+</p>
+
+<h3>Empty set</h3>
+<p>the empty set is the set without any elements. it can be used in betascript as <span style="font-family: monospace;">emptySet</span>, empty braces 
+  (<span style="font-family: monospace;">{}</span>) or intervals with open edges where the edges are equal (anything of the form (a, a),[a, a) or (a, a]). 
+  It has the property of being the third value that is evaluated as false, together with <span style="font-family: monospace;">null</span> and <span style="font-family: monospace;">false</span>.
+</p>
+
+<h2>Set operations</h2>
+
+<p>betascript supports unions, complements, relative complements and absolute complements as operations that return sets, and it is able to check if two sets 
+  are disjoined, if one is contained in the other, or if a number belongs to a set. The "no false positives premise" applies here too.
+  When it isn't able to compute one of the first operations to a Interval, Roster Set or Builder Set, 
+  it returns a composite set that works just like any other. Every operation has at least a keyword or operator associated with it:
+  <ul>
+    <li>
+      Union has '<span style="font-family: monospace;">union</span>' and '<span style="font-family: monospace;">+</span>';
+    </li>
+    <li>
+      Intersection has '<span style="font-family: monospace;">intersection</span>' and '<span style="font-family: monospace;">*</span>';
+    </li>
+    <li>
+      relative complement has '<span style="font-family: monospace;">-</span>', '<span style="font-family: monospace;">/</span>' and '<span style="font-family: monospace;">\</span>';
+    </li>
+    <li>
+      absolute complement has '<span style="font-family: monospace;">'</span>;
+    </li>
+    <li>contained in, belongs to and disjoined with use the keywords '<span style="font-family: monospace;">contained</span>', '<span style="font-family: monospace;">belongs</span>' and '<span style="font-family: monospace;">disjoined</span>' (shockingly)</li>;
+  </ul>
+</p>
+
+<p style="font-family: monospace;">
+let A = {1, 2, 3, 4} <br><br>
+
+let B = (0, 5) <br><br>
+
+let C = {x| x == 5} <br><br>
+
+print A // prints { 1, 2, 3, 4 } <br>
+print B //prints (0,5) <br>
+print C //prints { 5 }<br>
+
+print {| x^2 == 2} //prints {x | ((x)^(2)) == 2} : betascript doesn't know how to solve quadratic equations yet <br>
+
+print A contained B //true <br>
+
+print 2.5 belongs A //false <br>
+
+print 2.5 belongs B //true <br>
+
+print A union B //(0,5) <br>
+print A intersection B //{ 1, 2, 3, 4 } <br>
+print A disjoined C // true <br>
+
+print C' //(-∞,5) ∪ (5,∞) <br>
+
+print A\B //∅ <br>
+</p>
+
+
+
+
+
+
+
+
