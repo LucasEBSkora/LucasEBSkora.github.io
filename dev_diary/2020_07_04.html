@@ -1,10 +1,10 @@
 <h1>Set operations are also (kinda) hard - 04/07/2020 </h1>
-<p>I started to define set classes to represent subsets of R. This wil have many uses in future updates, so i want to do
-  it well. Since i want to be able to define many types of sets, i decided that there will be a few different subtypes:
+<p>I started to define set classes to represent subsets of R. This wil have many uses in future updates, so I want to do
+  it well. Since I want to be able to define many types of sets, I decided that there will be a few different subtypes:
   <ul>
     <li>Intervals, as in, <a href="https://en.wikipedia.org/wiki/Interval_(mathematics)">intervals</a>.</li>
     <li>Roster sets, which are created by enumerating their elements, e.g. {1, 10, 52.3, -17}</li>
-    <li>Set builders, which are defined by sets of comparisons, e.g., {x | x < 10 and sin(x) &gt; 10}</li>
+    <li>Set builders, which are defined by solutions of comparisons, e.g., {x | x == 10 and sin(x) &gt; 10}</li>
     <li>Disjoined unions of sets, which are used when something has parts which can't be simplified to one of the previous. 
       e.g., the union of [-1,0] and [1, 2] is still [-1,0] U [1,2]. In other cases, however, simplifications can be made:
       [-1,0] U {-1, -0.3, 57} = [-1,0] U {57}

@@ -5,7 +5,8 @@
   There are four primitive data types in ΒScript: <i>functions</i> (numbers are treated as constant functions),
   real sets, strings, booleans values. There is also "null", which represents the lack of a value.
   In order to print values, use the "print" keyword, and adding strings to other primitive data values always returns a string,
-  when you want to format things more properly. 
+  when you want to format things more properly.  One special thing about the print keyword: the beginning of what will be printed must be on the 
+  same line as the print keyword, otherwise it causes an error.
 </p>
 <p>
   Unassigned variables receive the value null, but it can be directly assigned.<br>
@@ -24,6 +25,12 @@
   let otherString = string + " but a little longer"<br>
   let y = x + 5<br>
   print otherString<br>
+  print <br>
+  x + y //causes error<br>
+  print x <br>
+  + y //causes error not in print, but because the + doesn't find x as a part of the operation and it needs a left operand<br>
+  print x + <br>
+  y //works fine, and prints x + y<br> 
 </p>
 
 <p>

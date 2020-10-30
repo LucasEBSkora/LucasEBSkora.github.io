@@ -1,15 +1,15 @@
 <h1> ΒScript V0.2: "Setting up" - 29/10/2020 </h1>
 <p>
   After almost three months in the making, ΒScript V0.2 is finally done! It now supports real set definitions and operations, optional semicolons,
-  a few new keywords and operators, among other things. I am very happy to have finished it, but the show must go on! First of all, i want to share some 
-  of my conclusions regarding the update: it is very unstable and badly written. As i said, optional semicolons are hard, and messing with them broke a lot
-  of things and really tanked parsing speed. It needs to be redone, preferentially in a way that is dealed with completely in the parser. Besides, the "operation tables" 
-  for set operations weren't as good as i thought. In another note, i noticed that as i extend the functionalities of functions and sets, their classes will become more
+  a few new keywords and operators, among other things. I am very happy to have finished it, but the show must go on! First of all, I want to share some 
+  of my conclusions regarding the update: it is very unstable and badly written. As I said, optional semicolons are hard, and messing with them broke a lot
+  of things and really tanked parsing speed. It needs to be redone, preferentially in a way that is dealed with completely in the scanner. Besides, the "operation tables" 
+  for set operations weren't as good as I thought. In another note, I noticed that as I extend the functionalities of functions and sets, their classes will become more
   and more complicated, and adding new operations will become very hard. It also makes it completely impossible for the users of the language to add new functionalities, 
   which is <i>prohibitively bad</i>. A programming language can't stand if users can't develop libraries, and for two of the 5 base data types to be complex but closed is inacceptable.
 </p>
 <p>
-  With these things in mind, i would like to propose part of what will be ΒScript V0.3: a refactoring of the data type classes using the Visitor design pattern 
+  With these things in mind, I would like to propose part of what will be ΒScript V0.3: a refactoring of the data type classes using the Visitor design pattern 
   and/or a modification of it, a rewrite of the grammar to avoid linebreak tokens as much as possible and actually use Backus-Naur Form. But these things aren't really new funtionalities, it is
   just "backend" stuff. What will actually be new in 0.3? first, tri-state logic. I've realized that True and False aren't enough, because ΒScript sometimes won't know how to evaluate something
   exactly. For those things, it is better to have a "unsure" or "unknown" value, to replace the "better false negatives than false positives" policy. True will mean absolutely true and false 
@@ -18,8 +18,8 @@
 
 <p>
   But tri-state logic isn't what 0.3 is mainly about. The update will be called "The Unicode Update", because it will include a lot of unicode alternatives for operands. No more "union", 
-  "intersection", "===". We will use ∪, ∩ and ≡. See, i think programming has more to do with aesthetics than some would be inclined to believe, and making sure ΒScript is pretty is 
-  very important to me. I think allowing unicode operators when they exist is good for readability and to make ΒScript look more like math, which is kind of the point. Of course, i don't
+  "intersection", "===". We will use ∪, ∩ and ≡. See, I think programming has more to do with aesthetics than some would be inclined to believe, and making sure ΒScript is pretty is 
+  very important to me. I think allowing unicode operators when they exist is good for readability and to make ΒScript look more like math, which is kind of the point. Of course, I don't
   expect people to have these symbols on their keyboards, so I will also write a formatter for ΒScript which automatically does these replacements. It will also help enforce the formatting rules
-  which i'd like people to follow that won't be possible when the linebreak tokens are removed. And talking about aesthetics, i will redo the website, because it is just too ugly.
+  which i'd like people to follow that won't be possible when the linebreak tokens are removed. And talking about aesthetics, I will redo the website, because it is just too ugly.
 </p>
