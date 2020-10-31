@@ -11,6 +11,7 @@ const entries = [
   "2020_08_21.html",
   "2020_08_29.html",
   "2020_10_29.html",
+  "2020_10_31.html",
 ]
 
 const section = document.getElementById('contents')
