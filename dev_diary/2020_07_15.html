@@ -8,7 +8,7 @@
 </p>
 <p>
   Anyway, my approach to this is going to be similar to python's
-  (according to <a href="http://www.craftinginterpreters.com/scanning.html#design-note">Crafting Interpreters</a>, 4
+  (according to <a href="http://www.craftinginterpreters.com/scanning.html#design-note">Crafting Interpreters</a>,
   by Bob Nystrom, the book the language was based on) approach: A line end is going to be interpreted as meaningful, except when 
   the previous token always needs something to follow it (unlike python, which uses the explicit \ to do so). 
   This list of tokens would basically be every operator,  '('', '['', '{', ',' and '.'. This of course means a bunch of things
