@@ -1,0 +1,3 @@
+name: bs_site
+dependencies:
+  html: ^0.14.0+4

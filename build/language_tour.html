@@ -1,0 +1,800 @@
+<!DOCTYPE html><html><head>
+  <title>
+    βscript
+  </title>
+  <link rel="stylesheet" href="../css/code_style.css">
+</head>
+
+<body>
+  <h1 id="pageTitle">Language Tour - βscript V0.3 - The Unicode Update</h1>
+
+  <a href="index.html">Back to interpreter</a>
+  <a href="dev_diary.html">Dev diaries</a>
+
+  <section id="contents">
+
+  <div class="documentation_part">
+<h1>What is ΒScript?</h1>
+<p>
+  First of all, the language name is read "betascript",because that "Β" is a uppercase Beta, which, incidentally, is
+  identical to a uppercase latin alphabet "B".
+</p>
+<p>With that established, ΒScript is a scripting language based around the concept of mathematical functions as a basic
+  data type. it is an interpreted, optionally-semicolon-terminated, lexically-scoped, OO-supporting language.
+</p>
+<p>
+  By mathematical functions, we mean functions defined from a subset of R<sup>n</sup> to a subset of R. In order to
+  avoid confusion, this documentation will reference these variables as "functions", and normal programming language
+  functions as "routines".
+</p></div><div class="documentation_part">
+<h1>Data types and variable declaration</h1>
+<p>
+  ΒScript variables are dynamically-typed, and can be declared with the "let" keyword. There are four primitive data
+  types in ΒScript: <i>functions</i> (numbers are treated as constant functions), real sets, strings and logic values.
+  There is also "nil", which represents the lack of a value. In order to print values, use the "print" keyword, and
+  adding (with the '+' operator) strings to other primitive data values always returns a string, when you want to format
+  things more properly. One special thing about the print keyword: the beginning of what will be printed must be on the
+  same line as the print keyword, otherwise it causes an error. Something else that's important: ΒScript allows greek
+  alphabet lower case and uppercase characters in identifiers, as well as latin alphabet ones. this means an identifier
+  can start with [a-z], [A-Z], [α-ω], [Α-Ω], '_', and the rest of it can be that, plus [0-9].
+</p>
+
+<ul>
+  <li> Unassigned variables receive the value nil, but it can be directly assigned.</li>
+  <li> Functions are declared using number literals, functions and "Variable" variables. The next section will explain
+    more about them.
+  </li>
+  <li> Sets can be defined in a number of ways, depending on the way the set is build. The section after the next will
+    with them in detail.</li>
+  <li> String literals are declared between quotation marks (only works with "", not with '').</li>
+  <li> Valid logic values are true, false and unknown.</li>
+  Here are some examples:
+</ul>
+
+<p class="code_block">
+  <!-- let m = nil
+  let n
+  let x = 1.0
+  let string = "i am a string"
+  let otherString = string + " but a little longer"
+  let y = x + 5
+  print otherString
+  print 
+  x + y //causes error
+  print x //prints x
+  + y //causes error, because '+' requires a left operand
+  print x + 
+  y //works fine, and prints x + y -->
+  <span class="keyword">let</span> <span class="identifier">m</span> <span class="operator">=</span> <span class="identifier">nil</span> <br>
+<span class="keyword">let</span> <span class="identifier">n</span> <br>
+<span class="keyword">let</span> <span class="identifier">x</span> <span class="operator">=</span> <span class="numericLiteral">1.0</span> <br>
+<span class="keyword">let</span> <span class="identifier">string</span> <span class="operator">=</span> <span class="stringLiteral">"i am a string"</span> <br>
+<span class="keyword">let</span> <span class="identifier">otherString</span> <span class="operator">=</span> <span class="identifier">string</span> <span class="operator">+</span> <span class="stringLiteral">" but a little longer"</span> <br>
+<span class="keyword">let</span> <span class="identifier">y</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">+</span> <span class="numericLiteral">5</span> <br>
+<span class="keyword">print</span> <span class="identifier">otherString</span> <br>
+<span class="keyword">print</span> <br>
+<span class="identifier">x</span> <span class="operator">+</span> <span class="identifier">y</span> <span class="comment">//causes error</span> <br>
+<span class="keyword">print</span> <span class="identifier">x</span> <span class="comment">//prints x</span> <br>
+<span class="operator">+</span> <span class="identifier">y</span> <span class="comment">//causes error, because '+' requires a left operand</span> <br>
+<span class="keyword">print</span> <span class="identifier">x</span> <span class="operator">+</span> <br>
+<span class="identifier">y</span> <span class="comment">//works fine, and prints x + y</span> 
+</p>
+
+<p>
+  since ΒScript uses three-valued logic, not boolean logic, i should warn you: Some operations will return
+  <span class="code_fragment">unknown</span> instead of <span class="code_fragment">true</span>
+  or <span class="code_fragment">false</span>. Operating with
+  <span class="code_fragment">unknown</span> always returns <span class="code_fragment">unknown</span>, regardless of the other value. Besides, there are unicode
+  alternatives for the logical operators:
+</p>
+<ul>
+  <li><span class="code_fragment">¬</span> for <span class="code_fragment">not</span></li>
+  <li><span class="code_fragment">∨</span> for <span class="code_fragment">or</span> </li>
+  <li><span class="code_fragment">∧</span> for <span class="code_fragment">and</span></li>
+</ul>
+
+<p>
+  For sets, strings and booleans, one can use '==' or '===' interchangeably to check for equality. That isn't the
+  case for functions, as will be explained later.
+</p>
+
+<p class="code_block">
+  <!-- print "banan" == "banan" //prints true
+  print true === true //also prints true -->
+  <span class="keyword">print</span> <span class="stringLiteral">"banan"</span> <span class="operator">==</span> <span class="stringLiteral">"banan"</span> <span class="comment">//prints true</span> <br>
+  <span class="keyword">print</span> <span class="identifier">true</span> <span class="operator">===</span> <span class="identifier">true</span> <span class="comment">//also prints true</span> 
+</p></div><div class="documentation_part">
+<h1>Functions</h1>
+<p>
+  Here is where ΒScript gets unique: functions defined from a subset of R<sup>n</sup> to a subset of R are a data type.
+  They are declared like normal variables with the "let" keyword, but with a catch: you can define a list of parameters
+  after the variable name:
+</p>
+
+<p class="code_block">
+  <!-- let f(x) = x -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> 
+</p>
+
+<p>
+  That 'x' after the variable name creates a special variable of type "Variable" (yes, i know it needs to change. For
+  now, "Variable" is this special type which representes a function parameter, and "variable" is any variable). This
+  data type is important later, when actually calling or derivating functions. It can have any valid variable name,
+  which means it has to start with '_' or a letter and can contain '_', letters and numbers. Other than these parameter
+  names, one may define functions with sums, subtractions, multiplications, divisions and exponentiations, as well as
+  using number literals:
+</p>
+
+<p class="code_block">
+  <!-- let f(x) = x
+  let g(x, y) = x + y
+  let h(x, y, z) = (x*y)^z
+  let i(x) = 6*x^2 -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <br>
+<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">+</span> <span class="identifier">y</span> <br>
+<span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> (<span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span>) <span class="operator">^</span> <span class="identifier">z</span> <br>
+<span class="keyword">let</span> <span class="identifier">i</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span>
+</p>
+
+<p>
+  you can also call these functions, of course. In order to do this, write the variable names, followed by the values
+  you want for each parameter in the same
+  order of the function declaration:
+</p>
+
+<p class="code_block">
+  <!-- let f(x, y) = x^y
+  print f(2, 3) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="identifier">y</span> <br>
+<span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">3</span>)
+</p>
+<p>
+  outputs 8, but:
+</p>
+<p class="code_block">
+  <!-- let f(y, x) = x^y
+  print f(2, 3) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">y</span>, <span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="identifier">y</span> <br>
+<span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">3</span>) <br>
+</p>
+<p>
+  Outputs 9.
+</p>
+<p>of course, a system able to only create those functions would be almost useless. In order to create more complex
+  functions, one uses function composition:</p>
+<p class="code_block">
+  <!-- let f(x, y) = x^y
+  let g(x) = f(x, x) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="identifier">y</span> <br>
+<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">x</span>)
+</p>
+<p>The way to actually create all logarithmic, trigonometric, inverse trigonometric, hyperbolic, and inverse hyperbolic
+  functions is actually by using function composition on native objects which implement these functions:
+</p>.
+<p class="code_block">
+  <!-- let f(x, y) = sin(x) + ln(y)
+  print sin(1) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">+</span> <span class="identifier">ln</span>(<span class="identifier">y</span>) <br>
+<span class="keyword">print</span> <span class="identifier">sin</span>(<span class="numericLiteral">1</span>)
+</p>
+<p>
+  The complete list of functions that are already implemented is:
+</p><ul>
+  <li>abs(x): absolute value of x</li>
+  <li>sgn(x): sign of x</li>
+  <li>sqrt(x): square root of x</li>
+  <li>log(x, b): logarithm of x in base b</li>
+  <li>ln(x): natural logarithm of x </li>
+
+  <li>sin(x): sine of x</li>
+  <li>cos(x): cosine of x</li>
+  <li>tan(x): tangent of x</li>
+  <li>sec(x): secant of x</li>
+  <li>csc(x): cosecant of x</li>
+  <li>ctg(x): cotagent of x</li>
+
+  <li>arcsin(x): inverse sine of x</li>
+  <li>arccos(x): inverse cosine of x</li>
+  <li>arctan(x): inverse tangent of x</li>
+  <li>arcsec(x): inverse secant of x</li>
+  <li>arccsc(x): inverse cosecant of x</li>
+  <li>arcctg(x): inverse cotagent of x</li>
+
+  <li>sinh(x): hyperbolic sine of x</li>
+  <li>cosh(x): hyperbolic cosine of x</li>
+  <li>tanh(x): hyperbolic tangent of x</li>
+  <li>sech(x): hyperbolic secant of x</li>
+  <li>csch(x): hyperbolic cosecant of x</li>
+  <li>ctgh(x): hyperbolic cotagent of x</li>
+
+  <li>arsinh(x): inverse hyperbolic sine of x</li>
+  <li>arcosh(x): inverse hyperbolic cosine of x</li>
+  <li>artanh(x): inverse hyperbolic tangent of x</li>
+  <li>arsech(x): inverse hyperbolic secant of x</li>
+  <li>arcsch(x): inverse hyperbolic cosecant of x</li>
+  <li>arctgh(x): inverse hyperbolic cotagent of x</li>
+</ul>
+There are also the following numeric constants:
+<ul>
+  <li>"pi" and "π": π</li>
+  <li>"e": e</li>
+  <li>"infinity" and "∞": ∞</li>
+
+</ul>
+<p></p>
+<p>
+  In some cases, the parameter list after a function name is optional. Since Variables end up declared in the local
+  scope, the following code is perfectly valid, even if it is weird:
+</p>
+<p class="code_block">
+  <!-- let f(x) = x^2
+  let g(y) = 3*y
+  let h = x*y -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
+<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">y</span>) <span class="operator">=</span> <span class="numericLiteral">3</span> <span class="operator">*</span> <span class="identifier">y</span> <br>
+<span class="keyword">let</span> <span class="identifier">h</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span>
+</p>
+<p>
+  The main use for this is to allow defining functions with others easier. The following snippet works because of it:
+</p>
+<p class="code_block">
+  <!-- let f(x) = x^2
+  let g(y) = 3*y
+  let h = f*g -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
+<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">y</span>) <span class="operator">=</span> <span class="numericLiteral">3</span> <span class="operator">*</span> <span class="identifier">y</span> <br>
+<span class="keyword">let</span> <span class="identifier">h</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span> 
+</p>
+<p>
+  This doesn't work, however, when a new variable needs to be used. If there is a single new variable in a function, one
+  must list all of them, to make sure the variable order is as desired.
+</p>
+<p class="code_block">
+  <!-- let f(x) = x^2
+  let g(y) = 3*y
+  let h(x,y,z) = f*g*arsinh(z) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
+<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">y</span>) <span class="operator">=</span> <span class="numericLiteral">3</span> <span class="operator">*</span> <span class="identifier">y</span> <br>
+<span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> <span class="identifier">f</span> <span class="operator">*</span> <span class="identifier">g</span> <span class="operator">*</span> <span class="identifier">arsinh</span>(<span class="identifier">z</span>)
+</p>
+
+<h2>The '~' operator</h2>
+<p>
+  ΒScript will always try to keep things as exact as possible. This means that sin(1) doesn't evaluate to
+  0.8414709848078965, but to sin(1). If you want approximate results, you need to use the '~' (or approximation)
+  operator. Since we got into the subject of simplifications, i think it's a good spot to clarify something: there are A
+  LOT of missing simplifications. What exists (for now) is there to make sure i could leave derivative rules as generic
+  as
+  possible without things printing weirdly. If you want to use something which would depend on a simplification, such as
+  sin(pi/4) = 1/sqrt(2), check first.
+</p>
+
+<p class="code_block">
+  <!-- print sin(1) //sin(1)
+  print ~sin(1) //0.8414709848078965 -->
+  <span class="keyword">print</span> <span class="identifier">sin</span>(<span class="numericLiteral">1</span>) <span class="comment">//sin(1)</span> <br>
+  <span class="keyword">print</span> <span class="operator">~</span><span class="identifier">sin</span>(<span class="numericLiteral">1</span>) <span class="comment">//0.8414709848078965</span>
+</p>
+
+<h2>Comparisons</h2>
+<p>
+  As i said before, there is a difference between == and === concerning functions. To simply evaluate whether two
+  functions are exactly the same, returning a boolean value, use === (identically equal operator). You will never get a
+  false positive or a false negative, but a lot of unknowns are likely. in essence, don't really trust the === operator
+  unless you're using it with constant functions (numbers). To generate equations, which can be (for now) only used to
+  create
+  <a href="https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions#Intensional_definition">intentionally-defined
+    sets</a>, use ==. You can also generate inequations using &lt;, &gt;, ≤ and ≥. For constant functions, these
+  operators will also generate boolean values instead of comparison objects.
+</p>
+
+<p class="code_block">
+  <!-- let f(x) = sin^2(x)
+  let g(x) = e^x
+  let h(x, y) = sin(x)^2 + cos(y)^2
+  print h == 1 // false 
+  print f === g // false
+  print f == g // f == g
+  print 2.0 == 3.0 // false
+  print 2.5 === 3.5 // false -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span> <span class="operator">^</span> <span class="numericLiteral">2</span> (<span class="identifier">x</span>) <br>
+  <span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">e</span> <span class="operator">^</span> <span class="identifier">x</span> <br>
+  <span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">^</span> <span class="numericLiteral">2</span> <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">y</span>) <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
+  <span class="keyword">print</span> <span class="identifier">h</span> <span class="operator">==</span> <span class="numericLiteral">1</span> <span class="comment">// false </span> <br>
+  <span class="keyword">print</span> <span class="identifier">f</span> <span class="operator">===</span> <span class="identifier">g</span> <span class="comment">// false</span> <br>
+  <span class="keyword">print</span> <span class="identifier">f</span> <span class="operator">==</span> <span class="identifier">g</span> <span class="comment">// f == g</span> <br>
+  <span class="keyword">print</span> <span class="numericLiteral">2.0</span> <span class="operator">==</span> <span class="numericLiteral">3.0</span> <span class="comment">// false</span> <br>
+  <span class="keyword">print</span> <span class="numericLiteral">2.5</span> <span class="operator">===</span> <span class="numericLiteral">3.5</span> <span class="comment">// false</span> <br>
+</p>
+
+<h2>derivatives</h2>
+<p>
+  ΒScript is able not only of evaluating functions, but calculating their partial derivatives of any order. For that, we
+  use derivative expressions:
+</p>
+<p class="code_block">
+  <!-- let f(x) = sin(x)
+  print del(f) / del(x) //cos(x)
+  print del(f) / del(x, x) //-sin(x)
+  print del(f) / del(x, x, x) //-cos(x)
+  print del(f) / del(x, x, x, x) //sin(x) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
+<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>) <span class="comment">//cos(x)</span> <br>
+<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">x</span>) <span class="comment">//-sin(x)</span> <br>
+<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">x</span>, <span class="identifier">x</span>) <span class="comment">//-cos(x)</span> <br>
+<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">x</span>, <span class="identifier">x</span>, <span class="identifier">x</span>) <span class="comment">//sin(x)</span> 
+  
+</p>
+
+<p>But, as i said, it calculates <i>partial</i> derivatives:</p>
+
+<p class="code_block">
+  <!-- let f(x, y) = x^2*y^3
+  print ∂(f) / ∂(x, y, x) //(6*((y)^(2))) -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">3</span> <br>
+<span class="keyword">print</span> <span class="operator">∂</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">∂</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">x</span>) <span class="comment">//(6*((y)^(2)))</span> 
+</p>
+<p>
+  Besides, you can use ∂ as an alternative for 'del'. They are completely interchangeable.
+</p>
+<p>
+  This works for functions with any number of variables, and the result of the derivative expression is another
+  function, which can be evaluated, derivated and used in composition just like any other! Also, for functions defined
+  in a single variable, one can use the apostrophe shorthand:
+</p>
+
+<p class="code_block">
+  <!-- let f(x) = x^2
+  print f' === del(f) / del(x) //prints true; -->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
+<span class="keyword">print</span> <span class="identifier">f</span><span class="operator">'</span> <span class="operator">===</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>) <span class="comment">//prints true;</span> 
+</p></div><div class="documentation_part">
+
+<h1>Sets</h1>
+
+<p>
+  ΒScript also allows users to define real sets. More specifically, intervals, roster sets, sets defined as solutions to
+  equations, and sets derived from operations between the three former types. It is also able to compare sets for being
+  disjoined with or contained in another, or to check if a particular number belongs to the set.
+</p>
+
+<h2>Set definitions</h2>
+<p>All set definitions can have the <span class="code_fragment">set</span> keyword before them, but it is
+  completely optional. </p>
+
+<h3>Interval definitions</h3>
+<p>To define an interval, do exactly as you would when writing an interval! <span class="code_fragment">(</span> is a open
+  left edge, and <span class="code_fragment">)</span> is a open right edge. <span class="code_fragment">[</span> is a closed
+  left edge, and <span class="code_fragment">]</span> is a closed right edge. Separate the value of left and right edge
+  with a comma. Note that <span class="code_fragment">infinity</span> is a valid edge.
+</p>
+
+<p class="code_block">
+  <!-- let A = set (10, 20];
+  let f(x) = 256^x;
+  let B = [f(0), f(1)); -->
+  <span class="keyword">let</span> <span class="identifier">A</span> <span class="operator">=</span> <span class="keyword">set</span> (<span class="numericLiteral">10</span>, <span class="numericLiteral">20</span>]; <br>
+<span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="numericLiteral">256</span> <span class="operator">^</span> <span class="identifier">x</span>; <br>
+<span class="keyword">let</span> <span class="identifier">B</span> <span class="operator">=</span> [<span class="identifier">f</span>(<span class="numericLiteral">0</span>), <span class="identifier">f</span>(<span class="numericLiteral">1</span>)); <br>
+
+</p>
+
+<h3>Roster set definitions</h3>
+<p>Roster set is a fancy name for "set defined by listing all its members". In order to define them, put the elements in
+  braces separated by commas. </p>
+
+<p class="code_block">
+  <!-- let A = {10, 20, 30, 0, -127, pi, 318}; -->
+  <span class="keyword">let</span> <span class="identifier">A</span> <span class="operator">=</span> {<span class="numericLiteral">10</span>, <span class="numericLiteral">20</span>, <span class="numericLiteral">30</span>, <span class="numericLiteral">0</span>, <span class="operator">-</span><span class="numericLiteral">127</span>, <span class="identifier">pi</span>, <span class="numericLiteral">318</span>};
+</p>
+
+<h3>Builder set definitions</h3>
+
+<p>
+  builder sets are sets defined as solutions to equations or equations systems. When betascript is sure that it can
+  find all solutions to a equation, it will return another type of set instead of a proper builder set. For
+  now, this only happens for linear equations. In order to declare them, between braces, put a optional list of
+  parameters (which works exactly like the function declaration parameters, it defines the Variables and checks that
+  they actually contain Variables when already defined), a <span class="code_fragment">|</span>, them a
+  equation or inequation (two functions to each side of ==, &lt;, &gt;, ≤ or ≥):
+</p>
+
+<p style="font-family: monospace">
+  print {x| x &gt; 5} //prints (5,∞)
+  print {|x == 2} //prints { 2 }. Notice that we don't need to specify x because it was declared as a parameter in the
+  previous line, but the '|' is always obligatory
+</p>
+
+<h3>Empty set</h3>
+<p>the empty set is the set without any elements. it can be used in betascript as <span class="code_fragment">emptySet</span>, <span class="code_fragment">∅</span> empty braces (<span class="code_fragment">{}</span>) or intervals with open edges where the edges are equal (anything of the
+  form <span class="code_fragment">(a, a)</span>,<span class="code_fragment"></span>[a, a) or <span class="code_fragment"></span>(a, a]). It has the property of being the third value that is evaluated as false,
+  together with <span class="code_fragment">nil</span>, <span class="code_fragment">unknown</span> and <span class="code_fragment">false</span>.
+</p>
+
+<h2>Set operations</h2>
+
+<p>betascript supports unions, complements, relative complements and absolute complements as operations that return
+  sets, and it is able to check if two sets are disjoined, if one is contained in the other, or if a number belongs to a
+  set. The "no false positives premise" applies here too. When it isn't able to compute one of the first operations to a
+  Interval, Roster Set or Builder Set, it returns a composite set that works just like any other. Every operation has at
+  least a keyword, operator or unicode operator associated with it:
+</p>
+<ul>
+  <li>
+    Union has '<span class="code_fragment">union</span>', '<span class="code_fragment">∪</span>' and
+    '<span class="code_fragment">+</span>';
+  </li>
+  <li>
+    Intersection has '<span class="code_fragment">intersection</span>', '<span class="code_fragment">∩</span>' and '
+    <spanclass="code_fragment">*';
+  </spanclass="code_fragment"></li>
+  <li>
+    relative complement has '<span class="code_fragment">-</span>', '<span class="code_fragment">/</span>' and '<span class="code_fragment">\</span>';
+  </li>
+  <li>contained in has '<span class="code_fragment">contained</span>' and '<span class="code_fragment">⊂</span>'
+  </li>
+  <li>belongs to in has '<span class="code_fragment">belongs</span>' and '<span class="code_fragment">∈</span>'
+  </li>
+  <li>
+    absolute complement has '<span class="code_fragment">'</span>;
+  </li>
+  <li>
+    disjoined has '<span class="code_fragment">disjoined</span>';
+  </li>
+
+</ul>
+
+<p class="code_block">
+  <!-- let A = {1, 2, 3, 4} 
+
+  let B = (0, 5) 
+
+  let C = {x| x == 5} 
+
+  print A // prints { 1, 2, 3, 4 } 
+  print B //prints (0,5) 
+  print C //prints { 5 }
+
+  print {| x^2 == 2} //prints {x | ((x)^(2)) == 2} : betascript doesn't know how to solve quadratic equations yet 
+
+  print A contained B //true 
+
+  print 2.5 belongs A //false 
+
+  print 2.5 ∈ B //true 
+
+  print A union B //(0,5) 
+  print A intersection B //{ 1, 2, 3, 4 } 
+  print A disjoined C // true 
+
+  print C' //(-∞,5) ∪ (5,∞) 
+
+  print A\B //∅ <br> -->
+  <span class="keyword">let</span> <span class="identifier">A</span> <span class="operator">=</span> {<span class="numericLiteral">1</span>, <span class="numericLiteral">2</span>, <span class="numericLiteral">3</span>, <span class="numericLiteral">4</span>} <br>
+<br>
+<span class="keyword">let</span> <span class="identifier">B</span> <span class="operator">=</span> (<span class="numericLiteral">0</span>, <span class="numericLiteral">5</span>) <br>
+<br>
+<span class="keyword">let</span> <span class="identifier">C</span> <span class="operator">=</span> {<span class="identifier">x</span> <span class="operator">|</span> <span class="identifier">x</span> <span class="operator">==</span> <span class="numericLiteral">5</span>} <br>
+<br>
+<span class="keyword">print</span> <span class="identifier">A</span> <span class="comment">// prints { 1, 2, 3, 4 } </span> <br>
+<span class="keyword">print</span> <span class="identifier">B</span> <span class="comment">//prints (0,5) </span> <br>
+<span class="keyword">print</span> <span class="identifier">C</span> <span class="comment">//prints { 5 }</span> <br>
+<br>
+<span class="keyword">print</span> {<span class="operator">|</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <span class="operator">==</span> <span class="numericLiteral">2</span>} <span class="comment">//prints {x | ((x)^(2)) == 2} : betascript doesn't know how to solve quadratic equations yet </span> <br>
+<br>
+<span class="keyword">print</span> <span class="identifier">A</span> <span class="operator">contained</span> <span class="identifier">B</span> <span class="comment">//true </span> <br>
+<br>
+<span class="keyword">print</span> <span class="numericLiteral">2.5</span> <span class="operator">belongs</span> <span class="identifier">A</span> <span class="comment">//false </span> <br>
+<br>
+<span class="keyword">print</span> <span class="numericLiteral">2.5</span> <span class="operator">∈</span> <span class="identifier">B</span> <span class="comment">//true </span> <br>
+<br>
+<span class="keyword">print</span> <span class="identifier">A</span> <span class="operator">union</span> <span class="identifier">B</span> <span class="comment">//(0,5) </span> <br>
+<span class="keyword">print</span> <span class="identifier">A</span> <span class="operator">intersection</span> <span class="identifier">B</span> <span class="comment">//{ 1, 2, 3, 4 } </span> <br>
+<span class="keyword">print</span> <span class="identifier">A</span> <span class="operator">disjoined</span> <span class="identifier">C</span> <span class="comment">// true </span> <br>
+<br>
+<span class="keyword">print</span> <span class="identifier">C</span><span class="operator">'</span> <span class="comment">//(-∞,5) ∪ (5,∞) </span> <br>
+<br>
+<span class="keyword">print</span> <span class="identifier">A</span> <span class="operator">\</span> <span class="identifier">B</span> <span class="comment">//∅ <br></span> 
+</p></div><div class="documentation_part">
+<h1>Control flow</h1>
+<p>
+  ΒScript supports the classics: C style if/else, while, and for statements.
+</p>
+<h2>if/else</h2>
+<p>
+  If the condition inside the "if" parentheses is "truthy", the block following it is executed.
+  If not, and there is an "else" statement following it, the block following it is executed.
+  "Truthy" basically means "anything but nil, emptySet, false and unknown". By the way, boolean operations can be done
+  with the "not", "and", and "or" keywords.
+</p>
+<p class="code_block">
+  <!-- if (variable == nil) {
+   print "no value!"
+  } else if (variable < 0) {
+     print "variable is negative number!"
+    } else if (variable == 2 or variable == 3 or variable == 5 or variable == 7) {
+     print "variable is prime smaller than 10"
+    } else print "variable is something else" -->
+    <span class="keyword">if</span> (<span class="identifier">variable</span> <span class="operator">==</span> <span class="identifier">nil</span>) {<br>
+       <span class="keyword">print</span> <span class="stringLiteral">"no value!"</span> <br>
+      } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="identifier">variable</span> <span class="operator">&lt;</span> <span class="numericLiteral">0</span>) {<br>
+       <span class="keyword">print</span> <span class="stringLiteral">"variable is negative number!"</span> <br>
+      } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="identifier">variable</span> <span class="operator">==</span> <span class="numericLiteral">2</span> <span class="operator">or</span> <span class="identifier">variable</span> <span class="operator">==</span> <span class="numericLiteral">3</span> <span class="operator">or</span> <span class="identifier">variable</span> <span class="operator">==</span> <span class="numericLiteral">5</span> <span class="operator">or</span> <span class="identifier">variable</span> <span class="operator">==</span> <span class="numericLiteral">7</span>) {<br>
+       <span class="keyword">print</span> <span class="stringLiteral">"variable is prime smaller than 10"</span> <br>
+      } <span class="keyword">else</span> <span class="keyword">print</span> <span class="stringLiteral">"variable is something else"</span> 
+</p>
+
+<h2>While</h2>
+<p>
+  Used for repetitions. While the condition between parentheses after "while" is "truthy", it will keep running the
+  block after it. The first snippet below prints the integers from 0 to 9. The second one creates an endless loop, and
+  the third one never runs.
+</p>
+<p class="code_block">
+  <!-- var i = 0
+  while (i < 10) {
+    print i
+       i = i + 1
+    }
+
+    while (true) {
+       print "help!"
+    }
+
+    var v = 0
+    while (v == nil) {
+       print "Undefined!"
+    } -->
+    <span class="identifier">var</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="numericLiteral">0</span> <br>
+<span class="keyword">while</span> (<span class="identifier">i</span> <span class="operator">&lt;</span> <span class="numericLiteral">10</span>) {<br>
+ <span class="keyword">print</span> <span class="identifier">i</span> <br>
+ <span class="identifier">i</span> <span class="operator">=</span> <span class="identifier">i</span> <span class="operator">+</span> <span class="numericLiteral">1</span> <br>
+} <br>
+<br>
+<span class="keyword">while</span> (<span class="identifier">true</span>) {<br>
+ <span class="keyword">print</span> <span class="stringLiteral">"help!"</span> <br>
+} <br>
+<br>
+<span class="identifier">var</span> <span class="identifier">v</span> <span class="operator">=</span> <span class="numericLiteral">0</span> <br>
+<span class="keyword">while</span> (<span class="identifier">v</span> <span class="operator">==</span> <span class="identifier">nil</span>) {<br>
+ <span class="keyword">print</span> <span class="stringLiteral">"Undefined!"</span> <br>
+} 
+</p>
+
+<h2>For</h2>
+<p>Syntactic sugar for a very common type of loop. It basically does the same as the first while example, but more
+  compact.</p>
+<p class="code_block">
+  <!-- for (var i = 0; i < 10; i=i + 1) print i -->
+  <span class="keyword">for</span> (<span class="identifier">var</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="numericLiteral">0</span>; <span class="identifier">i</span> <span class="operator">&lt;</span> <span class="numericLiteral">10</span>; <span class="identifier">i</span> <span class="operator">=</span> <span class="identifier">i</span> <span class="operator">+</span> <span class="numericLiteral">1</span>) <span class="keyword">print</span> <span class="identifier">i</span> 
+</p>
+<p>
+  The first parenthesized expression is a variable declaration or assigment, and only runs once, before the first loop.
+  The second expression is equivalent to the while condition, and the third one runs after every loop, but before the
+  second expression is evaluated again.
+</p></div><div class="documentation_part"><p><b>Warning! the next section of documentation wasn't updated to version  0.3 - The Unicode Update!.Last update was to version 0.2 - Setting Up. This might mean this section is wrong, or just that the developer forgot to change the version in the html file.</b></p>
+<h1>Comments</h1>
+<p>
+  ΒScript supports four types of comments, two of them classic, and two original creations.
+</p>
+
+<h3>Line comments:</h3>
+
+<p>
+  Begins with "//". comments out all the code after // until the next linebreak.
+</p>
+
+<p class="code_block">
+  <!-- //print "this won't print";
+  print "this will"; //print "but this won't";
+  print "this will be fine"; -->
+  <span class="comment">//print "this won't print";</span> <br>
+<span class="keyword">print</span> <span class="stringLiteral">"this will"</span>; <span class="comment">//print "but this won't";</span> <br>
+<span class="keyword">print</span> <span class="stringLiteral">"this will be fine"</span>; 
+</p>
+
+<h3>Multiline comments:</h3>
+
+<p>begins with a "/*", ends with "*/". Comments everything in between.</p>
+
+<p class="code_block">
+  <!-- /*
+  this
+  is
+  a
+  multiline
+  comment
+  */ -->
+  <span class="comment">/*<br>
+    this<br>
+    is<br>
+    a<br>
+    multiline<br>
+    comment<br>
+  */</span> 
+</p>
+
+<h3>Name comments:</h3>
+
+<p>begins with a "@" sign. Comments everything until the next whitespace, be it space, linebreak or tab.</p>
+
+<p class="code_block">
+  <!-- print @this-is-a-name-comment-so-this-won't-print "but this will, because whitespace terminates them" -->
+  <span class="keyword">print</span> <span class="comment">@this-is-a-name-comment-so-this-won't-print</span> <span class="stringLiteral">"but this will, because whitespace terminates them"</span> 
+</p>
+
+<h3>Directives:</h3>
+
+<p>
+  uses the "#" sign. In most cases, does exactly the same thing as the name comment, with the difference it can be used
+  to set some interpreter flags, e.g. '#bs_tt_interpret' will make the interpreter go into twitter bot mode, which
+  prohibits loops and routines and class definitions. Currently, this is the only directive which is defined, and there
+  really isn't any reason to use it outside of twitter.
+</p></div><div class="documentation_part">
+<h1>Routines</h1>
+<p>
+  ΒScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, use the
+  keyword "routine" followed by its name, parentheses containing a list of parameters, and a block body:
+</p>
+
+<p class="code_block">
+  <!-- routine printStuff() {
+  print "stu" + "ff"
+  } -->
+  <span class="keyword">routine</span> <span class="identifier">printStuff</span>() {<br>
+     <span class="keyword">print</span> <span class="stringLiteral">"stu"</span> <span class="operator">+</span> <span class="stringLiteral">"ff"</span> <br>
+    } 
+</p>
+
+<p>
+  This means things like the block below are possible:
+</p>
+
+<p class="code_block">
+  <!-- routine makeCounter() {
+     var a = 0
+
+     routine count () {
+       a = a + 1
+     return a
+     }
+  
+     return count
+  }
+
+  var counter = makeCounter()
+  print counter()
+  print counter()
+  
+  var counter2 = makeCounter()
+  print counter2() -->
+  <span class="keyword">routine</span> <span class="identifier">makeCounter</span>() {<br>
+     <span class="identifier">var</span> <span class="identifier">a</span> <span class="operator">=</span> <span class="numericLiteral">0</span> <br>
+     <br>
+     <span class="keyword">routine</span> <span class="identifier">count</span>() {<br>
+      <span class="identifier">a</span> <span class="operator">=</span> <span class="identifier">a</span> <span class="operator">+</span> <span class="numericLiteral">1</span> <br>
+      <span class="keyword">return</span> <span class="identifier">a</span> <br>
+     } <br>
+     <br>
+     <span class="keyword">return</span> <span class="identifier">count</span> <br>
+    } <br>
+    <br>
+    <span class="identifier">var</span> <span class="identifier">counter</span> <span class="operator">=</span> <span class="identifier">makeCounter</span>() <br>
+    <span class="keyword">print</span> <span class="identifier">counter</span>() <br>
+    <span class="keyword">print</span> <span class="identifier">counter</span>() <br>
+    <br>
+    <span class="identifier">var</span> <span class="identifier">counter2</span> <span class="operator">=</span> <span class="identifier">makeCounter</span>() <br>
+    <span class="keyword">print</span> <span class="identifier">counter2</span>() 
+
+</p>
+
+<p> with output:</p>
+
+<p class="code_block">
+  <span class="numericLiteral">1</span> <br>
+<span class="numericLiteral">2</span> <br>
+<span class="numericLiteral">1</span>
+</p>
+
+<p>
+  Oh! And the return keyword works just like print: it expects the whole expression to be in the same line. if it isn't,
+  the last part of the line needs to be an operator to indicate that it isn't over.
+</p></div><div class="documentation_part">
+<h1>Classes, objects and inheritance</h1>
+<p>
+  ΒScript allows the creation of classes with methods, initializers, and single inheritance. Classes are created using
+  the 'class' keyword followed by the class name, and then a block. This block may contain method declarations, which
+  are like routine declarations but don't require the keyword (the 'self' paramenter is implicit). In methods, it is
+  possible to access the object's fields using 'self'. initializers are declared as methods with the same name as the
+  class, and calling the class name will call the initializer, which returns a new instance of the class.
+</p>
+
+<p>
+  ΒScript only supports single inheritance, and it is done by declaring the class with the following sintax:
+</p>
+<p class="code_block">
+  <!-- class (class name) < (superclass name) {(class declaration)} -->
+  <span class="keyword">class</span> (<span class="keyword">class</span> <span class="identifier">name</span>) <span class="operator">&lt;</span> (<span class="identifier">superclass</span> <span class="identifier">name</span>) {(<span class="keyword">class</span> <span class="identifier">declaration</span>)} 
+</p>
+<p>
+  superclass methods can be called using the "super" keyword. A class can only have one initializer, and they are not
+  inherited.
+</p>
+<p>
+  The following code sample exemplifies pretty much everything explained here:
+</p>
+<p class="code_block">
+  <!-- class A {
+  method() {
+  print "a method"
+  }
+  }
+  
+  class B < A {
+  method() {
+  print "B method"
+  }
+  
+  test() {
+  super.method()
+  }
+  }
+  
+  class C < B {
+  C(callback) {
+  this.callback = callback
+  }
+  
+  callCallback() {
+  this.callback()
+  }
+  }
+  
+  function printStuff() {
+  print "stu" + "ff"
+  }
+  
+  var thing = C(printStuff)
+  
+  thing.test()
+  thing.method()
+  thing.callCallback() -->
+  <span class="keyword">class</span> <span class="identifier">A</span> {<br>
+     <span class="identifier">method</span>() {<br>
+      <span class="keyword">print</span> <span class="stringLiteral">"a method"</span> <br>
+     } <br>
+    } <br>
+    <br>
+    <span class="keyword">class</span> <span class="identifier">B</span> <span class="operator">&lt;</span> <span class="identifier">A</span> {<br>
+     <span class="identifier">method</span>() {<br>
+      <span class="keyword">print</span> <span class="stringLiteral">"B method"</span> <br>
+     } <br>
+     <br>
+     <span class="identifier">test</span>() {<br>
+      <span class="identifier">super</span> . <span class="identifier">method</span>() <br>
+     } <br>
+    } <br>
+    <br>
+    <span class="keyword">class</span> <span class="identifier">C</span> <span class="operator">&lt;</span> <span class="identifier">B</span> {<br>
+     <span class="identifier">C</span>(<span class="identifier">callback</span>) {<br>
+      <span class="identifier">this</span> . <span class="identifier">callback</span> <span class="operator">=</span> <span class="identifier">callback</span> <br>
+     } <br>
+     <br>
+     <span class="identifier">callCallback</span>() {<br>
+      <span class="identifier">this</span> . <span class="identifier">callback</span>() <br>
+     } <br>
+    } <br>
+    <br>
+    <span class="identifier">function</span> <span class="identifier">printStuff</span>() {<br>
+     <span class="keyword">print</span> <span class="stringLiteral">"stu"</span> <span class="operator">+</span> <span class="stringLiteral">"ff"</span> <br>
+    } <br>
+    <br>
+    <span class="identifier">var</span> <span class="identifier">thing</span> <span class="operator">=</span> <span class="identifier">C</span>(<span class="identifier">printStuff</span>) <br>
+    <br>
+    <span class="identifier">thing</span> . <span class="identifier">test</span>() <br>
+    <span class="identifier">thing</span> . <span class="identifier">method</span>() <br>
+    <span class="identifier">thing</span> . <span class="identifier">callCallback</span>() 
+</p></div></section>
+
+
+</body></html>

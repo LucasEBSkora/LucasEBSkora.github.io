@@ -1,0 +1,433 @@
+<!DOCTYPE html><html><head>
+  <title>
+    βscript
+  </title>
+<link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/code_style.css"></head>
+
+
+
+
+<body>
+  <h1>βscript</h1>
+
+  <a href="language_tour.html">Language Tour</a>
+  <a href="../index.html">Back to interpreter</a>
+
+  <section id="contents">
+
+  <div class="diary_entry"><h1>Hello World! - 11/06/2020</h1>
+<p>
+  This is the first entry in the dev diaries, and so I'd like to establish some things about this project:
+</p><ol>
+  <li>As you can see by the quality of this page, I'm not very experienced with web developing;</li>
+  <li>I do it for fun/learning, so I can't guarantee it will have very frequent updates;</li>
+  <li>I'll do my best writing documentation, but I never really did it before so it might be a little weird;</li>
+  <li>dd/mm/yyyy &gt; mm.dd.yyyy by a long run</li>
+</ol>
+<p></p>
+<p>
+  And now for stuff actually about the project: as it currently stands, there is a bunch of dart classes to represent
+  functions which can be represented by compositions, sums, subtractions, multiplications, divisions and exponentiations
+  of logarithms, constant, trigonometric, inverse trigonometric, hyperbolic, inverse hyperbolic, absolute value and sign
+  functions; and an interpreter of a language which is basically a very poor subset of javascript with a few different
+  keywords. The "middle-term" objective of this project is to implement a language capable of creating and operating
+  with these functions, as well as determining their natural domain, codomain and range, and solving equations involving
+  such functions (in the form f(x) = g(x))
+</p>
+<p>
+  In order to do this, we (I) must first change the way functions can be evaluated. (As of this entry, 'function" will
+  refer to values of this data type, and "routines" will be used to represent what in other programming languages is
+  refered to as a function, as explained in the language tour). As of now, they can only be evaluated by passing as
+  argument a map containing as keys the name of every variable, and as values the values of these variables. <br>E.g.,
+  <span class="code_fragment">f(x,y,z)</span> can be evaluated with the vector <span class="code_fragment">(1,2,
+    3)</span> by calling <span class="code_fragment">f({x : 1,y : 2, z : 3})</span>. I want for it to be possible to
+  evaluate these functions by simply passing <span class="code_fragment">f(1,2,3)</span>. For that, we must implement a
+  few things: first, we must know the set of variables in which a function is defined, which is already done in the
+  "parameters" getter. Then, we must define a method which takes a list of doubles and assigns them to this map. For us
+  to know what position in this list corresponds to which variable, we will make it so that they are evaluated in
+  lexicographical order.
+</p>
+<p>
+  We must also write the documentation for the language. I feel the best way to make sure it is as complete as possible
+  is by writing the full documentation from the beggining and changing it as soon as anything new is implemented. This
+  does, however, mean that we will write a very useless documentation to start with. That is it for this first entry, I
+  hope to have new things to write about soon!
+</p></div><div class="diary_entry"><h1>Language Tour - 17/06/2020</h1>
+<p>In the previous entry, I said I would start writing the language documentation before progressing with development.
+</p>
+
+<p>I immediatelly noticed that was a bad idea. First, I don't even have the knowledge required to do it, and second,
+  doing all this setup to keep programming is taking a slight effect on my motivation to continue this project. Yes, if
+  the language takes off in any way I have to do it, and i would definately learn a lot doing it. However, it's not what
+  I want to be learning <b>right now</b>. Therefore, I changed the name of the "documentation" section to "language
+  tour", and in it I will simply explain the basics of what the language is capable of. After all, the chance someone
+  decides to learn this language before learning others that also have dynamic typing, if/else blocks, while and for
+  loops, etc. is virtually zero.
+</p></div><div class="diary_entry"><h1>Calling functions - 19/06/2020</h1>
+<p>In the first entry, I mentioned it would be necessary to change how we evaluate functions in order to continue
+  developing the language.</p>
+<p>
+  For this, a few changes are still necessary. Currently, I am changing the way functions are evaluated. Before,
+  evaluating a function would be done by passing a Map &lt; String, double &gt;, but since ΒScript doesn't even have the
+  type double, that doesn't make any sense. therefore, we now evaluate them by passing a Map &lt; String, BSFunction
+  &gt;, which has a second benefit: we know can do function composition properly! Before, things like
+</p>
+<p class="code_block">
+  <!-- f = sin(x)
+  g = f(x^2) -->
+  <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
+<span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span>); 
+</p>
+<p>
+  wouldn't work. now, that's perfectly valid! Besides, calling a function like that will not perform simplifications. if
+  we had, for example
+</p>
+<p class="code_block">
+  <!-- f = sin(x)
+  g = f(2) -->
+  <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
+  <span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>) 
+</p>
+<p>
+  <span class="code_fragmnent">g</span> would evaluate to <span class="code_fragmnent">sin(2)</span>, not to
+  0.909...<br>
+  if we wanted it to evaluate to its approximation, we can use the approx getter, which, in the language, will translate
+  to the <span class="code_fragmnent">~</span> operator.In ΒScript, one would write:
+</p>
+<p class="code_block">
+  <!-- g = ~sin(2) -->
+  <span class="identifier">g</span> <span class="operator">=</span> <span class="operator">~</span><span class="identifier">sin</span>(<span class="numericLiteral">2</span>)
+</p>
+<p>
+  to get 0.909...
+</p></div><div class="diary_entry"><h1>Calling functions pt.2 - 20/06/2020</h1>
+<p>
+  While implementing what I described in the previous entry, I noticed an easy way to solve a few problems I was
+  thinking about. Since now function composition is now properly possible, we can create new functions differently.
+  Before, we created them by calling factory functions external to the class, which means, there is a 'Sin' class with
+  only a private constructor, and a public function "sin" which returns BSFunction objects. This works fine for the Dart
+  classes, but is a little annoying for the language because there wouldn't be "default" objects for each function. If,
+  say, we wanted to determine the domain of the sine function, we would have to do something like:
+</p>
+<p class="code_block">
+  <!-- f(x) = sin(x);
+  print domain(f); -->
+  <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
+  <span class="keyword">print</span> <span class="identifier">domain</span>(<span class="identifier">f</span>); 
+</p>
+<p>
+  But if we had default functions, simply calling <span class="code_fragment">print domain(sin)</span> would work! By
+  the way, I'm sorry if all of this sounds like a poorly explained ramble about implementation details, but that is
+  exactly what these dev diaries are going to be.
+</p>
+<h1>Why is multiplying by -1 so hard? - 20/06/2020</h1>
+<p>
+  Since the first iteration of this project, one of the hardest problems I had to solve was how to handle stuff being
+  multiplied by -1. There were basically three different solutions I thought about for this problem, all of them good in
+  some ways, and really annoying in others;
+</p><ul>
+  <li>
+    <b>Use normal multiplications:</b> basically, use the multiplication class to handle it, and have some special
+    clause in the multiplication printing where if the first element in the array of operands is a -1, print only a '-'
+    instead of a '-1*'. This way is good because it is closer to how it normally works in maths, but would make an
+    already large and complicated class (Multiplication) even worse, and identifying when things in a sum can be
+    simplified would be even worse.
+  </li>
+  <li>
+    <b>Use a 'negative' field</b>: the currently used solution. Basically, every BSFunction has a boolean 'negative'
+    field, and when printing, if this field is positive, it puts a '-' before of the rest. However, this approach
+    creates a lot of hassle when creating new functions from other ones, and led to the creation of like, 6 different
+    getters which really have no other use. In the way it's done, it's also problematic because if I forget to specify
+    the sign of something, it is positive, leading to evaluations and functions normally having bugs related to sign and
+    also a lot of code repetition.
+  </li>
+  <li>
+    <b>Use a Negative class</b>: In a way, midway between the two previous solutions: wrap functions multiplied by -1 in
+    a Negative object. It has many of the benefits of the first solution, but without polluting other classes, and also
+    doesn't have the problems related to having to always deal with sign by hand. It does, sadly, still have the problem
+    of making it a little harder to check for simplifications.
+  </li>
+</ul>
+All of them have some benefits and some problems. I can't really think of another way of doing this that wouldn't have
+some of these. Anyway, i'm consering changing over to the third solution, because the second one does make the program
+harder to read and mantain. It might come back to haunt me in the long run, but it will clean up the code in many of the
+files. I'm afraid it might be bad for performance, since extra objects for each '-' is a lot worse than having to deal
+with a field. Maybe i should try to figure out a more organic way to deal with the negatives instead of rebuilding the
+system from the ground up.
+<p></p></div><div class="diary_entry"><h1>Got to the bridge, can't avoid crossing it anymore - 27/06/2020</h1>
+<p> Well, everything I needed to do before actually implementing the functions into the language is ready. By the way, I
+  ended up changing to using negatives as a class, because I noticed there was a good way of dealing with other function
+  attributes (namely, parameters, and in a later date domain and codomain) which wouldn't apply to negatives. So, now I
+  have to actually discuss how they will work. In order to declare a function, one does something like:
+</p>
+<p class="code_block">
+  <!-- let f(x, y, z) = sin(x) + cos(y) + z^3;-->
+  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">y</span>) <span class="operator">+</span> <span class="identifier">z</span> <span class="operator">^</span> <span class="numericLiteral">3</span>; 
+</p>
+<p>
+  Where 'let' is the keyword to declare variables, f is the variable name, and (x, y, z) is the optional parameter list.
+  This list is used in case the user wants to defined a function with extra variables that aren't actually necessary
+  (such as f(x) = 0) or to evaluate them in a order other than alphabetic. e.g., if I wanted z to be the first
+  parameter, I would be able to declare the function f(z, y, x). If I wanted to call this function, i could use an
+  expression such as:
+</p>
+
+<p class="code_block">
+  <!-- print f(2, 10, cos(z)); -->
+  <span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="identifier">z</span>));
+</p>
+<p>
+  outputting:
+</p>
+<p class="code_block">
+  <!-- sin(2) + cos(10) + cos(z)^3 -->
+  <span class="identifier">sin</span>(<span class="numericLiteral">2</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="numericLiteral">10</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">z</span>) <span class="operator">^</span> <span class="numericLiteral">3</span> 
+</p>
+<p>
+  Which is not necessarily what you expected. ΒScript keeps things exact if you don't explicity state you want
+  approximations done, through the approximate (~) operator:
+</p>
+<p class="code_block">
+  <!-- print ~f(2, 10, cos(3)); -->
+  <span class="keyword">print</span> <span class="operator">~</span><span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="numericLiteral">3</span>)); 
+</p>
+<p>
+  outputting:
+</p>
+<p class="code_block">
+  <!-- -0.90005104017 -->
+  <span class="operator">-</span><span class="numericLiteral">0.90005104017</span>
+
+</p>
+<p>
+  ΒScript is also capable of calculating partial derivatives. For that, use the del() / del() operator. As your teacher
+  probably told you in calculus class, this isn't a real division, it's a notation (until he told you it actually was a
+  division of differentials, and, just like in calculus class, we might have differentials later):
+</p>
+<p class="code_block">
+  <!-- print del(f)/del(x); -->
+  <span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>); 
+</p>
+<p>
+  outputs:
+</p>
+<p class="code_block">
+  <!-- cos(x) -->
+  <span class="identifier">cos</span>(<span class="identifier">x</span>) 
+</p>
+<p>
+  Partial derivatives and higher-order derivatives are also supported:
+</p>
+<p class="code_block">
+  <!-- let f = x^2*y^3;
+  print del(f)/del(x, y, x); -->
+  <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
+<span class="keyword">print</span> <span class="identifier">domain</span>(<span class="identifier">f</span>);
+</p>
+<p>
+  outputs:
+</p>
+<p class="code_block">
+  <!-- 6*y^2 -->
+  <span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">2</span>
+</p>
+<p>
+  When all of these things are implemented, ΒScript V0.1 will be ready! as minor things, I'll change the keywords "var"
+  to "let" and "function" to "routine".
+</p></div><div class="diary_entry"><h1>Launch day! - 29/06/2020</h1>
+<p>
+  ΒScript version 0.1 is ready! It has a million bugs and not even half of what I want it to be able to do, but now it
+  at least lives up to it's proposal: One can create functions in it! I won't explain everything here, because that goes
+  into the language tour, but it is alreaady pretty exciting. For more information about it, go there!
+</p></div><div class="diary_entry"><h1>Road to 0.2 - 30/06/2020</h1>
+<p>Yesterday I finished v0.1, but that doesn't mean I'll take a break! I'm thinking about what I want to call ΒScript
+  v0.2. The primary focus now will be to develop the things I feel will be necessary for making the twitter version of
+  ΒScript (yes, thats a thing). Basically a bot which will answer to tweets with ΒScript code with their output. For
+  that, I will turn off defining and using routines and loops (don't want anyone killing my bot with a while(true)).
+  Other than that, I want to try to make error handling better, since I already noticed it doesn't show some of them
+  properly. As for actual new features, I'm planning the creation of "comparison expressions", which are basically
+  equations and inequalities, and the ability to create subsets of R, which will come in handy with later updates.
+</p></div><div class="diary_entry"><h1>Set operations are also (kinda) hard - 04/07/2020 </h1>
+<p>I started to define set classes to represent subsets of R. This wil have many uses in future updates, so I want to do
+  it well. Since I want to be able to define many types of sets, I decided that there will be a few different subtypes:
+</p><ul>
+  <li>Intervals, as in, <a href="https://en.wikipedia.org/wiki/Interval_(mathematics)">intervals</a>.</li>
+  <li>Roster sets, which are created by enumerating their elements, e.g. {1, 10, 52.3, -17}</li>
+  <li>Set builders, which are defined by solutions of comparisons, e.g., {x | x == 10 and sin(x) &gt; 10}</li>
+  <li>Disjoined unions of sets, which are used when something has parts which can't be simplified to one of the
+    previous.
+    e.g., the union of [-1,0] and [1, 2] is still [-1,0] U [1,2]. In other cases, however, simplifications can be made:
+    [-1,0] U {-1, -0.3, 57} = [-1,0] U {57}
+  </li>
+  <li>the empty set, which is considered a different class because operations with empty sets are normally very
+    straightforward.
+  </li>
+</ul>
+<p></p>
+<p>
+  Up to this point, everything is fine. The problem is trying to define operations between sets. we need to define how
+  to do unions, intersections and complements between all of the above types. This is not such a big problem for
+  complement: we can just have a complement method which itselfs check what is the type of the other Set in order to
+  properly compute it. A bigger problem comes from unions and intersections: they are comutative! That means that using
+  the tactic above will lead to a lot of hassle. Essentially, for all 3 operations, we need to fill out the following
+  table:
+</p><table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Interval</th>
+      <th>Roster</th>
+      <th>Builder</th>
+      <th>Disjoint Union</th>
+      <th>Empty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Interval</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Roster</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Builder</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Disjoint Union</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Empty</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p></p>
+
+<p>
+  However, there's a catch. Unions and intersections are commutative, which means the table is simetric. I don't have to
+  fill it all the way, The upper triangular part is enough. With all that taken into account, i need to think of a data
+  structure to represent these "operation tables" that won't be too hard to extend later...
+</p></div><div class="diary_entry"><h1>Optional semicolons: why would i do this to myself? - 15/07/2020 </h1>
+<p>
+  In Brazil, we have a saying: "Não se mexe em time que está vencendo", which has the same meaning as "If it ain't
+  broke, don't fix it", but brazilian and soccer-y. Anyway, I'm about to start fixing the not-broken thing: I want to
+  make semicolons optional, if not completely unnecessary, for ΒScript. Why? because I want the language to be written
+  as closely as possible to actual maths, and we don't use semicolons for that in math. This will, of course, create a
+  million problems, but that's the whole point of this entire language: making me think about problems which I can
+  actually solve, unlike, you know, the dumpster fire that the world currently is.
+</p>
+<p>
+  Anyway, my approach to this is going to be similar to python's (according to <a href="http://www.craftinginterpreters.com/scanning.html#design-note">Crafting Interpreters</a>, by Bob Nystrom, the
+  book the language was based on) approach: A line end is going to be interpreted as meaningful, except when the
+  previous token always needs something to follow it (unlike python, which uses the explicit \ to do so). This list of
+  tokens would basically be every operator, '('', '['', '{', ',' and '.'. This of course means a bunch of things would
+  become invalid, but most of them are ugly, so I don't care. When 0.2 is done, I'll write about what this new set of
+  rules means in the language tour, mainly because I haven't thought about the consequences yet.
+</p></div><div class="diary_entry"><h1> My beautiful baby boy - 21/08/2020</h1>
+<p>
+  Today was one of the first days I could actually use my comparison class to solve something. It was very simple, but
+  just seeing a program I created be able to transform an inequation into a solution set was something amazing to feel.
+  The first time I was able to see the output of <span class="code_fragment">print del(sin) / del(x);</span>
+  was definitely the best day of the year; and today wasn't so good, but automating set operations made it a little
+  better.
+</p></div><div class="diary_entry"><h1> Everything is a tree - 29/08/2020</h1>
+<p>
+  Everything in ΒScript is a tree. The interpreter works by traversing trees, functions are trees, logic expressions are
+  trees. Trees within trees within trees. I tried implementing at least sets to not be trees, but even that failed. I
+  thought I would be able to always evaluate a set operation to a exact set (represent A union B as C instead of A union
+  B). I almost did, but at the very last case I thought of, I noticed it would be impossible. The intersection of an
+  Interval (something in the form a &lt; x &lt; b) and a builder set (something in the form {x | f(x) = g(x)}) can only be
+  exactly evaluated if we know every solution of f(x) = g(x) in the interval (a, b). Considering f and g are supposed to
+  be literally any differentiable function, that is impossible. Therefore, I'll have to create another set type to
+  represent intersections of <a href="https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions#Intensional_definition">intensionally-defined</a>
+  sets. The same will apply to relative complements of intensional sets. With that, I'll be forced to represent sets
+  defined in terms of operations involving intensionally-defined sets as trees.
+</p></div><div class="diary_entry"><h1> ΒScript V0.2: "Setting up" - 29/10/2020 </h1>
+<p>
+  After almost three months in the making, ΒScript V0.2 is finally done! It now supports real set definitions and
+  operations, optional semicolons, a few new keywords and operators, among other things. I am very happy to have
+  finished it, but the show must go on! First of all, I want to share some of my conclusions regarding the update: it is
+  very unstable and badly written. As I said, optional semicolons are hard, and messing with them broke a lot of things
+  and really tanked parsing speed. It needs to be redone, preferentially in a way that is dealed with completely in the
+  scanner. Besides, the "operation tables" for set operations weren't as good as I thought. In another note, I noticed
+  that as I extend the functionalities of functions and sets, their classes will become more and more complicated, and
+  adding new operations will become very hard. It also makes it completely impossible for the users of the language to
+  add new functionalities, which is <i>prohibitively bad</i>. A programming language can't stand if users can't develop
+  libraries, and for two of the 5 base data types to be complex but closed is inacceptable.
+</p>
+<p>
+  With these things in mind, I would like to propose part of what will be ΒScript V0.3: a refactoring of the data type
+  classes using the Visitor design pattern and/or a modification of it, a rewrite of the grammar to avoid linebreak
+  tokens as much as possible and actually use Backus-Naur Form. But these things aren't really new funtionalities, it is
+  just "backend" stuff. What will actually be new in 0.3? first, tri-state logic. I've realized that True and False
+  aren't enough, because ΒScript sometimes won't know how to evaluate something exactly. For those things, it is better
+  to have a "unsure" or "unknown" value, to replace the "better false negatives than false positives" policy. True will
+  mean absolutely true and false absolutely false. Unsure means unsure, and, for a while, a lot of things will return
+  it. Some will probably keep returning it forever.
+</p>
+
+<p>
+  But tri-state logic isn't what 0.3 is mainly about. The update will be called "The Unicode Update", because it will
+  include a lot of unicode alternatives for operands. No more "union", "intersection", "===". We will use ∪, ∩ and ≡.
+  See, I think programming has more to do with aesthetics than some would be inclined to believe, and making sure
+  ΒScript is pretty is very important to me. I think allowing unicode operators when they exist is good for readability
+  and to make ΒScript look more like math, which is kind of the point. Of course, I don't expect people to have these
+  symbols on their keyboards, so I will also write a formatter for ΒScript which automatically does these replacements.
+  It will also help enforce the formatting rules which i'd like people to follow that won't be possible when the
+  linebreak tokens are removed. And talking about aesthetics, I will redo the website, because it is just too ugly.
+</p></div><div class="diary_entry"><h1> Unmessing up optional semicolons - 31/10/2020 </h1>
+<p>
+  the way optional semicolons was implemented was that "if you don't want to put one, a linebreak is fine". This is
+  horrible. Don't do this. In all the places linebreaks were allowed in the middle of an expression, i had to check and
+  remove them by hand. This happens because to check for meaningless linebreaks in the scanner, i could only look back,
+  since the next token wasn't scanned yet. To solve this, i decided to add an extra function in the end of the scanner
+  which looks at the token list to check for linebreaks where the next token automatically discards the linebreak, such
+  as ')', ']', '}' and 'else'.
+</p></div><div class="diary_entry"><h1> ΒScript V0.3: "the unicode update" - 2020-01-10 </h1>
+<p>
+  first of all, i'd like to say i've changed my mind. MM/DD/YYYY is still the worst, but YYYY-MM-DD is better than
+  DD/MM/YYYY.
+</p>
+<p>
+  With that out of the way: ΒScript V0.3 is ready! We now have tri-state logic, unicode alternatives for many operators
+  and some bug fixes. This update was a lot smaller language-wise, because it also includes a
+  <a href="https://github.com/LucasEBSkora/bsfmt">formatter</a>, a
+  <a href="https://github.com/LucasEBSkora/bstools">syntax highlighting vs code extension</a> and a redo of this site!
+  It was not only the unicode update, but the first major aesthetics update.
+</p>
+<h1> 0.4: being useful- 2020-01-10 </h1>
+<p>
+  Let's be honest here. Right now, ΒScript doesn't do anything unique. And it probably will remain like that for a
+  while. But 0.4 may start making it actually useful: The update of "explain" statements! "explain" will, well, explain
+  how every operation in the following block is executed. For instance,
+  <span class="code_fragment">explain ∂(sin(x) ^ 2) / ∂(x) </span> would print out the step-by-step to arrive
+  at the result. Besides that, it will include a ΒScript android app, which will include an full interpreter and a
+  section to train derivating harder functions.
+</p></div></section>
+
+
+</body></html>
