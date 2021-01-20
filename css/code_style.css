@@ -1,0 +1,33 @@
+.code_fragment {
+  font-family: monospace;
+}
+
+.code_block {
+  font-family: monospace;
+  background-color: black;
+  color: white;
+}
+
+.comment {
+  color: #6A9955;
+}
+
+.keyword {
+  color: #569CD6;
+}
+
+.stringLiteral {
+  color: #CE9178;
+}
+
+.numericLiteral {
+  color: #B5CEA8;
+}
+
+.identifier {
+  color: #9CDCFE;
+}
+
+.operator {
+  color: #D4D4D4;
+}

@@ -1,45 +1,79 @@
-<meta class="version" name="version" content="0.2 - Setting Up"/>
+<meta class="version" name="version" content="0.3 - The Unicode Update" />
 <h1>Data types and variable declaration</h1>
 <p>
-  ΒScript variables are dynamically-typed, and can be declared with the "let" keyword.
-  There are four primitive data types in ΒScript: <i>functions</i> (numbers are treated as constant functions),
-  real sets, strings, booleans values. There is also "nil", which represents the lack of a value.
-  In order to print values, use the "print" keyword, and adding strings to other primitive data values always returns a string,
-  when you want to format things more properly.  One special thing about the print keyword: the beginning of what will be printed must be on the 
-  same line as the print keyword, otherwise it causes an error.
+  ΒScript variables are dynamically-typed, and can be declared with the "let" keyword. There are four primitive data
+  types in ΒScript: <i>functions</i> (numbers are treated as constant functions), real sets, strings and logic values.
+  There is also "nil", which represents the lack of a value. In order to print values, use the "print" keyword, and
+  adding (with the '+' operator) strings to other primitive data values always returns a string, when you want to format
+  things more properly. One special thing about the print keyword: the beginning of what will be printed must be on the
+  same line as the print keyword, otherwise it causes an error. Something else that's important: ΒScript allows greek
+  alphabet lower case and uppercase characters in identifiers, as well as latin alphabet ones. this means an identifier
+  can start with [a-z], [A-Z], [α-ω], [Α-Ω], '_', and the rest of it can be that, plus [0-9].
 </p>
-<p>
-  Unassigned variables receive the value nil, but it can be directly assigned.<br>
-  Functions are declared using number literals, functions and "Variable" variables. The next section will explain more about them.<br>
-  Sets can be defined in a number of ways, depending on the way the set is build. The section after the next will deal with them in detail.<br>
-  String literals are declared between quotes.<br>
-  The only valid boolean values are true and false.<br>
+
+<ul>
+  <li> Unassigned variables receive the value nil, but it can be directly assigned.</li>
+  <li> Functions are declared using number literals, functions and "Variable" variables. The next section will explain
+    more about them.
+  </li>
+  <li> Sets can be defined in a number of ways, depending on the way the set is build. The section after the next will
+    with them in detail.</li>
+  <li> String literals are declared between quotation marks (only works with "", not with '').</li>
+  <li> Valid logic values are true, false and unknown.</li>
   Here are some examples:
-</p>
+</ul>
 
-<p style="font-family: monospace;">
-  let m = nil<br>
-  let n<br>
-  let x = 1.0<br>
-  let string = "i am a string"<br>
-  let otherString = string + " but a little longer"<br>
-  let y = x + 5<br>
-  print otherString<br>
-  print <br>
-  x + y //causes error<br>
-  print x <br>
-  + y //causes error not in print, but because the + doesn't find x as a part of the operation and it needs a left operand<br>
-  print x + <br>
-  y //works fine, and prints x + y<br> 
+<p class="code_block">
+  <!-- let m = nil
+  let n
+  let x = 1.0
+  let string = "i am a string"
+  let otherString = string + " but a little longer"
+  let y = x + 5
+  print otherString
+  print 
+  x + y //causes error
+  print x //prints x
+  + y //causes error, because '+' requires a left operand
+  print x + 
+  y //works fine, and prints x + y -->
+  <span class="keyword">let</span> <span class="identifier">m</span> <span class="operator">=</span> <span class="identifier">nil</span> <br>
+<span class="keyword">let</span> <span class="identifier">n</span> <br>
+<span class="keyword">let</span> <span class="identifier">x</span> <span class="operator">=</span> <span class="numericLiteral">1.0</span> <br>
+<span class="keyword">let</span> <span class="identifier">string</span> <span class="operator">=</span> <span class="stringLiteral">"i am a string"</span> <br>
+<span class="keyword">let</span> <span class="identifier">otherString</span> <span class="operator">=</span> <span class="identifier">string</span> <span class="operator">+</span> <span class="stringLiteral">" but a little longer"</span> <br>
+<span class="keyword">let</span> <span class="identifier">y</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">+</span> <span class="numericLiteral">5</span> <br>
+<span class="keyword">print</span> <span class="identifier">otherString</span> <br>
+<span class="keyword">print</span> <br>
+<span class="identifier">x</span> <span class="operator">+</span> <span class="identifier">y</span> <span class="comment">//causes error</span> <br>
+<span class="keyword">print</span> <span class="identifier">x</span> <span class="comment">//prints x</span> <br>
+<span class="operator">+</span> <span class="identifier">y</span> <span class="comment">//causes error, because '+' requires a left operand</span> <br>
+<span class="keyword">print</span> <span class="identifier">x</span> <span class="operator">+</span> <br>
+<span class="identifier">y</span> <span class="comment">//works fine, and prints x + y</span> 
 </p>
 
 <p>
-  For sets, strings and booleans, one can use '==' or '===' interchangeably to check for equality. That isn't the case for functions, as will be explained 
-  later.  
+  since ΒScript uses three-valued logic, not boolean logic, i should warn you: Some operations will return
+  <span class="code_fragment">unknown</span> instead of <span class="code_fragment">true</span>
+  or <span class="code_fragment">false</span>. Operating with
+  <span class="code_fragment">unknown</span> always returns <span
+    class="code_fragment">unknown</span>, regardless of the other value. Besides, there are unicode
+  alternatives for the logical operators:
+</p>
+<ul>
+  <li><span class="code_fragment">¬</span> for <span class="code_fragment">not</span></li>
+  <li><span class="code_fragment">∨</span> for <span class="code_fragment">or</span> </li>
+  <li><span class="code_fragment">∧</span> for <span class="code_fragment">and</span></li>
+</ul>
+
+<p>
+  For sets, strings and booleans, one can use '==' or '===' interchangeably to check for equality. That isn't the
+  case for functions, as will be explained later.
 </p>
 
-<p style="font-family: monospace;">
-  print "banan" == "banan" //prints true<br> 
-  print true === true //also prints true<br>
+<p class="code_block">
+  <!-- print "banan" == "banan" //prints true
+  print true === true //also prints true -->
+  <span class="keyword">print</span> <span class="stringLiteral">"banan"</span> <span class="operator">==</span> <span class="stringLiteral">"banan"</span> <span class="comment">//prints true</span> <br>
+  <span class="keyword">print</span> <span class="identifier">true</span> <span class="operator">===</span> <span class="identifier">true</span> <span class="comment">//also prints true</span> 
 </p>
-

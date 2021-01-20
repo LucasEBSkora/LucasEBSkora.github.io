@@ -1,0 +1,25 @@
+let A = {1, 2, 3, 4} 
+
+  let B = (0, 5) 
+
+  let C = {x| x == 5} 
+
+  print A // prints { 1, 2, 3, 4 } 
+  print B //prints (0,5) 
+  print C //prints { 5 }
+
+  print {| x^2 == 2} //prints {x | ((x)^(2)) == 2} : betascript doesn't know how to solve quadratic equations yet 
+
+  print A contained B //true 
+
+  print 2.5 belongs A //false 
+
+  print 2.5 ∈ B //true 
+
+  print A union B //(0,5) 
+  print A intersection B //{ 1, 2, 3, 4 } 
+  print A disjoined C // true 
+
+  print C' //(-∞,5) ∪ (5,∞) 
+
+  print A\B //∅ <br>

@@ -1,49 +1,70 @@
-<meta class="version" name="version" content="0.2 - Setting Up"/>
+<meta class="version" name="version" content="0.3 - The Unicode Update" />
 <h1>Routines</h1>
 <p>
-  ΒScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, 
-  use the keyword "routine" followed by its name, parentheses containing a list of parameters, and a block body:
+  ΒScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, use the
+  keyword "routine" followed by its name, parentheses containing a list of parameters, and a block body:
 </p>
 
-<p style="font-family: monospace;">
-  routine printStuff() {<br>
-    &emsp; print "stu" + "ff"<br>
-  }<br>
+<p class="code_block">
+  <!-- routine printStuff() {
+  print "stu" + "ff"
+  } -->
+  <span class="keyword">routine</span> <span class="identifier">printStuff</span>() {<br>
+    &emsp;<span class="keyword">print</span> <span class="stringLiteral">"stu"</span> <span class="operator">+</span> <span class="stringLiteral">"ff"</span> <br>
+    } 
 </p>
 
 <p>
-  This does mean some weird stuff can be done, like the snippet below. I don't know why you would do it, but it's possible, and really weird:
+  This means things like the block below are possible:
 </p>
 
-<p style="font-family: monospace;">
-  routine makeCounter() {<br>
-    &emsp; var a = 0<br><br>
+<p class="code_block">
+  <!-- routine makeCounter() {
+     var a = 0
+
+     routine count () {
+       a = a + 1
+     return a
+     }
   
-    &emsp; routine count () {<br>
-      &emsp; &emsp; a = a + 1<br>
-      &emsp; return a<br>
-      &emsp; }<br>
-      <br>
-      &emsp; return count<br>
-  }<br>
+     return count
+  }
+
+  var counter = makeCounter()
+  print counter()
+  print counter()
   
-    var counter = makeCounter()<br>
-    print counter()<br>
-    print counter()<br>
+  var counter2 = makeCounter()
+  print counter2() -->
+  <span class="keyword">routine</span> <span class="identifier">makeCounter</span>() {<br>
+    &emsp;<span class="identifier">var</span> <span class="identifier">a</span> <span class="operator">=</span> <span class="numericLiteral">0</span> <br>
+    &emsp;<br>
+    &emsp;<span class="keyword">routine</span> <span class="identifier">count</span>() {<br>
+    &emsp;&emsp;<span class="identifier">a</span> <span class="operator">=</span> <span class="identifier">a</span> <span class="operator">+</span> <span class="numericLiteral">1</span> <br>
+    &emsp;&emsp;<span class="keyword">return</span> <span class="identifier">a</span> <br>
+    &emsp;} <br>
+    &emsp;<br>
+    &emsp;<span class="keyword">return</span> <span class="identifier">count</span> <br>
+    } <br>
     <br>
-    var counter2 = makeCounter()<br>
-    print counter2()<br>
-  
+    <span class="identifier">var</span> <span class="identifier">counter</span> <span class="operator">=</span> <span class="identifier">makeCounter</span>() <br>
+    <span class="keyword">print</span> <span class="identifier">counter</span>() <br>
+    <span class="keyword">print</span> <span class="identifier">counter</span>() <br>
+    <br>
+    <span class="identifier">var</span> <span class="identifier">counter2</span> <span class="operator">=</span> <span class="identifier">makeCounter</span>() <br>
+    <span class="keyword">print</span> <span class="identifier">counter2</span>() 
+
 </p>
 
-<p>
-  Oh! And the return keyword works just like print: it expects the whole expression to be in the same line. if it isn't, the last part of the line needs to be an operator
-  to indicate that it isn't over.
-</p>
 <p> with output:</p>
 
-<p style="font-family: monospace;">
-1<br>
-2<br>
-1<br>
+<p class="code_block">
+  <span class="numericLiteral">1</span> <br>
+<span class="numericLiteral">2</span> <br>
+<span class="numericLiteral">1</span>
+</p>
+
+<p>
+  Oh! And the return keyword works just like print: it expects the whole expression to be in the same line. if it isn't,
+  the last part of the line needs to be an operator to indicate that it isn't over.
 </p>

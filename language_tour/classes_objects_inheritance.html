@@ -1,59 +1,96 @@
-<meta class="version" name="version" content="0.2 - Setting Up"/>
+<meta class="version" name="version" content="0.3 - The Unicode Update" />
 <h1>Classes, objects and inheritance</h1>
 <p>
-  ΒScript allows the creation of classes with methods, initializers, and single inheritance. 
-  Classes are created using the 'class' keyword followed by the class name, and then a block. This block may contain
-  method declarations, which are like routine declarations but don't require the keyword (the 'self' paramenter is implicit).
-  In methods, it is possible to access the object's fields using 'self'. initializers are declared as methods with the same name as the class,
-  and calling the class name will call the initializer, which returns a new instance of the class.
+  ΒScript allows the creation of classes with methods, initializers, and single inheritance. Classes are created using
+  the 'class' keyword followed by the class name, and then a block. This block may contain method declarations, which
+  are like routine declarations but don't require the keyword (the 'self' paramenter is implicit). In methods, it is
+  possible to access the object's fields using 'self'. initializers are declared as methods with the same name as the
+  class, and calling the class name will call the initializer, which returns a new instance of the class.
 </p>
 
 <p>
   ΒScript only supports single inheritance, and it is done by declaring the class with the following sintax:
 </p>
-<p style="font-family: monospace;">
-  class (class name) &lt; (superclass name) {(class declaration)}
+<p class="code_block">
+  <!-- class (class name) < (superclass name) {(class declaration)} -->
+  <span class="keyword">class</span> (<span class="keyword">class</span> <span class="identifier">name</span>) <span class="operator">&lt;</span> (<span class="identifier">superclass</span> <span class="identifier">name</span>) {(<span class="keyword">class</span> <span class="identifier">declaration</span>)} 
 </p>
 <p>
-  superclass methods can be called using the "super" keyword. A class can only have one initializer, and they are not inherited.
+  superclass methods can be called using the "super" keyword. A class can only have one initializer, and they are not
+  inherited.
 </p>
 <p>
   The following code sample exemplifies pretty much everything explained here:
 </p>
-<p style="font-family: monospace;">
-  class A {<br>
-    &emsp;  method() {<br>
-      &emsp; &emsp;   print "a method"<br>
-      &emsp; }<br>
-  }<br>
-  <br>
-  class B &lt; A {<br>
-    &emsp; method() {<br>
-      &emsp; &emsp;   print "B method"<br>
-      &emsp;  }<br>
-  <br>
-  &emsp;  test() {<br>
-    &emsp; &emsp;  super.method()<br>
-    &emsp;  }<br>
-  }<br>
-  <br>
-  class C &lt; B {<br>
-    &emsp;  C(callback) {<br>
-      &emsp; &emsp;   this.callback = callback<br>
-      &emsp;   }<br>
-  <br>
-  &emsp;  callCallback() {<br>
-    &emsp; &emsp; this.callback()<br>
-    &emsp;  }<br>
-  }<br>
-  <br>
-  function printStuff() {<br>
-    &emsp;   print "stu" + "ff"<br>
-  }<br>
-  <br>
-  var thing = C(printStuff)<br>
-  <br>
-  thing.test()<br>
-  thing.method()<br>
-  thing.callCallback()<br>
+<p class="code_block">
+  <!-- class A {
+  method() {
+  print "a method"
+  }
+  }
+  
+  class B < A {
+  method() {
+  print "B method"
+  }
+  
+  test() {
+  super.method()
+  }
+  }
+  
+  class C < B {
+  C(callback) {
+  this.callback = callback
+  }
+  
+  callCallback() {
+  this.callback()
+  }
+  }
+  
+  function printStuff() {
+  print "stu" + "ff"
+  }
+  
+  var thing = C(printStuff)
+  
+  thing.test()
+  thing.method()
+  thing.callCallback() -->
+  <span class="keyword">class</span> <span class="identifier">A</span> {<br>
+    &emsp;<span class="identifier">method</span>() {<br>
+    &emsp;&emsp;<span class="keyword">print</span> <span class="stringLiteral">"a method"</span> <br>
+    &emsp;} <br>
+    } <br>
+    <br>
+    <span class="keyword">class</span> <span class="identifier">B</span> <span class="operator">&lt;</span> <span class="identifier">A</span> {<br>
+    &emsp;<span class="identifier">method</span>() {<br>
+    &emsp;&emsp;<span class="keyword">print</span> <span class="stringLiteral">"B method"</span> <br>
+    &emsp;} <br>
+    &emsp;<br>
+    &emsp;<span class="identifier">test</span>() {<br>
+    &emsp;&emsp;<span class="identifier">super</span> . <span class="identifier">method</span>() <br>
+    &emsp;} <br>
+    } <br>
+    <br>
+    <span class="keyword">class</span> <span class="identifier">C</span> <span class="operator">&lt;</span> <span class="identifier">B</span> {<br>
+    &emsp;<span class="identifier">C</span>(<span class="identifier">callback</span>) {<br>
+    &emsp;&emsp;<span class="identifier">this</span> . <span class="identifier">callback</span> <span class="operator">=</span> <span class="identifier">callback</span> <br>
+    &emsp;} <br>
+    &emsp;<br>
+    &emsp;<span class="identifier">callCallback</span>() {<br>
+    &emsp;&emsp;<span class="identifier">this</span> . <span class="identifier">callback</span>() <br>
+    &emsp;} <br>
+    } <br>
+    <br>
+    <span class="identifier">function</span> <span class="identifier">printStuff</span>() {<br>
+    &emsp;<span class="keyword">print</span> <span class="stringLiteral">"stu"</span> <span class="operator">+</span> <span class="stringLiteral">"ff"</span> <br>
+    } <br>
+    <br>
+    <span class="identifier">var</span> <span class="identifier">thing</span> <span class="operator">=</span> <span class="identifier">C</span>(<span class="identifier">printStuff</span>) <br>
+    <br>
+    <span class="identifier">thing</span> . <span class="identifier">test</span>() <br>
+    <span class="identifier">thing</span> . <span class="identifier">method</span>() <br>
+    <span class="identifier">thing</span> . <span class="identifier">callCallback</span>() 
 </p>

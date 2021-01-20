@@ -1,7 +1,9 @@
 <h1> Unmessing up optional semicolons - 31/10/2020 </h1>
 <p>
-  the way optional semicolons was implemented was that "if you don't want to put one, a linebreak is fine". This is horrible. Don't do this. In all the
-  places linebreaks were allowed in the middle of an expression, i had to check and remove them by hand. This happens because to check for meaningless 
-  linebreaks in the scanner, i could only look back, since the next token wasn't scanned yet. To solve this, i decided to add an extra function in the end of the
-  scanner which looks at the token list to check for linebreaks where the next token automatically discards the linebreak, such as ')', ']', '}' and 'else'.
+  the way optional semicolons was implemented was that "if you don't want to put one, a linebreak is fine". This is
+  horrible. Don't do this. In all the places linebreaks were allowed in the middle of an expression, i had to check and
+  remove them by hand. This happens because to check for meaningless linebreaks in the scanner, i could only look back,
+  since the next token wasn't scanned yet. To solve this, i decided to add an extra function in the end of the scanner
+  which looks at the token list to check for linebreaks where the next token automatically discards the linebreak, such
+  as ')', ']', '}' and 'else'.
 </p>

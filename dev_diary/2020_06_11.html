@@ -1,32 +1,38 @@
 <h1>Hello World! - 11/06/2020</h1>
 <p>
   This is the first entry in the dev diaries, and so I'd like to establish some things about this project:
-  <ol>
-    <li>As you can see by the quality of this page, I'm not very experienced with web developing;</li>
-    <li>I do it for fun/learning, so I can't guarantee it will have very frequent updates;</li>
-    <li>I'll do my best writing documentation, but I never really did it before so it might be a little weird;</li>
-    <li>dd/mm/yyyy > mm.dd.yyyy by a long run</li>
-  </ol>
+<ol>
+  <li>As you can see by the quality of this page, I'm not very experienced with web developing;</li>
+  <li>I do it for fun/learning, so I can't guarantee it will have very frequent updates;</li>
+  <li>I'll do my best writing documentation, but I never really did it before so it might be a little weird;</li>
+  <li>dd/mm/yyyy > mm.dd.yyyy by a long run</li>
+</ol>
 </p>
 <p>
-  And now for stuff actually about the project: as it currently stands, there is a bunch of dart classes
-  to represent functions which can be represented by compositions, sums, subtractions, multiplications, divisions and exponentiations of
-  logarithms, constant, trigonometric, inverse trigonometric, hyperbolic, inverse hyperbolic, absolute value and sign functions; and an
-  interpreter of a language which is basically a very poor subset of javascript with a few different keywords. The "middle-term" objective 
-  of this project is to implement a language capable of creating and operating with these functions, as well as determining their natural
-  domain, codomain and range, and solving equations involving such functions (in the form f(x) = g(x))
+  And now for stuff actually about the project: as it currently stands, there is a bunch of dart classes to represent
+  functions which can be represented by compositions, sums, subtractions, multiplications, divisions and exponentiations
+  of logarithms, constant, trigonometric, inverse trigonometric, hyperbolic, inverse hyperbolic, absolute value and sign
+  functions; and an interpreter of a language which is basically a very poor subset of javascript with a few different
+  keywords. The "middle-term" objective of this project is to implement a language capable of creating and operating
+  with these functions, as well as determining their natural domain, codomain and range, and solving equations involving
+  such functions (in the form f(x) = g(x))
 </p>
 <p>
-  In order to do this, we (I) must first change the way functions can be evaluated. (As of this entry, 'function" will refer to values of this
-  data type, and "routines" will be used to represent what in other programming languages is refered to as a function, as explained in the language tour). 
-  As of now, they can only be evaluated by passing as argument a map containing as keys the name of every variable, and as values the values of these variables.
-  <br>E.g., f(x,y,z) can be evaluated with the vector (1,2, 3) by calling f({x : 1, y : 2, z : 3}). I want for it to be possible to evaluate 
-  these functions by simply passing f(1,2,3). For that, we must implement a few things: first, we must know the set of variables in which
-  a function is defined, which is already done in the "parameters" getter. Then, we must define a method which takes a list of doubles and assigns them to this map.
-  For us to know what position in this list corresponds to which variable, we will make it so that they are evaluated in lexicographical order.
-</p>>
+  In order to do this, we (I) must first change the way functions can be evaluated. (As of this entry, 'function" will
+  refer to values of this data type, and "routines" will be used to represent what in other programming languages is
+  refered to as a function, as explained in the language tour). As of now, they can only be evaluated by passing as
+  argument a map containing as keys the name of every variable, and as values the values of these variables. <br>E.g.,
+  <span class="code_fragment">f(x,y,z)</span> can be evaluated with the vector <span class="code_fragment">(1,2,
+    3)</span> by calling <span class="code_fragment">f({x : 1,y : 2, z : 3})</span>. I want for it to be possible to
+  evaluate these functions by simply passing <span class="code_fragment">f(1,2,3)</span>. For that, we must implement a
+  few things: first, we must know the set of variables in which a function is defined, which is already done in the
+  "parameters" getter. Then, we must define a method which takes a list of doubles and assigns them to this map. For us
+  to know what position in this list corresponds to which variable, we will make it so that they are evaluated in
+  lexicographical order.
+</p>
 <p>
-  We must also write the documentation for the language. I feel the best way to make sure it is as complete as possible is by writing 
-  the full documentation from the beggining and changing it as soon as anything new is implemented. This does, however, mean that we will
-  write a very useless documentation to start with. That is it for this first entry, I hope to have new things to write about soon!
+  We must also write the documentation for the language. I feel the best way to make sure it is as complete as possible
+  is by writing the full documentation from the beggining and changing it as soon as anything new is implemented. This
+  does, however, mean that we will write a very useless documentation to start with. That is it for this first entry, I
+  hope to have new things to write about soon!
 </p>

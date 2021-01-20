@@ -1,3 +1,5 @@
+import processCode from "./process_code.js"
+
 const entries = [
   "2020_06_11.html",
   "2020_06_17.html",
@@ -12,6 +14,7 @@ const entries = [
   "2020_08_29.html",
   "2020_10_29.html",
   "2020_10_31.html",
+  "2021_01_10.html"
 ]
 
 const section = document.getElementById('contents')
@@ -21,13 +24,18 @@ async function initialize(entries, section) {
   for (let i = 0; i < entries.length; i++) {
     const doc = await fetch("dev_diary/" + entries[i])
     const text = await doc.text()
-    
+
     const element = document.createElement("div")
     element.class = "diary_entry"
     element.innerHTML = text
     section.appendChild(element)
 
   }
+  document.querySelectorAll(".code_block").forEach((el) => {
+    el.innerHTML = processCode(el.innerHTML)
+  })
 }
 
 initialize(entries, section)
+
+
