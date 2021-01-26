@@ -1,5 +1,5 @@
-import '../../betascript/source/interpreter/scanner.dart';
-import '../../betascript/source/interpreter/token.dart';
+import '../betascript/source/interpreter/scanner.dart';
+import '../betascript/source/interpreter/token.dart';
 
 class TaggerScanner extends BSScanner {
   TaggerScanner(String source, Function errorCallback)
@@ -7,7 +7,7 @@ class TaggerScanner extends BSScanner {
     charToLexeme['/'] = () {
       //if the slash is followed by another slash, it's actually a comment, and the rest of the line should be ignored
       if (match('/')) {
-        while (peek() != '\n' && !isAtEnd()) {
+        while (peek() != '\$'  && !isAtEnd()) {
           advance();
         }
         //the token will include the slashes but not the linebreak
@@ -40,6 +40,11 @@ class TaggerScanner extends BSScanner {
       addToken(TokenType.wordComment);
     };
     charToLexeme['\n'] = () {
+      addToken(TokenType.lineBreak);
+      ++line;
+    };
+    //using $ as an impromptu linebreak character
+    charToLexeme['\$'] = () {
       addToken(TokenType.lineBreak);
       ++line;
     };

@@ -10,44 +10,19 @@
   Begins with "//". comments out all the code after // until the next linebreak.
 </p>
 
-<p class="code_block">
-  <!-- //print "this won't print";
-  print "this will"; //print "but this won't";
-  print "this will be fine"; -->
-  <span class="comment">//print "this won't print";</span> <br>
-<span class="keyword">print</span> <span class="stringLiteral">"this will"</span>; <span class="comment">//print "but this won't";</span> <br>
-<span class="keyword">print</span> <span class="stringLiteral">"this will be fine"</span>; 
-</p>
+<p class="code_block" code='//print "this will not print";$print "this will"; //print "but this will not";$print "this will be fine";'></p>
 
 <h3>Multiline comments:</h3>
 
 <p>begins with a "/*", ends with "*/". Comments everything in between.</p>
 
-<p class="code_block">
-  <!-- /*
-  this
-  is
-  a
-  multiline
-  comment
-  */ -->
-  <span class="comment">/*<br>
-    this<br>
-    is<br>
-    a<br>
-    multiline<br>
-    comment<br>
-  */</span> 
-</p>
+<p class="code_block" code="/*$this$is$a$multiline$comment$*/"></p>
 
 <h3>Name comments:</h3>
 
 <p>begins with a "@" sign. Comments everything until the next whitespace, be it space, linebreak or tab.</p>
 
-<p class="code_block">
-  <!-- print @this-is-a-name-comment-so-this-won't-print "but this will, because whitespace terminates them" -->
-  <span class="keyword">print</span> <span class="comment">@this-is-a-name-comment-so-this-won't-print</span> <span class="stringLiteral">"but this will, because whitespace terminates them"</span> 
-</p>
+<p class="code_block" code='print @this-is-a-name-comment-so-this-wont-print "but this will, because whitespace terminates them"'></p>
 
 <h3>Directives:</h3>
 

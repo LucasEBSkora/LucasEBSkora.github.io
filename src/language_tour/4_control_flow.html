@@ -33,44 +33,12 @@
   block after it. The first snippet below prints the integers from 0 to 9. The second one creates an endless loop, and
   the third one never runs.
 </p>
-<p class="code_block">
-  <!-- var i = 0
-  while (i < 10) {
-    print i
-       i = i + 1
-    }
-
-    while (true) {
-       print "help!"
-    }
-
-    var v = 0
-    while (v == nil) {
-       print "Undefined!"
-    } -->
-    <span class="identifier">var</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="numericLiteral">0</span> <br>
-<span class="keyword">while</span> (<span class="identifier">i</span> <span class="operator">&lt;</span> <span class="numericLiteral">10</span>) {<br>
-&emsp;<span class="keyword">print</span> <span class="identifier">i</span> <br>
-&emsp;<span class="identifier">i</span> <span class="operator">=</span> <span class="identifier">i</span> <span class="operator">+</span> <span class="numericLiteral">1</span> <br>
-} <br>
-<br>
-<span class="keyword">while</span> (<span class="identifier">true</span>) {<br>
-&emsp;<span class="keyword">print</span> <span class="stringLiteral">"help!"</span> <br>
-} <br>
-<br>
-<span class="identifier">var</span> <span class="identifier">v</span> <span class="operator">=</span> <span class="numericLiteral">0</span> <br>
-<span class="keyword">while</span> (<span class="identifier">v</span> <span class="operator">==</span> <span class="identifier">nil</span>) {<br>
-&emsp;<span class="keyword">print</span> <span class="stringLiteral">"Undefined!"</span> <br>
-} 
-</p>
+<p class="code_block" code='var i = 0$while (i < 10) {$print i$i = i + 1$}$$while (true) {$print "help!"$}$$var v = 0$while (v == nil) {$print "Undefined!"$}'></p>
 
 <h2>For</h2>
 <p>Syntactic sugar for a very common type of loop. It basically does the same as the first while example, but more
   compact.</p>
-<p class="code_block">
-  <!-- for (var i = 0; i < 10; i=i + 1) print i -->
-  <span class="keyword">for</span> (<span class="identifier">var</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="numericLiteral">0</span>; <span class="identifier">i</span> <span class="operator">&lt;</span> <span class="numericLiteral">10</span>; <span class="identifier">i</span> <span class="operator">=</span> <span class="identifier">i</span> <span class="operator">+</span> <span class="numericLiteral">1</span>) <span class="keyword">print</span> <span class="identifier">i</span> 
-</p>
+<p class="code_block" code="for (var i = 0; i < 10; i=i + 1) print i"></p>
 <p>
   The first parenthesized expression is a variable declaration or assigment, and only runs once, before the first loop.
   The second expression is equivalent to the while condition, and the third one runs after every loop, but before the

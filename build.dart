@@ -3,6 +3,9 @@ import 'dart:io' show Directory, File, FileSystemEntity;
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 
+import './tagger.dart';
+import './tagger_scanner.dart';
+
 const String currentVersion = "0.3 - The Unicode Update";
 
 int main() {
@@ -12,8 +15,8 @@ int main() {
 }
 
 Future<void> buildTour() async {
-  Document document;
-  document = parse(await File('./src/language_tour.html').readAsString());
+  Document document =
+      parse(await File('./src/language_tour.html').readAsString());
 
   document.getElementById("pageTitle").innerHtml += currentVersion;
 
@@ -41,12 +44,16 @@ Future<void> buildTour() async {
     }
   }
 
+  document.querySelectorAll(".code_block").forEach((element) {
+    element.innerHtml = tag(element.attributes["code"]);
+    element.attributes.remove("code");
+  });
+
   await File('./build/language_tour.html').writeAsString(document.outerHtml);
 }
 
 Future<void> buildDiary() async {
-  Document document;
-  document = parse(await File('./src/dev_diary.html').readAsString());
+  Document document = parse(await File('./src/dev_diary.html').readAsString());
 
   final contents = document.getElementById("contents");
 
@@ -62,5 +69,13 @@ Future<void> buildDiary() async {
     }
   }
 
+  document.querySelectorAll(".code_block").forEach((element) {
+    element.innerHtml = tag(element.attributes["code"]);
+    element.attributes.remove("code");
+  });
+
   await File('./build/dev_diary.html').writeAsString(document.outerHtml);
 }
+
+String tag(String source) =>
+    Tagger(TaggerScanner(source, print).scanTokens()).tag();

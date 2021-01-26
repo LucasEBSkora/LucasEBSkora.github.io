@@ -11,10 +11,7 @@
 <p>
   ΒScript only supports single inheritance, and it is done by declaring the class with the following sintax:
 </p>
-<p class="code_block">
-  <!-- class (class name) < (superclass name) {(class declaration)} -->
-  <span class="keyword">class</span> (<span class="keyword">class</span> <span class="identifier">name</span>) <span class="operator">&lt;</span> (<span class="identifier">superclass</span> <span class="identifier">name</span>) {(<span class="keyword">class</span> <span class="identifier">declaration</span>)} 
-</p>
+<p class="code_block" code="class (class name) < (superclass name) {(class declaration)}"></p>
 <p>
   superclass methods can be called using the "super" keyword. A class can only have one initializer, and they are not
   inherited.
@@ -22,75 +19,4 @@
 <p>
   The following code sample exemplifies pretty much everything explained here:
 </p>
-<p class="code_block">
-  <!-- class A {
-  method() {
-  print "a method"
-  }
-  }
-  
-  class B < A {
-  method() {
-  print "B method"
-  }
-  
-  test() {
-  super.method()
-  }
-  }
-  
-  class C < B {
-  C(callback) {
-  this.callback = callback
-  }
-  
-  callCallback() {
-  this.callback()
-  }
-  }
-  
-  function printStuff() {
-  print "stu" + "ff"
-  }
-  
-  var thing = C(printStuff)
-  
-  thing.test()
-  thing.method()
-  thing.callCallback() -->
-  <span class="keyword">class</span> <span class="identifier">A</span> {<br>
-    &emsp;<span class="identifier">method</span>() {<br>
-    &emsp;&emsp;<span class="keyword">print</span> <span class="stringLiteral">"a method"</span> <br>
-    &emsp;} <br>
-    } <br>
-    <br>
-    <span class="keyword">class</span> <span class="identifier">B</span> <span class="operator">&lt;</span> <span class="identifier">A</span> {<br>
-    &emsp;<span class="identifier">method</span>() {<br>
-    &emsp;&emsp;<span class="keyword">print</span> <span class="stringLiteral">"B method"</span> <br>
-    &emsp;} <br>
-    &emsp;<br>
-    &emsp;<span class="identifier">test</span>() {<br>
-    &emsp;&emsp;<span class="identifier">super</span> . <span class="identifier">method</span>() <br>
-    &emsp;} <br>
-    } <br>
-    <br>
-    <span class="keyword">class</span> <span class="identifier">C</span> <span class="operator">&lt;</span> <span class="identifier">B</span> {<br>
-    &emsp;<span class="identifier">C</span>(<span class="identifier">callback</span>) {<br>
-    &emsp;&emsp;<span class="identifier">this</span> . <span class="identifier">callback</span> <span class="operator">=</span> <span class="identifier">callback</span> <br>
-    &emsp;} <br>
-    &emsp;<br>
-    &emsp;<span class="identifier">callCallback</span>() {<br>
-    &emsp;&emsp;<span class="identifier">this</span> . <span class="identifier">callback</span>() <br>
-    &emsp;} <br>
-    } <br>
-    <br>
-    <span class="identifier">function</span> <span class="identifier">printStuff</span>() {<br>
-    &emsp;<span class="keyword">print</span> <span class="stringLiteral">"stu"</span> <span class="operator">+</span> <span class="stringLiteral">"ff"</span> <br>
-    } <br>
-    <br>
-    <span class="identifier">var</span> <span class="identifier">thing</span> <span class="operator">=</span> <span class="identifier">C</span>(<span class="identifier">printStuff</span>) <br>
-    <br>
-    <span class="identifier">thing</span> . <span class="identifier">test</span>() <br>
-    <span class="identifier">thing</span> . <span class="identifier">method</span>() <br>
-    <span class="identifier">thing</span> . <span class="identifier">callCallback</span>() 
-</p>
+<p class="code_block" code='class A {$method() {$print "a method"$}$}$$class B < A {$method() {$print "B method"$}$$test() {$super.method()$}$}$$class C < B {$C(callback) {$this.callback = callback$}$$callCallback() {$this.callback()$}$}$$function printStuff() {$print "stu" + "ff"$}$$var thing = C(printStuff)$$thing.test()$thing.method()$thing.callCallback()'></p>

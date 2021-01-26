@@ -11,7 +11,7 @@
   <h1>βscript</h1>
 
   <a href="language_tour.html">Language Tour</a>
-  <a href="../index.html">Back to interpreter</a>
+  <a href="index.html">Back to interpreter</a>
 
   <section id="contents">
 
@@ -72,21 +72,15 @@
   type double, that doesn't make any sense. therefore, we now evaluate them by passing a Map &lt; String, BSFunction
   &gt;, which has a second benefit: we know can do function composition properly! Before, things like
 </p>
-<p class="code_block">
-  <!-- f = sin(x)
-  g = f(x^2) -->
-  <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
-<span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span>); 
+<p id="test" class="code_block"><span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
+<span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span>) 
 </p>
 <p>
   wouldn't work. now, that's perfectly valid! Besides, calling a function like that will not perform simplifications. if
   we had, for example
 </p>
-<p class="code_block">
-  <!-- f = sin(x)
-  g = f(2) -->
-  <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
-  <span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>) 
+<p class="code_block"><span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
+<span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>) 
 </p>
 <p>
   <span class="code_fragmnent">g</span> would evaluate to <span class="code_fragmnent">sin(2)</span>, not to
@@ -94,9 +88,7 @@
   if we wanted it to evaluate to its approximation, we can use the approx getter, which, in the language, will translate
   to the <span class="code_fragmnent">~</span> operator.In ΒScript, one would write:
 </p>
-<p class="code_block">
-  <!-- g = ~sin(2) -->
-  <span class="identifier">g</span> <span class="operator">=</span> <span class="operator">~</span><span class="identifier">sin</span>(<span class="numericLiteral">2</span>)
+<p class="code_block"><span class="identifier">g</span> <span class="operator">=</span> <span class="operator">~</span><span class="identifier">sin</span>(<span class="numericLiteral">2</span>) 
 </p>
 <p>
   to get 0.909...
@@ -109,11 +101,8 @@
   classes, but is a little annoying for the language because there wouldn't be "default" objects for each function. If,
   say, we wanted to determine the domain of the sine function, we would have to do something like:
 </p>
-<p class="code_block">
-  <!-- f(x) = sin(x);
-  print domain(f); -->
-  <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
-  <span class="keyword">print</span> <span class="identifier">domain</span>(<span class="identifier">f</span>); 
+<p class="code_block"><span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
+<span class="keyword">print</span> <span class="identifier">domain</span>(<span class="identifier">f</span>); 
 </p>
 <p>
   But if we had default functions, simply calling <span class="code_fragment">print domain(sin)</span> would work! By
@@ -160,9 +149,7 @@ system from the ground up.
   attributes (namely, parameters, and in a later date domain and codomain) which wouldn't apply to negatives. So, now I
   have to actually discuss how they will work. In order to declare a function, one does something like:
 </p>
-<p class="code_block">
-  <!-- let f(x, y, z) = sin(x) + cos(y) + z^3;-->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">y</span>) <span class="operator">+</span> <span class="identifier">z</span> <span class="operator">^</span> <span class="numericLiteral">3</span>; 
+<p class="code_block"><span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">y</span>) <span class="operator">+</span> <span class="identifier">z</span> <span class="operator">^</span> <span class="numericLiteral">3</span>; 
 </p>
 <p>
   Where 'let' is the keyword to declare variables, f is the variable name, and (x, y, z) is the optional parameter list.
@@ -172,64 +159,46 @@ system from the ground up.
   expression such as:
 </p>
 
-<p class="code_block">
-  <!-- print f(2, 10, cos(z)); -->
-  <span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="identifier">z</span>));
+<p class="code_block"><span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="identifier">z</span>)); 
 </p>
 <p>
   outputting:
 </p>
-<p class="code_block">
-  <!-- sin(2) + cos(10) + cos(z)^3 -->
-  <span class="identifier">sin</span>(<span class="numericLiteral">2</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="numericLiteral">10</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">z</span>) <span class="operator">^</span> <span class="numericLiteral">3</span> 
+<p class="code_block"><span class="identifier">sin</span>(<span class="numericLiteral">2</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="numericLiteral">10</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">z</span>) <span class="operator">^</span> <span class="numericLiteral">3</span> 
 </p>
 <p>
   Which is not necessarily what you expected. ΒScript keeps things exact if you don't explicity state you want
   approximations done, through the approximate (~) operator:
 </p>
-<p class="code_block">
-  <!-- print ~f(2, 10, cos(3)); -->
-  <span class="keyword">print</span> <span class="operator">~</span><span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="numericLiteral">3</span>)); 
+<p class="code_block"><span class="keyword">print</span> <span class="operator">~</span><span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="numericLiteral">3</span>)); 
 </p>
 <p>
   outputting:
 </p>
-<p class="code_block">
-  <!-- -0.90005104017 -->
-  <span class="operator">-</span><span class="numericLiteral">0.90005104017</span>
-
+<p class="code_block"><span class="operator">-</span><span class="numericLiteral">0.90005104017</span> 
 </p>
 <p>
   ΒScript is also capable of calculating partial derivatives. For that, use the del() / del() operator. As your teacher
   probably told you in calculus class, this isn't a real division, it's a notation (until he told you it actually was a
   division of differentials, and, just like in calculus class, we might have differentials later):
 </p>
-<p class="code_block">
-  <!-- print del(f)/del(x); -->
-  <span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>); 
+<p class="code_block"><span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>); 
 </p>
 <p>
   outputs:
 </p>
-<p class="code_block">
-  <!-- cos(x) -->
-  <span class="identifier">cos</span>(<span class="identifier">x</span>) 
+<p class="code_block"><span class="identifier">cos</span>(<span class="identifier">x</span>) 
 </p>
 <p>
   Partial derivatives and higher-order derivatives are also supported:
 </p>
-<p class="code_block">
-  <!-- let f = x^2*y^3;
-  print del(f)/del(x, y, x); -->
-  <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
-<span class="keyword">print</span> <span class="identifier">domain</span>(<span class="identifier">f</span>);
+<p class="code_block"><span class="keyword">let</span> <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">3</span>; <br>
+<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">x</span>); 
 </p>
 <p>
   outputs:
 </p>
-<p class="code_block">
-  <!-- 6*y^2 -->
-  <span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">2</span>
+<p class="code_block"><span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">2</span> 
 </p>
 <p>
   When all of these things are implemented, ΒScript V0.1 will be ready! as minor things, I'll change the keywords "var"
@@ -406,7 +375,7 @@ system from the ground up.
   remove them by hand. This happens because to check for meaningless linebreaks in the scanner, i could only look back,
   since the next token wasn't scanned yet. To solve this, i decided to add an extra function in the end of the scanner
   which looks at the token list to check for linebreaks where the next token automatically discards the linebreak, such
-  as ')', ']', '}' and 'else'.
+  as <span class="code_fragment">)</span>, <span class="code_fragment">]</span>, <span class="code_fragment">}</span> and <span class="code_fragment">else</span>.
 </p></div><div class="diary_entry"><h1> ΒScript V0.3: "the unicode update" - 2020-01-10 </h1>
 <p>
   first of all, i'd like to say i've changed my mind. MM/DD/YYYY is still the worst, but YYYY-MM-DD is better than

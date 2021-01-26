@@ -7,21 +7,13 @@
   type double, that doesn't make any sense. therefore, we now evaluate them by passing a Map &lt; String, BSFunction
   &gt;, which has a second benefit: we know can do function composition properly! Before, things like
 </p>
-<p class="code_block">
-  <!-- f = sin(x)
-  g = f(x^2) -->
-  <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
-<span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span>); 
+<p id = "test" class="code_block" code="f = sin(x)$g = f(x^2)">
 </p>
 <p>
   wouldn't work. now, that's perfectly valid! Besides, calling a function like that will not perform simplifications. if
   we had, for example
 </p>
-<p class="code_block">
-  <!-- f = sin(x)
-  g = f(2) -->
-  <span class="identifier">f</span> <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
-  <span class="identifier">g</span> <span class="operator">=</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>) 
+<p class="code_block" code="f = sin(x)$g = f(2)">
 </p>
 <p>
   <span class="code_fragmnent">g</span> would evaluate to <span class="code_fragmnent">sin(2)</span>, not to
@@ -29,9 +21,8 @@
   if we wanted it to evaluate to its approximation, we can use the approx getter, which, in the language, will translate
   to the <span class="code_fragmnent">~</span> operator.In ΒScript, one would write:
 </p>
-<p class="code_block">
-  <!-- g = ~sin(2) -->
-  <span class="identifier">g</span> <span class="operator">=</span> <span class="operator">~</span><span class="identifier">sin</span>(<span class="numericLiteral">2</span>)
+<p class="code_block" code="g = ~sin(2)">
+
 </p>
 <p>
   to get 0.909...

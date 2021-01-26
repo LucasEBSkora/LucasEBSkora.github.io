@@ -4,10 +4,7 @@
   attributes (namely, parameters, and in a later date domain and codomain) which wouldn't apply to negatives. So, now I
   have to actually discuss how they will work. In order to declare a function, one does something like:
 </p>
-<p class="code_block">
-  <!-- let f(x, y, z) = sin(x) + cos(y) + z^3;-->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">y</span>) <span class="operator">+</span> <span class="identifier">z</span> <span class="operator">^</span> <span class="numericLiteral">3</span>; 
-</p>
+<p class="code_block" code="let f(x, y, z) = sin(x) + cos(y) + z^3;"></p>
 <p>
   Where 'let' is the keyword to declare variables, f is the variable name, and (x, y, z) is the optional parameter list.
   This list is used in case the user wants to defined a function with extra variables that aren't actually necessary
@@ -16,65 +13,38 @@
   expression such as:
 </p>
 
-<p class="code_block">
-  <!-- print f(2, 10, cos(z)); -->
-  <span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="identifier">z</span>));
-</p>
+<p class="code_block" code="print f(2, 10, cos(z));"></p>
 <p>
   outputting:
 </p>
-<p class="code_block">
-  <!-- sin(2) + cos(10) + cos(z)^3 -->
-  <span class="identifier">sin</span>(<span class="numericLiteral">2</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="numericLiteral">10</span>) <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">z</span>) <span class="operator">^</span> <span class="numericLiteral">3</span> 
-</p>
+<p class="code_block" code="sin(2) + cos(10) + cos(z)^3"></p>
 <p>
   Which is not necessarily what you expected. ΒScript keeps things exact if you don't explicity state you want
   approximations done, through the approximate (~) operator:
 </p>
-<p class="code_block">
-  <!-- print ~f(2, 10, cos(3)); -->
-  <span class="keyword">print</span> <span class="operator">~</span><span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">10</span>, <span class="identifier">cos</span>(<span class="numericLiteral">3</span>)); 
-</p>
+<p class="code_block" code="print ~f(2, 10, cos(3));"></p>
 <p>
   outputting:
 </p>
-<p class="code_block">
-  <!-- -0.90005104017 -->
-  <span class="operator">-</span><span class="numericLiteral">0.90005104017</span>
-
-</p>
+<p class="code_block" code="-0.90005104017"></p>
 <p>
   ΒScript is also capable of calculating partial derivatives. For that, use the del() / del() operator. As your teacher
   probably told you in calculus class, this isn't a real division, it's a notation (until he told you it actually was a
   division of differentials, and, just like in calculus class, we might have differentials later):
 </p>
-<p class="code_block">
-  <!-- print del(f)/del(x); -->
-  <span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>); 
-</p>
+<p class="code_block" code="print del(f)/del(x);"></p>
 <p>
   outputs:
 </p>
-<p class="code_block">
-  <!-- cos(x) -->
-  <span class="identifier">cos</span>(<span class="identifier">x</span>) 
-</p>
+<p class="code_block" code="cos(x)"></p>
 <p>
   Partial derivatives and higher-order derivatives are also supported:
 </p>
-<p class="code_block">
-  <!-- let f = x^2*y^3;
-  print del(f)/del(x, y, x); -->
-  <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>); <br>
-<span class="keyword">print</span> <span class="identifier">domain</span>(<span class="identifier">f</span>);
-</p>
+<p class="code_block" code="let f = x^2*y^3;$print del(f)/del(x, y, x);"></p>
 <p>
   outputs:
 </p>
-<p class="code_block">
-  <!-- 6*y^2 -->
-  <span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">2</span>
-</p>
+<p class="code_block" code="6*y^2"></p>
 <p>
   When all of these things are implemented, ΒScript V0.1 will be ready! as minor things, I'll change the keywords "var"
   to "let" and "function" to "routine".
