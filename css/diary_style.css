@@ -1,0 +1,11 @@
+table, th, td {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-weight: lighter;
+}
+
+
+body {
+  margin: 0px;
+}

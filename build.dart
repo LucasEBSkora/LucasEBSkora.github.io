@@ -45,8 +45,13 @@ Future<void> buildTour() async {
   }
 
   document.querySelectorAll(".code_block").forEach((element) {
-    element.innerHtml = tag(element.attributes["code"]);
-    element.attributes.remove("code");
+    final code = element.attributes["code"];
+    if (code?.isEmpty ?? true) {
+      print(element.outerHtml);
+    } else {
+      element.innerHtml = tag(element.attributes["code"]);
+      element.attributes.remove("code");
+    }
   });
 
   await File('./build/language_tour.html').writeAsString(document.outerHtml);
@@ -70,8 +75,13 @@ Future<void> buildDiary() async {
   }
 
   document.querySelectorAll(".code_block").forEach((element) {
-    element.innerHtml = tag(element.attributes["code"]);
-    element.attributes.remove("code");
+    final code = element.attributes["code"];
+    if (code?.isEmpty ?? true) {
+      print(element.outerHtml);
+    } else {
+      element.innerHtml = tag(element.attributes["code"]);
+      element.attributes.remove("code");
+    }
   });
 
   await File('./build/dev_diary.html').writeAsString(document.outerHtml);

@@ -6,10 +6,7 @@
   after the variable name:
 </p>
 
-<p class="code_block">
-  <!-- let f(x) = x -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> 
-</p>
+<p class="code_block" code="let f(x) = x"></p>
 
 <p>
   That 'x' after the variable name creates a special variable of type "Variable" (yes, i know it needs to change. For
@@ -20,16 +17,7 @@
   using number literals:
 </p>
 
-<p class="code_block">
-  <!-- let f(x) = x
-  let g(x, y) = x + y
-  let h(x, y, z) = (x*y)^z
-  let i(x) = 6*x^2 -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <br>
-<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">+</span> <span class="identifier">y</span> <br>
-<span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> (<span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span>) <span class="operator">^</span> <span class="identifier">z</span> <br>
-<span class="keyword">let</span> <span class="identifier">i</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span>
-</p>
+<p class="code_block" code='$let f(x) = x$let g(x, y) = x + y$let h(x, y, z) = (x*y)^z$let i(x) = 6*x^2 '></p>
 
 <p>
   you can also call these functions, of course. In order to do this, write the variable names, followed by the values
@@ -37,41 +25,22 @@
   order of the function declaration:
 </p>
 
-<p class="code_block">
-  <!-- let f(x, y) = x^y
-  print f(2, 3) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="identifier">y</span> <br>
-<span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">3</span>)
-</p>
+<p class="code_block" code='let f(x, y) = x^y$print f(2, 3)' </p>
 <p>
   outputs 8, but:
 </p>
-<p class="code_block">
-  <!-- let f(y, x) = x^y
-  print f(2, 3) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">y</span>, <span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="identifier">y</span> <br>
-<span class="keyword">print</span> <span class="identifier">f</span>(<span class="numericLiteral">2</span>, <span class="numericLiteral">3</span>) <br>
-</p>
+<p class="code_block" code='let f(y, x) = x^y$print f(2, 3)'></p>
 <p>
   Outputs 9.
 </p>
 <p>of course, a system able to only create those functions would be almost useless. In order to create more complex
   functions, one uses function composition:</p>
-<p class="code_block">
-  <!-- let f(x, y) = x^y
-  let g(x) = f(x, x) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="identifier">y</span> <br>
-<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">x</span>)
+<p class="code_block" code="let f(x, y) = x^y$let g(x) = f(x, x)">
 </p>
 <p>The way to actually create all logarithmic, trigonometric, inverse trigonometric, hyperbolic, and inverse hyperbolic
   functions is actually by using function composition on native objects which implement these functions:
 </p>.
-<p class="code_block">
-  <!-- let f(x, y) = sin(x) + ln(y)
-  print sin(1) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">+</span> <span class="identifier">ln</span>(<span class="identifier">y</span>) <br>
-<span class="keyword">print</span> <span class="identifier">sin</span>(<span class="numericLiteral">1</span>)
-</p>
+<p class="code_block" code="let f(x, y) = sin(x) + ln(y)$print sin(1)"></p>
 <p>
   The complete list of functions that are already implemented is:
 <ul>
@@ -121,37 +90,16 @@ There are also the following numeric constants:
   In some cases, the parameter list after a function name is optional. Since Variables end up declared in the local
   scope, the following code is perfectly valid, even if it is weird:
 </p>
-<p class="code_block">
-  <!-- let f(x) = x^2
-  let g(y) = 3*y
-  let h = x*y -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
-<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">y</span>) <span class="operator">=</span> <span class="numericLiteral">3</span> <span class="operator">*</span> <span class="identifier">y</span> <br>
-<span class="keyword">let</span> <span class="identifier">h</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span>
-</p>
+<p class="code_block" code="let f(x) = x^2$let g(y) = 3*y$let h = x*y"></p>
 <p>
   The main use for this is to allow defining functions with others easier. The following snippet works because of it:
 </p>
-<p class="code_block">
-  <!-- let f(x) = x^2
-  let g(y) = 3*y
-  let h = f*g -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
-<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">y</span>) <span class="operator">=</span> <span class="numericLiteral">3</span> <span class="operator">*</span> <span class="identifier">y</span> <br>
-<span class="keyword">let</span> <span class="identifier">h</span> <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span> 
-</p>
+<p class="code_block" code="let f(x) = x^2$let g(y) = 3*y$let h = f*g"></p>
 <p>
   This doesn't work, however, when a new variable needs to be used. If there is a single new variable in a function, one
   must list all of them, to make sure the variable order is as desired.
 </p>
-<p class="code_block">
-  <!-- let f(x) = x^2
-  let g(y) = 3*y
-  let h(x,y,z) = f*g*arsinh(z) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
-<span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">y</span>) <span class="operator">=</span> <span class="numericLiteral">3</span> <span class="operator">*</span> <span class="identifier">y</span> <br>
-<span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> <span class="identifier">f</span> <span class="operator">*</span> <span class="identifier">g</span> <span class="operator">*</span> <span class="identifier">arsinh</span>(<span class="identifier">z</span>)
-</p>
+<p class="code_block" code="let f(x) = x^2$let g(y) = 3*y$let h(x,y,z) = f*g*arsinh(z)"></p>
 
 <h2>The '~' operator</h2>
 <p>
@@ -164,12 +112,7 @@ There are also the following numeric constants:
   sin(pi/4) = 1/sqrt(2), check first.
 </p>
 
-<p class="code_block">
-  <!-- print sin(1) //sin(1)
-  print ~sin(1) //0.8414709848078965 -->
-  <span class="keyword">print</span> <span class="identifier">sin</span>(<span class="numericLiteral">1</span>) <span class="comment">//sin(1)</span> <br>
-  <span class="keyword">print</span> <span class="operator">~</span><span class="identifier">sin</span>(<span class="numericLiteral">1</span>) <span class="comment">//0.8414709848078965</span>
-</p>
+<p class="code_block" code="print sin(1) //sin(1)$print ~sin(1) //0.8414709848078965"></p>
 
 <h2>Comparisons</h2>
 <p>
@@ -183,23 +126,8 @@ There are also the following numeric constants:
   operators will also generate boolean values instead of comparison objects.
 </p>
 
-<p class="code_block">
-  <!-- let f(x) = sin^2(x)
-  let g(x) = e^x
-  let h(x, y) = sin(x)^2 + cos(y)^2
-  print h == 1 // false 
-  print f === g // false
-  print f == g // f == g
-  print 2.0 == 3.0 // false
-  print 2.5 === 3.5 // false -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span> <span class="operator">^</span> <span class="numericLiteral">2</span> (<span class="identifier">x</span>) <br>
-  <span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">e</span> <span class="operator">^</span> <span class="identifier">x</span> <br>
-  <span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <span class="operator">^</span> <span class="numericLiteral">2</span> <span class="operator">+</span> <span class="identifier">cos</span>(<span class="identifier">y</span>) <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
-  <span class="keyword">print</span> <span class="identifier">h</span> <span class="operator">==</span> <span class="numericLiteral">1</span> <span class="comment">// false </span> <br>
-  <span class="keyword">print</span> <span class="identifier">f</span> <span class="operator">===</span> <span class="identifier">g</span> <span class="comment">// false</span> <br>
-  <span class="keyword">print</span> <span class="identifier">f</span> <span class="operator">==</span> <span class="identifier">g</span> <span class="comment">// f == g</span> <br>
-  <span class="keyword">print</span> <span class="numericLiteral">2.0</span> <span class="operator">==</span> <span class="numericLiteral">3.0</span> <span class="comment">// false</span> <br>
-  <span class="keyword">print</span> <span class="numericLiteral">2.5</span> <span class="operator">===</span> <span class="numericLiteral">3.5</span> <span class="comment">// false</span> <br>
+<p class="code_block"
+  code="let f(x) = sin^2(x)$let g(x) = e^x$let h(x, y) = sin(x)^2 + cos(y)^2$print h == 1 // false $print f === g // false$print f == g // f == g$print 2.0 == 3.0 // false$print 2.5 === 3.5 // false">
 </p>
 
 <h2>derivatives</h2>
@@ -207,28 +135,13 @@ There are also the following numeric constants:
   ΒScript is able not only of evaluating functions, but calculating their partial derivatives of any order. For that, we
   use derivative expressions:
 </p>
-<p class="code_block">
-  <!-- let f(x) = sin(x)
-  print del(f) / del(x) //cos(x)
-  print del(f) / del(x, x) //-sin(x)
-  print del(f) / del(x, x, x) //-cos(x)
-  print del(f) / del(x, x, x, x) //sin(x) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">sin</span>(<span class="identifier">x</span>) <br>
-<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>) <span class="comment">//cos(x)</span> <br>
-<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">x</span>) <span class="comment">//-sin(x)</span> <br>
-<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">x</span>, <span class="identifier">x</span>) <span class="comment">//-cos(x)</span> <br>
-<span class="keyword">print</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>, <span class="identifier">x</span>, <span class="identifier">x</span>, <span class="identifier">x</span>) <span class="comment">//sin(x)</span> 
-  
+<p class="code_block"
+  code="let f(x) = sin(x)$print del(f) / del(x) //cos(x)$print del(f) / del(x, x) //-sin(x)$print del(f) / del(x, x, x) //-cos(x)$print del(f) / del(x, x, x, x) //sin(x)">
 </p>
 
 <p>But, as i said, it calculates <i>partial</i> derivatives:</p>
 
-<p class="code_block">
-  <!-- let f(x, y) = x^2*y^3
-  print ∂(f) / ∂(x, y, x) //(6*((y)^(2))) -->
-  <span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <span class="operator">*</span> <span class="identifier">y</span> <span class="operator">^</span> <span class="numericLiteral">3</span> <br>
-<span class="keyword">print</span> <span class="operator">∂</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">∂</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">x</span>) <span class="comment">//(6*((y)^(2)))</span> 
-</p>
+<p class="code_block" code="let f(x, y) = x^2*y^3$print ∂(f) / ∂(x, y, x) //(6*((y)^(2)))"></p>
 <p>
   Besides, you can use ∂ as an alternative for 'del'. They are completely interchangeable.
 </p>
