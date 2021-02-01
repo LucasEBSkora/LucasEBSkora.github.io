@@ -40,13 +40,17 @@
     <h2>An interpreted programming language built around the concept of real functions as a data type</h2>
 
 
-    <h3>Try writing some βscript here!</h3>
     <h3>For questions and reporting bugs, DM <a href="https://twitter.com/betascript">@betascript</a> on twitter</h3>
     <h3>And the language source code and CLI interpreter live <a
-            href="https://github.com/LucasEBSkora/betascript">here</a></h3>
+        href="https://github.com/LucasEBSkora/betascript">here</a></h3>
+        
+    <h3>Try writing some βscript here!</h3>
 
-    <textarea id="source" class="code_block" rows="40" name="input" cols="100" autofocus></textarea>
-    <textarea id="output" class="code_block" rows="40" name="output" disabled></textarea>
+    <div id="interpreter-area">
+        <textarea id="source" class="code_block" rows="30" name="input" cols="100" autofocus></textarea>
+        <textarea id="output" class="code_block" rows="30" name="output" disabled></textarea>
+    </div>
+
 
     <button id="interpretButton" type="button">Interpret!</button>
     <button id="formatButton" type="button">Format!</button>

@@ -6,8 +6,18 @@
 
 textarea {
   resize: none;
+  border: none;
   width: 45%;
 }
+
+#interpreter-area {
+  background-color: darkslategrey;
+  border-radius: 2vh;
+  padding: 2vh;
+  border-color: plum;
+  margin: 2vh;
+}
+
 
 body {
   margin: 0px;

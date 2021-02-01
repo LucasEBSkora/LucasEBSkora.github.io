@@ -1,6 +1,10 @@
 .cabecalho {
   box-sizing: border-box;
   
+  position: -webkit-sticky; /*só precisa pro safari  */
+  position: sticky;
+  top: 0;
+
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -14,27 +18,20 @@
   height: 14vh;
 }
 
-.logo ,
-.menu ul {
-  height: 100%
-}
-
 .menu li {
   display: inline-block;
   padding: 2vh 0;
 }
 
-.menu li:hover {
+.menu li:hover, .cabecalho span:hover {
   font-weight: bold;
   border-width: 0px 2px;
 }
 
-/* .menu {
-  display: inline-block;
-  position: relative;
-  right: 10px;
-  bottom: 4vh;
-} */
+.logo {
+  height: 100%;
+}
+
 
 .cabecalho a {
   text-decoration: none;
@@ -49,19 +46,6 @@
   box-sizing: border-box;
   height: 90%;
 }
-/* .logo a {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 100%;
-} */
-
-/* .logo span {
-  text-decoration: none;
-  color: white;
-  font-family: 'monospace';
-  text-align: center;
-} */
 
 .current-nav {
   border-width: 0px 1px;
