@@ -1,0 +1,60 @@
+
+#source {
+  font-family: monospace;
+  size: 100%;
+}
+
+textarea {
+  resize: none;
+  border: none;
+  width: 45%;
+}
+
+#interpreter-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: darkslategrey;
+  border-radius: 2vh;
+  padding: 2vh;
+  margin: 2vh;
+}
+
+body {
+  margin: 0px;
+  /* background-color: lightslategray; */
+}
+
+#desc {
+  margin: 1vh 2vh 0vh;
+  font-size: 1.5em;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  gap: 1vh;
+}
+
+#buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#buttons > button {
+  background-color: darkslategrey;
+  color: lightsteelblue;
+  border-radius: 1vh;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5em;
+}
+
+@media (max-width: 600px) {
+
+  #interpreter-area {
+    flex-direction: column;
+  }
+
+  textarea {
+    width: 90%;
+  }
+}

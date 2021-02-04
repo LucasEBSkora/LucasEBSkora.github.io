@@ -4,8 +4,10 @@
 
 .code_block {
   font-family: monospace;
-  background-color: black;
+  background-color: rgb(19, 12, 68);
   color: white;
+  padding: 10px;
+  border-radius:  20px;
 }
 
 .comment {

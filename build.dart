@@ -28,7 +28,7 @@ Future<void> buildTour() async {
   for (FileSystemEntity entity in files) {
     if (entity is File) {
       final element = document.createElement('div');
-      element.className = "documentation_part";
+      element.className = "documentation-part";
       element.innerHtml = await entity.readAsString();
       final version = element.firstChild.attributes["content"];
       element.firstChild.remove();

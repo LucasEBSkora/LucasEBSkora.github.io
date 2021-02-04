@@ -7,21 +7,19 @@
         βscript
     </title>
 
-    <link rel="stylesheet" href="./css/interpreter_style.css">
+    <link rel="stylesheet" href="./css/index_style.css">
     <link rel="stylesheet" href="./css/code_style.css">
     <link rel="stylesheet" href="./css/header_style.css">
 </head>
 
 <body>
     <header class="cabecalho">
-        <!-- <div class="logo"> -->
         <a class="logo" href="index.html">
             <img src="./assets/logo.png" alt="Logo" />
         </a>
         <a id="language_name" href="index.html">
             <span>βscript</span>
         </a>
-        <!-- </div> -->
         <nav class="menu">
             <ul>
                 <li id="optional_button" class="current-nav">
@@ -37,35 +35,39 @@
         </nav>
     </header>
 
-    <h2>An interpreted programming language built around the concept of real functions as a data type</h2>
+    <div id="desc">
+        <div>An interpreted programming language built around the concept of real functions as a data type</div>
 
 
-    <h3>For questions and reporting bugs, DM <a href="https://twitter.com/betascript">@betascript</a> on twitter</h3>
-    <h3>And the language source code and CLI interpreter live <a
-        href="https://github.com/LucasEBSkora/betascript">here</a></h3>
-        
-    <h3>Try writing some βscript here!</h3>
+        <a href="https://twitter.com/betascript">For questions and bugs, DM @betascript</a>
+
+        <div>Try writing some βscript here!</div>
+
+        <a href="https://github.com/LucasEBSkora/betascript">Language source code and CLI interpreter</a>
+    </div>
+
 
     <div id="interpreter-area">
         <textarea id="source" class="code_block" rows="30" name="input" cols="100" autofocus></textarea>
         <textarea id="output" class="code_block" rows="30" name="output" disabled></textarea>
     </div>
 
+    <div id="buttons">
+        <button id="interpretButton" type="button">Interpret!</button>
+        <button id="formatButton" type="button">Format!</button>
 
-    <button id="interpretButton" type="button">Interpret!</button>
-    <button id="formatButton" type="button">Format!</button>
-
-    <button class="insert_button" type="button">¬</button>
-    <button class="insert_button" type="button">⊂</button>
-    <button class="insert_button" type="button">∈</button>
-    <button class="insert_button" type="button">∪</button>
-    <button class="insert_button" type="button">∩</button>
-    <button class="insert_button" type="button">∧</button>
-    <button class="insert_button" type="button">∨</button>
-    <button class="insert_button" type="button">∂</button>
-    <button class="insert_button" type="button">≡</button>
-    <button class="insert_button" type="button">∞</button>
-    <button class="insert_button" type="button">∅</button>
+        <button class="insert_button" type="button">¬</button>
+        <button class="insert_button" type="button">⊂</button>
+        <button class="insert_button" type="button">∈</button>
+        <button class="insert_button" type="button">∪</button>
+        <button class="insert_button" type="button">∩</button>
+        <button class="insert_button" type="button">∧</button>
+        <button class="insert_button" type="button">∨</button>
+        <button class="insert_button" type="button">∂</button>
+        <button class="insert_button" type="button">≡</button>
+        <button class="insert_button" type="button">∞</button>
+        <button class="insert_button" type="button">∅</button>
+    </div>
 
     <script type="module" src="./interpreter/tojs.js"></script>
     <script type="module" src="./formatter/tojs.js"></script>

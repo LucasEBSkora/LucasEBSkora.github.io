@@ -9,14 +9,12 @@
 
 <body>
     <header class="cabecalho">
-        <!-- <div class="logo"> -->
         <a class="logo" href="../index.html">
             <img src="../assets/logo.png" alt="Logo">
         </a>
         <a id="language_name" href="../index.html">
             <span>βscript</span>
         </a>
-        <!-- </div> -->
         <nav class="menu">
             <ul>
                 <li id="optional_button">
@@ -31,11 +29,9 @@
             </ul>
         </nav>
     </header>
-    <h1 id="pageTitle">Language Tour - βscript V0.3 - The Unicode Update</h1>
 
-    <section id="contents">
-
-    <div class="documentation_part">
+    <h1 id="pageTitle">βscript V0.3 - The Unicode Update</h1>
+    <section id="contents"><div class="documentation-part">
 <h1>What is ΒScript?</h1>
 <p>
   First of all, the language name is read "betascript",because that "Β" is a uppercase Beta, which, incidentally, is
@@ -48,7 +44,7 @@
   By mathematical functions, we mean functions defined from a subset of R<sup>n</sup> to a subset of R. In order to
   avoid confusion, this documentation will reference these variables as "functions", and normal programming language
   functions as "routines".
-</p></div><div class="documentation_part">
+</p></div><div class="documentation-part">
 <h1>Data types and variable declaration</h1>
 <p>
   ΒScript variables are dynamically-typed, and can be declared with the "let" keyword. There are four primitive data
@@ -73,8 +69,7 @@
   Here are some examples:
 </ul>
 
-<p class="code_block"><br>
-<span class="keyword">let</span> <span class="identifier">m</span> <span class="operator">=</span> <span class="identifier">nil</span> <br>
+<p class="code_block"><span class="keyword">let</span> <span class="identifier">m</span> <span class="operator">=</span> <span class="identifier">nil</span> <br>
 <span class="keyword">let</span> <span class="identifier">n</span> <br>
 <span class="keyword">let</span> <span class="identifier">x</span> <span class="operator">=</span> <span class="numericLiteral">1.0</span> <br>
 <span class="keyword">let</span> <span class="identifier">string</span> <span class="operator">=</span> <span class="stringLiteral">"i am a string"</span> <br>
@@ -109,7 +104,7 @@
 
 <p class="code_block"><span class="keyword">print</span> <span class="stringLiteral">"banan"</span> <span class="operator">==</span> <span class="stringLiteral">"banan"</span> <span class="comment">//prints true</span> <br>
 <span class="keyword">print</span> <span class="identifier">true</span> <span class="operator">===</span> <span class="identifier">true</span> <span class="comment">//also prints true</span> 
-</p></div><div class="documentation_part">
+</p></div><div class="documentation-part">
 <h1>Functions</h1>
 <p>
   Here is where ΒScript gets unique: functions defined from a subset of R<sup>n</sup> to a subset of R are a data type.
@@ -129,8 +124,7 @@
   using number literals:
 </p>
 
-<p class="code_block"><br>
-<span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <br>
+<p class="code_block"><span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <br>
 <span class="keyword">let</span> <span class="identifier">g</span>(<span class="identifier">x</span>, <span class="identifier">y</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">+</span> <span class="identifier">y</span> <br>
 <span class="keyword">let</span> <span class="identifier">h</span>(<span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">z</span>) <span class="operator">=</span> (<span class="identifier">x</span> <span class="operator">*</span> <span class="identifier">y</span>) <span class="operator">^</span> <span class="identifier">z</span> <br>
 <span class="keyword">let</span> <span class="identifier">i</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="numericLiteral">6</span> <span class="operator">*</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> 
@@ -298,7 +292,7 @@ There are also the following numeric constants:
 
 <p class="code_block"><span class="keyword">let</span> <span class="identifier">f</span>(<span class="identifier">x</span>) <span class="operator">=</span> <span class="identifier">x</span> <span class="operator">^</span> <span class="numericLiteral">2</span> <br>
 <span class="keyword">print</span> <span class="identifier">f</span><span class="operator">'</span> <span class="operator">===</span> <span class="operator">del</span>(<span class="identifier">f</span>) <span class="operator">/</span> <span class="operator">del</span>(<span class="identifier">x</span>) <span class="comment">//prints true;</span> 
-</p></div><div class="documentation_part">
+</p></div><div class="documentation-part">
 
 <h1>Sets</h1>
 
@@ -414,7 +408,7 @@ There are also the following numeric constants:
 <span class="keyword">print</span> <span class="identifier">C</span><span class="operator">'</span> <span class="comment">//(-∞,5) ∪ (5,∞)</span> <br>
 <br>
 <span class="keyword">print</span> <span class="identifier">A</span> <span class="operator">\</span> <span class="identifier">B</span> <span class="comment">//∅</span> 
-</p></div><div class="documentation_part">
+</p></div><div class="documentation-part">
 <h1>Control flow</h1>
 <p>
   ΒScript supports the classics: C style if/else, while, and for statements.
@@ -467,7 +461,7 @@ There are also the following numeric constants:
   The first parenthesized expression is a variable declaration or assigment, and only runs once, before the first loop.
   The second expression is equivalent to the while condition, and the third one runs after every loop, but before the
   second expression is evaluated again.
-</p></div><div class="documentation_part"><p><b>Warning! the next section of documentation wasn't updated to version  0.3 - The Unicode Update!.Last update was to version 0.2 - Setting Up. This might mean this section is wrong, or just that the developer forgot to change the version in the html file.</b></p>
+</p></div><div class="documentation-part"><p><b>Warning! the next section of documentation wasn't updated to version  0.3 - The Unicode Update!.Last update was to version 0.2 - Setting Up. This might mean this section is wrong, or just that the developer forgot to change the version in the html file.</b></p>
 <h1>Comments</h1>
 <p>
   ΒScript supports four types of comments, two of them classic, and two original creations.
@@ -505,7 +499,7 @@ There are also the following numeric constants:
   to set some interpreter flags, e.g. '#bs_tt_interpret' will make the interpreter go into twitter bot mode, which
   prohibits loops and routines and class definitions. Currently, this is the only directive which is defined, and there
   really isn't any reason to use it outside of twitter.
-</p></div><div class="documentation_part">
+</p></div><div class="documentation-part">
 <h1>Routines</h1>
 <p>
   ΒScript has routines as first class citizens, and creates them in the lexical scope. In order to declare one, use the
@@ -549,7 +543,7 @@ There are also the following numeric constants:
 <p>
   Oh! And the return keyword works just like print: it expects the whole expression to be in the same line. if it isn't,
   the last part of the line needs to be an operator to indicate that it isn't over.
-</p></div><div class="documentation_part">
+</p></div><div class="documentation-part">
 <h1>Classes, objects and inheritance</h1>
 <p>
   ΒScript allows the creation of classes with methods, initializers, and single inheritance. Classes are created using
